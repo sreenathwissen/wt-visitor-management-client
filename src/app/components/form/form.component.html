@@ -1,372 +1,403 @@
+<img class="bg-top" src="../../../assets/images/bg.jpg" alt="">
 <div class="container">
   <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" #formRef="ngForm">
-    <div class="mb-3">
-      <label for="fullName" class="form-label"
-        >Full Name<span class="required">*</span></label
-      >
-      <input
-        type="text"
-        class="form-control"
-        id="fullName"
-        formControlName="fullName"
-        [ngClass]="{
-          'is-invalid':
-            (f.fullName.touched && f.fullName.errors) ||
-            (f.fullName.untouched && isSubmitted),
-          'is-valid': f.fullName.valid
-        }"
-      />
-      <div
-        *ngIf="
-          (f.fullName.touched && f.fullName.errors) ||
-          (f.fullName.untouched && isSubmitted)
-        "
-        class="invalid-feedback"
-      >
-        <div *ngIf="f.fullName.errors?.required">Name is required!</div>
-      </div>
-    </div>
-    <div class="mb-3">
-      <label for="email" class="form-label"
-        >Email<span class="required">*</span></label
-      >
-      <input
-        type="email"
-        class="form-control"
-        id="email"
-        formControlName="email"
-        [ngClass]="{
-          'is-invalid':
-            (f.email.touched && f.email.errors) ||
-            (f.email.untouched && isSubmitted),
-          'is-valid': f.email.valid
-        }"
-      />
-      <div
-        *ngIf="
-          (f.email.touched && f.email.errors) ||
-          (f.email.untouched && isSubmitted)
-        "
-        class="invalid-feedback"
-      >
-        <div *ngIf="f.email.errors?.required">Email is required!</div>
-        <div *ngIf="f.email.errors?.pattern">Enter Valid Email ID!</div>
-      </div>
-    </div>
-    <div class="mb-3">
-      <label for="phoneNumber" class="form-label"
-        >Phone Number<span class="required">*</span></label
-      >
-      <input
-        type="tel"
-        class="form-control"
-        id="phoneNumber"
-        formControlName="phoneNumber"
-        [ngClass]="{
-          'is-invalid':
-            (f.phoneNumber.touched && f.phoneNumber.errors) ||
-            (f.phoneNumber.untouched && isSubmitted),
-          'is-valid': f.phoneNumber.valid
-        }"
-      />
-      <div
-        *ngIf="
-          (f.phoneNumber.touched && f.phoneNumber.errors) ||
-          (f.phoneNumber.untouched && isSubmitted)
-        "
-        class="invalid-feedback"
-      >
-        <div *ngIf="f.phoneNumber.errors?.required">
-          Phone Number is required!
-        </div>
-        <div *ngIf="f.phoneNumber.errors?.pattern">Numeric Only Accepted!</div>
-        <div *ngIf="f.phoneNumber.errors?.maxlength">Maximum length is 10!</div>
-      </div>
-    </div>
-    <div class="mb-3">
-      <label for="purpose" class="form-label"
-        >Purpose of Visit<span class="required">*</span></label
-      >
-      <select
-        class="form-control"
-        id="purpose"
-        formControlName="purpose"
-        (change)="changePurpose($event)"
-        [ngClass]="{
-          'is-invalid':
-            (f.purpose.touched && f.purpose.errors) ||
-            (f.purpose.untouched && isSubmitted),
-          'is-valid': f.purpose.valid
-        }"
-      >
-        <option *ngFor="let purpose of purposes" value="{{ purpose }}">
-          {{ purpose | titlecase }}
-        </option>
-      </select>
-      <div
-        *ngIf="
-          (f.purpose.touched && f.purpose.errors) ||
-          (f.purpose.untouched && isSubmitted)
-        "
-        class="invalid-feedback"
-      >
-        <div *ngIf="f.purpose.errors?.required">Purpose is required!</div>
-      </div>
-    </div>
-    <div class="mb-3">
-      <label for="poc" class="form-label"
-        >Point Of Contact Name<span class="required">*</span></label
-      >
-      <input
-        type="text"
-        class="form-control"
-        id="poc"
-        formControlName="poc"
-        [ngClass]="{
-          'is-invalid':
-            (f.poc.touched && f.poc.errors) || (f.poc.untouched && isSubmitted),
-          'is-valid': f.poc.valid
-        }"
-      />
-      <div
-        *ngIf="
-          (f.poc.touched && f.poc.errors) || (f.poc.untouched && isSubmitted)
-        "
-        class="invalid-feedback"
-      >
-        <div *ngIf="f.poc.errors?.required">Name is required!</div>
-      </div>
-    </div>
-    <div class="mb-3">
-      <label for="pocEmail" class="form-label">Point Of Contact Email</label>
-      <input
-        type="text"
-        class="form-control"
-        id="pocEmail"
-        formControlName="pocEmail"
-        [ngClass]="{
-          'is-invalid': f.pocEmail.touched && f.pocEmail.errors,
-          'is-valid': f.pocEmail.touched && f.pocEmail.valid
-        }"
-      />
-      <div
-        *ngIf="
-          (f.pocEmail.touched && f.pocEmail.errors) ||
-          (f.pocEmail.untouched && isSubmitted)
-        "
-        class="invalid-feedback"
-      >
-        <div *ngIf="f.pocEmail.errors?.pattern">Enter Valid Email ID!</div>
-      </div>
-    </div>
-    <div class="mb-3">
-      <label for="location" class="form-label"
-        >Location<span class="required">*</span></label
-      >
-      <select
-        class="form-control"
-        id="location"
-        formControlName="location"
-        (change)="changeLocation($event)"
-        [ngClass]="{
-          'is-invalid':
-            (f.location.touched && f.location.errors) ||
-            (f.location.untouched && isSubmitted),
-          'is-valid': f.location.valid
-        }"
-      >
-        <option *ngFor="let location of locations" value="{{ location }}">
-          {{ location | titlecase }}
-        </option>
-      </select>
-      <div
-        *ngIf="
-          (f.location.touched && f.location.errors) ||
-          (f.location.untouched && isSubmitted)
-        "
-        class="invalid-feedback"
-      >
-        <div *ngIf="f.location.errors?.required">Location is required!</div>
-      </div>
-    </div>
-    <div class="mb-3">
-      <label for="profilePic" class="form-label"
-        >Profile Image<span class="required">*</span></label
-      >
-      <div class="row">
-        <div class="col-md-6">
-          <button
-            type="button"
-            id="profilePic"
-            class="form-control btn btn-outline-dark"
-            (click)="compressFile('profilePic', 100, 100)"
-          >
-            Upload
-          </button>
-        </div>
-        <div class="col-md-6 text-center">
-          <img
-            class="prof"
-            src="{{
-              formGroup.controls['profilePic'].value
-                ? formGroup.controls['profilePic'].value
-                : '../../../assets/images/dummy-prof.png'
-            }}"
-          />
-        </div>
-        <div
-          class="required"
-          *ngIf="f.profilePic.touched && f.profilePic.errors"
-        >
-          <div *ngIf="f.profilePic.errors?.notValid">
-            &nbsp;&nbsp;&nbsp;&nbsp;Upload Only Images!
+    <div class="row">
+      <div class="col-md-10">
+        <h1 class="display-5 mb-4 mt-3">New Visitor</h1>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="fullName" class="form-label"
+                >Full Name<span class="required">*</span></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="fullName"
+                formControlName="fullName"
+                [ngClass]="{
+                  'is-invalid':
+                    (f.fullName.touched && f.fullName.errors) ||
+                    (f.fullName.untouched && isSubmitted),
+                  'is-valid': f.fullName.valid
+                }"
+              />
+              <div
+                *ngIf="
+                  (f.fullName.touched && f.fullName.errors) ||
+                  (f.fullName.untouched && isSubmitted)
+                "
+                class="invalid-feedback"
+              >
+                <div *ngIf="f.fullName.errors?.required">Name is required!</div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label"
+                >Email<span class="required">*</span></label
+              >
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                formControlName="email"
+                [ngClass]="{
+                  'is-invalid':
+                    (f.email.touched && f.email.errors) ||
+                    (f.email.untouched && isSubmitted),
+                  'is-valid': f.email.valid
+                }"
+              />
+              <div
+                *ngIf="
+                  (f.email.touched && f.email.errors) ||
+                  (f.email.untouched && isSubmitted)
+                "
+                class="invalid-feedback"
+              >
+                <div *ngIf="f.email.errors?.required">Email is required!</div>
+                <div *ngIf="f.email.errors?.pattern">Enter Valid Email ID!</div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="phoneNumber" class="form-label"
+                >Phone Number<span class="required">*</span></label
+              >
+              <input
+                type="tel"
+                class="form-control"
+                id="phoneNumber"
+                formControlName="phoneNumber"
+                [ngClass]="{
+                  'is-invalid':
+                    (f.phoneNumber.touched && f.phoneNumber.errors) ||
+                    (f.phoneNumber.untouched && isSubmitted),
+                  'is-valid': f.phoneNumber.valid
+                }"
+              />
+              <div
+                *ngIf="
+                  (f.phoneNumber.touched && f.phoneNumber.errors) ||
+                  (f.phoneNumber.untouched && isSubmitted)
+                "
+                class="invalid-feedback"
+              >
+                <div *ngIf="f.phoneNumber.errors?.required">
+                  Phone Number is required!
+                </div>
+                <div *ngIf="f.phoneNumber.errors?.pattern">
+                  Numeric Only Accepted!
+                </div>
+                <div *ngIf="f.phoneNumber.errors?.maxlength">
+                  Maximum length is 10!
+                </div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="purpose" class="form-label"
+                >Purpose of Visit<span class="required">*</span></label
+              >
+              <select
+                class="form-control"
+                id="purpose"
+                formControlName="purpose"
+                (change)="changePurpose($event)"
+                [ngClass]="{
+                  'is-invalid':
+                    (f.purpose.touched && f.purpose.errors) ||
+                    (f.purpose.untouched && isSubmitted),
+                  'is-valid': f.purpose.valid
+                }"
+              >
+                <option>Select any One</option>
+                <option *ngFor="let purpose of purposes" value="{{ purpose }}">
+                  {{ purpose | titlecase }}
+                </option>
+              </select>
+              <div
+                *ngIf="
+                  (f.purpose.touched && f.purpose.errors) ||
+                  (f.purpose.untouched && isSubmitted)
+                "
+                class="invalid-feedback"
+              >
+                <div *ngIf="f.purpose.errors?.required">Purpose is required!</div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="poc" class="form-label"
+                >Point Of Contact Name<span class="required">*</span></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="poc"
+                formControlName="poc"
+                [ngClass]="{
+                  'is-invalid':
+                    (f.poc.touched && f.poc.errors) ||
+                    (f.poc.untouched && isSubmitted),
+                  'is-valid': f.poc.valid
+                }"
+              />
+              <div
+                *ngIf="
+                  (f.poc.touched && f.poc.errors) ||
+                  (f.poc.untouched && isSubmitted)
+                "
+                class="invalid-feedback"
+              >
+                <div *ngIf="f.poc.errors?.required">Name is required!</div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="pocEmail" class="form-label"
+                >Point Of Contact Email</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="pocEmail"
+                formControlName="pocEmail"
+                [ngClass]="{
+                  'is-invalid': f.pocEmail.touched && f.pocEmail.errors,
+                  'is-valid': f.pocEmail.touched && f.pocEmail.valid
+                }"
+              />
+              <div
+                *ngIf="
+                  (f.pocEmail.touched && f.pocEmail.errors) ||
+                  (f.pocEmail.untouched && isSubmitted)
+                "
+                class="invalid-feedback"
+              >
+                <div *ngIf="f.pocEmail.errors?.pattern">Enter Valid Email ID!</div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="location" class="form-label"
+                >Location<span class="required">*</span></label
+              >
+              <select
+                class="form-control"
+                id="location"
+                formControlName="location"
+                (change)="changeLocation($event)"
+                [ngClass]="{
+                  'is-invalid':
+                    (f.location.touched && f.location.errors) ||
+                    (f.location.untouched && isSubmitted),
+                  'is-valid': f.location.valid
+                }"
+              >
+              <option>Select any One</option>
+              <option *ngFor="let location of locations" value="{{ location }}">
+                  {{ location | titlecase }}
+                </option>
+              </select>
+              <div
+                *ngIf="
+                  (f.location.touched && f.location.errors) ||
+                  (f.location.untouched && isSubmitted)
+                "
+                class="invalid-feedback"
+              >
+                <div *ngIf="f.location.errors?.required">Location is required!</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            
+            <div class="mb-3">
+              <label for="profilePic" class="form-label"
+                >Profile Image<span class="required">*</span></label
+              >
+              <div class="row">
+                <div class="col-md-6">
+                  <button
+                    type="button"
+                    id="profilePic"
+                    class="form-control btn btn-outline-dark"
+                    (click)="compressFile('profilePic', 100, 100)"
+                  >
+                    Upload
+                  </button>
+                </div>
+                <div class="col-md-6 text-center">
+                  <img
+                    class="prof"
+                    src="{{
+                      formGroup.controls['profilePic'].value
+                        ? formGroup.controls['profilePic'].value
+                        : '../../../assets/images/dummy-prof.png'
+                    }}"
+                  />
+                </div>
+                <div
+                  class="required"
+                  *ngIf="f.profilePic.touched && f.profilePic.errors"
+                >
+                  <div *ngIf="f.profilePic.errors?.notValid">
+                    &nbsp;&nbsp;&nbsp;&nbsp;Upload Only Images!
+                  </div>
+                </div>
+                <div
+                  class="required"
+                  *ngIf="
+                    (f.profilePic.touched && f.profilePic.value === '') ||
+                    (f.profilePic.untouched && isSubmitted)
+                  "
+                >
+                  &nbsp;&nbsp;&nbsp;&nbsp;Profile Image is required!
+                </div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="visitorType" class="form-label"
+                >Visitor Type<span class="required">*</span></label
+              >
+              <select
+                class="form-control"
+                id="visitorType"
+                formControlName="visitorType"
+                (change)="changeVisitorType($event)"
+                [ngClass]="{
+                  'is-invalid':
+                    (f.visitorType.touched && f.visitorType.errors) ||
+                    (f.visitorType.untouched && isSubmitted),
+                  'is-valid': f.visitorType.valid
+                }"
+              >
+                <option>Select any One</option>
+                <option
+                  *ngFor="let visitorType of visitorTypes"
+                  value="{{ visitorType }}"
+                >
+                  {{ visitorType | titlecase }}
+                </option>
+              </select>
+              <div
+                *ngIf="
+                  (f.visitorType.touched && f.visitorType.errors) ||
+                  (f.visitorType.untouched && isSubmitted)
+                "
+                class="invalid-feedback"
+              >
+                <div *ngIf="f.visitorType.errors?.required">
+                  Visitor Type is required!
+                </div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="IdProof" class="form-label"
+                >ID Proof<span class="required">*</span></label
+              >
+              <select
+                class="form-control"
+                id="IdProof"
+                formControlName="IdProof"
+                (change)="changeIdProof($event)"
+                [ngClass]="{
+                  'is-invalid':
+                    (f.IdProof.touched && f.IdProof.errors) ||
+                    (f.IdProof.untouched && isSubmitted),
+                  'is-valid': f.IdProof.valid
+                }"
+              >
+                <option>Select any One</option>
+                <option *ngFor="let IdProof of IdProofs" value="{{ IdProof }}">
+                  {{ IdProof.replace("_", " ") | titlecase }}
+                </option>
+              </select>
+              <div
+                *ngIf="
+                  (f.IdProof.touched && f.IdProof.errors) ||
+                  (f.IdProof.untouched && isSubmitted)
+                "
+                class="invalid-feedback"
+              >
+                <div *ngIf="f.IdProof.errors?.required">Id Proof is required!</div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="IdProofNo" class="form-label"
+                >ID Proof Number<span class="required">*</span></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="IdProofNo"
+                formControlName="IdProofNo"
+                [ngClass]="{
+                  'is-invalid':
+                    (f.IdProofNo.touched && f.IdProofNo.errors) ||
+                    (f.IdProofNo.untouched && isSubmitted),
+                  'is-valid': f.IdProofNo.valid
+                }"
+              />
+              <div
+                *ngIf="
+                  (f.IdProofNo.touched && f.IdProofNo.errors) ||
+                  (f.IdProofNo.untouched && isSubmitted)
+                "
+                class="invalid-feedback"
+              >
+                <div *ngIf="f.IdProofNo.errors?.required">
+                  ID Proof number is required!
+                </div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="IdPic" class="form-label"
+                >Id Proof Image<span class="required">*</span></label
+              >
+              <div class="row">
+                <div class="col-md-6">
+                  <button
+                    type="button"
+                    id="IdPic"
+                    class="form-control btn btn-outline-dark"
+                    (click)="compressFile('IdPic', 200, 100)"
+                  >
+                    Upload
+                  </button>
+                </div>
+                <div class="col-md-6 text-center">
+                  <img
+                    class="id-pic"
+                    src="{{
+                      formGroup.controls['IdPic'].value
+                        ? formGroup.controls['IdPic'].value
+                        : '../../../assets/images/id-card.png'
+                    }}"
+                  />
+                </div>
+                <div class="required" *ngIf="f.IdPic.touched && f.IdPic.errors">
+                  <div *ngIf="f.IdPic.errors?.notValid">
+                    &nbsp;&nbsp;&nbsp;&nbsp;Upload Only Images!
+                  </div>
+                </div>
+                <div
+                  class="required"
+                  *ngIf="
+                    (f.IdPic.touched && f.IdPic.value === '') ||
+                    (f.IdPic.untouched && isSubmitted)
+                  "
+                >
+                  &nbsp;&nbsp;&nbsp;&nbsp;ID Image is required!
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div
-          class="required"
-          *ngIf="
-            (f.profilePic.touched && f.profilePic.value === '') ||
-            (f.profilePic.untouched && isSubmitted)
-          "
-        >
-          &nbsp;&nbsp;&nbsp;&nbsp;Profile Image is required!
-        </div>
+    <div style="display: flex;">
+      <div class="bottom-button"><button type="submit" class="btn btn-primary">Submit</button></div>
+      <div class="bottom-button"><button type="reset" class="btn btn-outline-primary">Cancel</button></div>
+    </div>
+      </div>
+      <div class="col-md-2">
+        <img class="bg-right" src="../../../assets/images/bg.jpg" alt="">
       </div>
     </div>
-    <div class="mb-3">
-      <label for="visitorType" class="form-label"
-        >Visitor Type<span class="required">*</span></label
-      >
-      <select
-        class="form-control"
-        id="visitorType"
-        formControlName="visitorType"
-        (change)="changeVisitorType($event)"
-        [ngClass]="{
-          'is-invalid':
-            (f.visitorType.touched && f.visitorType.errors) ||
-            (f.visitorType.untouched && isSubmitted),
-          'is-valid': f.visitorType.valid
-        }"
-      >
-        <option
-          *ngFor="let visitorType of visitorTypes"
-          value="{{ visitorType }}"
-        >
-          {{ visitorType | titlecase }}
-        </option>
-      </select>
-      <div
-        *ngIf="
-          (f.visitorType.touched && f.visitorType.errors) ||
-          (f.visitorType.untouched && isSubmitted)
-        "
-        class="invalid-feedback"
-      >
-        <div *ngIf="f.visitorType.errors?.required">
-          Visitor Type is required!
-        </div>
-      </div>
-    </div>
-    <div class="mb-3">
-      <label for="IdProof" class="form-label"
-        >ID Proof<span class="required">*</span></label
-      >
-      <select
-        class="form-control"
-        id="IdProof"
-        formControlName="IdProof"
-        (change)="changeIdProof($event)"
-        [ngClass]="{
-          'is-invalid':
-            (f.IdProof.touched && f.IdProof.errors) ||
-            (f.IdProof.untouched && isSubmitted),
-          'is-valid': f.IdProof.valid
-        }"
-      >
-        <option *ngFor="let IdProof of IdProofs" value="{{ IdProof }}">
-          {{ IdProof.replace("_", " ") | titlecase }}
-        </option>
-      </select>
-      <div
-        *ngIf="
-          (f.IdProof.touched && f.IdProof.errors) ||
-          (f.IdProof.untouched && isSubmitted)
-        "
-        class="invalid-feedback"
-      >
-        <div *ngIf="f.IdProof.errors?.required">Id Proof is required!</div>
-      </div>
-    </div>
-    <div class="mb-3">
-      <label for="IdProofNo" class="form-label"
-        >ID Proof Number<span class="required">*</span></label
-      >
-      <input
-        type="text"
-        class="form-control"
-        id="IdProofNo"
-        formControlName="IdProofNo"
-        [ngClass]="{
-          'is-invalid':
-            (f.IdProofNo.touched && f.IdProofNo.errors) ||
-            (f.IdProofNo.untouched && isSubmitted),
-          'is-valid': f.IdProofNo.valid
-        }"
-      />
-      <div
-        *ngIf="
-          (f.IdProofNo.touched && f.IdProofNo.errors) ||
-          (f.IdProofNo.untouched && isSubmitted)
-        "
-        class="invalid-feedback"
-      >
-        <div *ngIf="f.IdProofNo.errors?.required">
-          ID Proof number is required!
-        </div>
-      </div>
-    </div>
-    <div class="mb-3">
-      <label for="IdPic" class="form-label"
-        >Id Proof Image<span class="required">*</span></label
-      >
-      <div class="row">
-        <div class="col-md-6">
-          <button
-            type="button"
-            id="IdPic"
-            class="form-control btn btn-outline-dark"
-            (click)="compressFile('IdPic', 200, 100)"
-          >
-            Upload
-          </button>
-        </div>
-        <div class="col-md-6 text-center">
-          <img
-            class="id-pic"
-            src="{{
-              formGroup.controls['IdPic'].value
-                ? formGroup.controls['IdPic'].value
-                : '../../../assets/images/id-card.png'
-            }}"
-          />
-        </div>
-        <div class="required" *ngIf="f.IdPic.touched && f.IdPic.errors">
-          <div *ngIf="f.IdPic.errors?.notValid">
-            &nbsp;&nbsp;&nbsp;&nbsp;Upload Only Images!
-          </div>
-        </div>
-        <div
-          class="required"
-          *ngIf="
-            (f.IdPic.touched && f.IdPic.value === '') ||
-            (f.IdPic.untouched && isSubmitted)
-          "
-        >
-          &nbsp;&nbsp;&nbsp;&nbsp;ID Image is required!
-        </div>
-      </div>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
   </form>
 </div>
