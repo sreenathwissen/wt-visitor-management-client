@@ -1,14 +1,12 @@
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormComponent } from '../components/form/form.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { AgGridModule } from 'ag-grid-angular';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { ToastrModule } from 'ngx-toastr';
 import { GridComponent } from '../components/grid/grid.component';
-import { AgGridModule } from 'ag-grid-angular';
 
 @NgModule({
   declarations: [GridComponent],

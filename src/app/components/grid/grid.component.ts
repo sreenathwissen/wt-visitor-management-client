@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { delay, filter } from 'rxjs/operators';
-import { NavigationEnd, Router } from '@angular/router';
-import { RowClickedEvent } from 'ag-grid-community';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-grid',
@@ -16,13 +14,13 @@ export class GridComponent implements OnInit {
       field: 'view',
       cellRenderer: () => {
         return `<button
-      type="button"
-      class="btn btn-primary"
-      data-toggle="modal"
-      data-target="#exampleModalCenter"
-    >
-      View
-    </button>`;
+          type="button"
+          class="btn btn-primary"
+          data-toggle="modal"
+          data-target="#exampleModalCenter"
+        >
+          View
+        </button>`;
       },
     },
     { headerName: 'Full Name', field: 'fullName' },
@@ -48,7 +46,8 @@ export class GridComponent implements OnInit {
     filter: true,
     floatingFilter: true,
   };
-  constructor() {}
+  selectedVisitor: any;
+  constructor(private toastr: ToastrService) {}
   ngOnInit(): void {
     this.rowData = [
       {
@@ -107,6 +106,13 @@ export class GridComponent implements OnInit {
   onRowClicked(e: any) {
     if (e.event.target?.getAttribute('data-toggle') === 'modal') {
       console.log(e);
+      this.selectedVisitor = e.data;
     }
+  }
+  updateOutTime(id: number) {
+    console.log('id to be updated: ', id);
+    this.toastr.success('Visitor Updated Successfully', 'Success');
+    // delay(1000);
+    // window.location.reload();
   }
 }

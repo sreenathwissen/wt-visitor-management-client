@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { delay, filter } from 'rxjs/operators';
-import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
