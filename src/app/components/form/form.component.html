@@ -1,6 +1,6 @@
-<img class="bg-top" src="../../../assets/images/bg.jpg" alt="">
+<img class="bg-top" src="../../../assets/images/bg.jpg" alt="" />
 <div class="container">
-  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" #formRef="ngForm">
+  <form [formGroup]="formGroup" #formRef="ngForm">
     <div class="row">
       <div class="col-md-10">
         <h1 class="display-5 mb-4 mt-3">New Visitor</h1>
@@ -94,19 +94,19 @@
               </div>
             </div>
             <div class="mb-3">
-              <label for="purpose" class="form-label"
+              <label for="purposeOfVisit" class="form-label"
                 >Purpose of Visit<span class="required">*</span></label
               >
               <select
                 class="form-control"
-                id="purpose"
-                formControlName="purpose"
-                (change)="changePurpose($event)"
+                id="purposeOfVisit"
+                formControlName="purposeOfVisit"
+                (change)="changePurposeOfVisit($event)"
                 [ngClass]="{
                   'is-invalid':
-                    (f.purpose.touched && f.purpose.errors) ||
-                    (f.purpose.untouched && isSubmitted),
-                  'is-valid': f.purpose.valid
+                    (f.purposeOfVisit.touched && f.purposeOfVisit.errors) ||
+                    (f.purposeOfVisit.untouched && isSubmitted),
+                  'is-valid': f.purposeOfVisit.valid
                 }"
               >
                 <option>Select any One</option>
@@ -116,62 +116,72 @@
               </select>
               <div
                 *ngIf="
-                  (f.purpose.touched && f.purpose.errors) ||
-                  (f.purpose.untouched && isSubmitted)
+                  (f.purposeOfVisit.touched && f.purposeOfVisit.errors) ||
+                  (f.purposeOfVisit.untouched && isSubmitted)
                 "
                 class="invalid-feedback"
               >
-                <div *ngIf="f.purpose.errors?.required">Purpose is required!</div>
+                <div *ngIf="f.purposeOfVisit.errors?.required">
+                  Purpose is required!
+                </div>
               </div>
             </div>
             <div class="mb-3">
-              <label for="poc" class="form-label"
+              <label for="pointOfContact" class="form-label"
                 >Point Of Contact Name<span class="required">*</span></label
               >
               <input
                 type="text"
                 class="form-control"
-                id="poc"
-                formControlName="poc"
+                id="pointOfContact"
+                formControlName="pointOfContact"
                 [ngClass]="{
                   'is-invalid':
-                    (f.poc.touched && f.poc.errors) ||
-                    (f.poc.untouched && isSubmitted),
-                  'is-valid': f.poc.valid
+                    (f.pointOfContact.touched && f.pointOfContact.errors) ||
+                    (f.pointOfContact.untouched && isSubmitted),
+                  'is-valid': f.pointOfContact.valid
                 }"
               />
               <div
                 *ngIf="
-                  (f.poc.touched && f.poc.errors) ||
-                  (f.poc.untouched && isSubmitted)
+                  (f.pointOfContact.touched && f.pointOfContact.errors) ||
+                  (f.pointOfContact.untouched && isSubmitted)
                 "
                 class="invalid-feedback"
               >
-                <div *ngIf="f.poc.errors?.required">Name is required!</div>
+                <div *ngIf="f.pointOfContact.errors?.required">
+                  Name is required!
+                </div>
               </div>
             </div>
             <div class="mb-3">
-              <label for="pocEmail" class="form-label"
+              <label for="pointOfContactEmail" class="form-label"
                 >Point Of Contact Email</label
               >
               <input
                 type="text"
                 class="form-control"
-                id="pocEmail"
-                formControlName="pocEmail"
+                id="pointOfContactEmail"
+                formControlName="pointOfContactEmail"
                 [ngClass]="{
-                  'is-invalid': f.pocEmail.touched && f.pocEmail.errors,
-                  'is-valid': f.pocEmail.touched && f.pocEmail.valid
+                  'is-invalid':
+                    f.pointOfContactEmail.touched &&
+                    f.pointOfContactEmail.errors,
+                  'is-valid':
+                    f.pointOfContactEmail.touched && f.pointOfContactEmail.valid
                 }"
               />
               <div
                 *ngIf="
-                  (f.pocEmail.touched && f.pocEmail.errors) ||
-                  (f.pocEmail.untouched && isSubmitted)
+                  (f.pointOfContactEmail.touched &&
+                    f.pointOfContactEmail.errors) ||
+                  (f.pointOfContactEmail.untouched && isSubmitted)
                 "
                 class="invalid-feedback"
               >
-                <div *ngIf="f.pocEmail.errors?.pattern">Enter Valid Email ID!</div>
+                <div *ngIf="f.pointOfContactEmail.errors?.pattern">
+                  Enter Valid Email ID!
+                </div>
               </div>
             </div>
             <div class="mb-3">
@@ -190,8 +200,11 @@
                   'is-valid': f.location.valid
                 }"
               >
-              <option>Select any One</option>
-              <option *ngFor="let location of locations" value="{{ location }}">
+                <option>Select any One</option>
+                <option
+                  *ngFor="let location of locations"
+                  value="{{ location }}"
+                >
                   {{ location | titlecase }}
                 </option>
               </select>
@@ -202,23 +215,24 @@
                 "
                 class="invalid-feedback"
               >
-                <div *ngIf="f.location.errors?.required">Location is required!</div>
+                <div *ngIf="f.location.errors?.required">
+                  Location is required!
+                </div>
               </div>
             </div>
           </div>
           <div class="col-md-6">
-            
             <div class="mb-3">
-              <label for="profilePic" class="form-label"
+              <label for="visitorImage" class="form-label"
                 >Profile Image<span class="required">*</span></label
               >
               <div class="row">
                 <div class="col-md-6">
                   <button
                     type="button"
-                    id="profilePic"
+                    id="visitorImage"
                     class="form-control btn btn-primary"
-                    (click)="compressFile('profilePic', 100, 100)"
+                    (click)="compressFile('visitorImage', 100, 100)"
                   >
                     Upload
                   </button>
@@ -227,25 +241,25 @@
                   <img
                     class="prof"
                     src="{{
-                      formGroup.controls['profilePic'].value
-                        ? formGroup.controls['profilePic'].value
+                      formGroup.controls['visitorImage'].value
+                        ? formGroup.controls['visitorImage'].value
                         : '../../../assets/images/dummy-prof.png'
                     }}"
                   />
                 </div>
                 <div
                   class="required"
-                  *ngIf="f.profilePic.touched && f.profilePic.errors"
+                  *ngIf="f.visitorImage.touched && f.visitorImage.errors"
                 >
-                  <div *ngIf="f.profilePic.errors?.notValid">
+                  <div *ngIf="f.visitorImage.errors?.notValid">
                     &nbsp;&nbsp;&nbsp;&nbsp;Upload Only Images!
                   </div>
                 </div>
                 <div
                   class="required"
                   *ngIf="
-                    (f.profilePic.touched && f.profilePic.value === '') ||
-                    (f.profilePic.untouched && isSubmitted)
+                    (f.visitorImage.touched && f.visitorImage.value === '') ||
+                    (f.visitorImage.untouched && isSubmitted)
                   "
                 >
                   &nbsp;&nbsp;&nbsp;&nbsp;Profile Image is required!
@@ -289,19 +303,19 @@
               </div>
             </div>
             <div class="mb-3">
-              <label for="IdProof" class="form-label"
+              <label for="idProofType" class="form-label"
                 >ID Proof<span class="required">*</span></label
               >
               <select
                 class="form-control"
-                id="IdProof"
-                formControlName="IdProof"
-                (change)="changeIdProof($event)"
+                id="idProofType"
+                formControlName="idProofType"
+                (change)="changeIdProofType($event)"
                 [ngClass]="{
                   'is-invalid':
-                    (f.IdProof.touched && f.IdProof.errors) ||
-                    (f.IdProof.untouched && isSubmitted),
-                  'is-valid': f.IdProof.valid
+                    (f.idProofType.touched && f.idProofType.errors) ||
+                    (f.idProofType.untouched && isSubmitted),
+                  'is-valid': f.idProofType.valid
                 }"
               >
                 <option>Select any One</option>
@@ -311,53 +325,55 @@
               </select>
               <div
                 *ngIf="
-                  (f.IdProof.touched && f.IdProof.errors) ||
-                  (f.IdProof.untouched && isSubmitted)
+                  (f.idProofType.touched && f.idProofType.errors) ||
+                  (f.idProofType.untouched && isSubmitted)
                 "
                 class="invalid-feedback"
               >
-                <div *ngIf="f.IdProof.errors?.required">Id Proof is required!</div>
+                <div *ngIf="f.idProofType.errors?.required">
+                  Id Proof is required!
+                </div>
               </div>
             </div>
             <div class="mb-3">
-              <label for="IdProofNo" class="form-label"
+              <label for="idProofNumber" class="form-label"
                 >ID Proof Number<span class="required">*</span></label
               >
               <input
                 type="text"
                 class="form-control"
-                id="IdProofNo"
-                formControlName="IdProofNo"
+                id="idProofNumber"
+                formControlName="idProofNumber"
                 [ngClass]="{
                   'is-invalid':
-                    (f.IdProofNo.touched && f.IdProofNo.errors) ||
-                    (f.IdProofNo.untouched && isSubmitted),
-                  'is-valid': f.IdProofNo.valid
+                    (f.idProofNumber.touched && f.idProofNumber.errors) ||
+                    (f.idProofNumber.untouched && isSubmitted),
+                  'is-valid': f.idProofNumber.valid
                 }"
               />
               <div
                 *ngIf="
-                  (f.IdProofNo.touched && f.IdProofNo.errors) ||
-                  (f.IdProofNo.untouched && isSubmitted)
+                  (f.idProofNumber.touched && f.idProofNumber.errors) ||
+                  (f.idProofNumber.untouched && isSubmitted)
                 "
                 class="invalid-feedback"
               >
-                <div *ngIf="f.IdProofNo.errors?.required">
+                <div *ngIf="f.idProofNumber.errors?.required">
                   ID Proof number is required!
                 </div>
               </div>
             </div>
             <div class="mb-3">
-              <label for="IdPic" class="form-label"
+              <label for="idProofImage" class="form-label"
                 >Id Proof Image<span class="required">*</span></label
               >
               <div class="row">
                 <div class="col-md-6">
                   <button
                     type="button"
-                    id="IdPic"
+                    id="idProofImage"
                     class="form-control btn btn-primary"
-                    (click)="compressFile('IdPic', 200, 100)"
+                    (click)="compressFile('idProofImage', 200, 100)"
                   >
                     Upload
                   </button>
@@ -366,22 +382,25 @@
                   <img
                     class="id-pic"
                     src="{{
-                      formGroup.controls['IdPic'].value
-                        ? formGroup.controls['IdPic'].value
+                      formGroup.controls['idProofImage'].value
+                        ? formGroup.controls['idProofImage'].value
                         : '../../../assets/images/id-card.png'
                     }}"
                   />
                 </div>
-                <div class="required" *ngIf="f.IdPic.touched && f.IdPic.errors">
-                  <div *ngIf="f.IdPic.errors?.notValid">
+                <div
+                  class="required"
+                  *ngIf="f.idProofImage.touched && f.idProofImage.errors"
+                >
+                  <div *ngIf="f.idProofImage.errors?.notValid">
                     &nbsp;&nbsp;&nbsp;&nbsp;Upload Only Images!
                   </div>
                 </div>
                 <div
                   class="required"
                   *ngIf="
-                    (f.IdPic.touched && f.IdPic.value === '') ||
-                    (f.IdPic.untouched && isSubmitted)
+                    (f.idProofImage.touched && f.idProofImage.value === '') ||
+                    (f.idProofImage.untouched && isSubmitted)
                   "
                 >
                   &nbsp;&nbsp;&nbsp;&nbsp;ID Image is required!
@@ -390,13 +409,19 @@
             </div>
           </div>
         </div>
-    <div style="display: flex;">
-      <div class="bottom-button"><button type="submit" class="btn btn-primary">Submit</button></div>
-      <div class="bottom-button"><button type="reset" class="btn btn-outline-primary">Cancel</button></div>
-    </div>
+        <div style="display: flex">
+          <div class="bottom-button">
+            <button type="button" (click)="onSubmit()" class="btn btn-primary">
+              Submit
+            </button>
+          </div>
+          <div class="bottom-button">
+            <button type="reset" class="btn btn-outline-primary">Cancel</button>
+          </div>
+        </div>
       </div>
       <div class="col-md-2">
-        <img class="bg-right" src="../../../assets/images/bg.jpg" alt="">
+        <img class="bg-right" src="../../../assets/images/bg.jpg" alt="" />
       </div>
     </div>
   </form>

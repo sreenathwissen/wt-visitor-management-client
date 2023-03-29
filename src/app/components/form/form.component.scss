@@ -3,10 +3,10 @@
 }
 
 @media only screen and (min-width: 768px) {
-.container {
-  margin-right: 0;
-  padding-right: 0;
-}
+  .container {
+    margin-right: 0;
+    padding-right: 0;
+  }
 }
 
 .prof {
@@ -39,10 +39,11 @@
   .bg-top {
     display: block;
   }
-  .id-pic, .prof {
+  .id-pic,
+  .prof {
     margin-top: 2rem;
   }
 }
-.bottom-button{
+.bottom-button {
   margin-right: 2rem;
 }

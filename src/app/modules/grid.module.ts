@@ -7,19 +7,20 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { ToastrModule } from 'ngx-toastr';
+import { GridComponent } from '../components/grid/grid.component';
+import { AgGridModule } from 'ag-grid-angular';
 
 @NgModule({
-  declarations: [FormComponent],
+  declarations: [GridComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    FormsModule,
     CommonModule,
     HttpClientModule,
-    ReactiveFormsModule,
+    AgGridModule,
     ToastrModule.forRoot(),
   ],
   providers: [NgxImageCompressService],
-  exports: [FormComponent],
+  exports: [GridComponent],
 })
-export class FormModule {}
+export class GridModule {}

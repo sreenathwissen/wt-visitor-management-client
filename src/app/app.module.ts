@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FormModule } from './modules/form.module';
+import { GridModule } from './modules/grid.module';
 
 @NgModule({
   declarations: [AppComponent, NavbarComponent],
@@ -18,6 +19,7 @@ import { FormModule } from './modules/form.module';
     AppRoutingModule,
     CommonModule,
     FormModule,
+    GridModule,
   ],
   exports: [],
 })

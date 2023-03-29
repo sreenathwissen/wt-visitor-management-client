@@ -1,6 +1,7 @@
 import { FormBuilder, NgForm, Validators } from '@angular/forms';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgxImageCompressService } from 'ngx-image-compress';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-form',
@@ -11,7 +12,8 @@ export class FormComponent implements OnInit {
   @ViewChild('formRef') formRef!: NgForm;
   constructor(
     private _formBuilder: FormBuilder,
-    private imageCompress: NgxImageCompressService
+    private imageCompress: NgxImageCompressService,
+    private toastr: ToastrService
   ) {}
   purposes!: string[];
   locations!: string[];
@@ -35,24 +37,24 @@ export class FormComponent implements OnInit {
         Validators.pattern('^[0-9]+$'),
       ]),
     ],
-    purpose: ['', Validators.required],
-    poc: ['', Validators.required],
-    pocEmail: [
+    purposeOfVisit: ['', Validators.required],
+    pointOfContact: ['', Validators.required],
+    pointOfContactEmail: [
       '',
       Validators.pattern('^[A-Za-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),
     ],
     location: ['', Validators.required],
-    profilePic: ['', Validators.required],
+    visitorImage: ['', Validators.required],
     visitorType: ['', Validators.required],
-    IdProofNo: ['', Validators.required],
-    IdProof: ['', Validators.required],
-    IdPic: ['', Validators.required],
+    idProofNumber: ['', Validators.required],
+    idProofType: ['', Validators.required],
+    idProofImage: ['', Validators.required],
   });
   get f() {
     return this.formGroup.controls;
   }
-  changePurpose(e: any) {
-    this.formGroup.controls['purpose'].setValue(e.target.value);
+  changePurposeOfVisit(e: any) {
+    this.formGroup.controls['purposeOfVisit'].setValue(e.target.value);
   }
   changeLocation(e: any) {
     this.formGroup.controls['location'].setValue(e.target.value);
@@ -60,16 +62,21 @@ export class FormComponent implements OnInit {
   changeVisitorType(e: any) {
     this.formGroup.controls['visitorType'].setValue(e.target.value);
   }
-  changeIdProof(e: any) {
-    this.formGroup.controls['IdProof'].setValue(e.target.value);
+  changeIdProofType(e: any) {
+    this.formGroup.controls['idProofType'].setValue(e.target.value);
   }
   onSubmit() {
     this.isSubmitted = true;
-    if (this.formGroup.invalid) false;
-    else {
+    if (this.formGroup.invalid) {
+      this.toastr.error('Please give valid form values', 'Invalid');
+      false;
+    } else {
       console.log(this.formGroup.value);
-      // this.formGroup.reset();
-      // this.formRef.reset();
+      this.toastr.success('Visitor Added Successfully', 'Success');
+      this.formRef.resetForm();
+      this.formGroup.reset();
+      this.formGroup.markAsUntouched();
+      this.isSubmitted = false;
     }
   }
   compressFile(controlName: string, width: number, height: number) {
