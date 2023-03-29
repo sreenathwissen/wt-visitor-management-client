@@ -2,6 +2,7 @@ import { FormBuilder, NgForm, Validators } from '@angular/forms';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { ToastrService } from 'ngx-toastr';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-form',
@@ -13,7 +14,8 @@ export class FormComponent implements OnInit {
   constructor(
     private _formBuilder: FormBuilder,
     private imageCompress: NgxImageCompressService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private http: HttpClient
   ) {}
   purposes!: string[];
   locations!: string[];
@@ -103,7 +105,11 @@ export class FormComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-    this.purposes = ['meeting', 'interview', 'vendor', 'others'];
+    this.http.get('http://localhost:8080/api/refdata').subscribe((data: any) => {
+      this.purposes =  data?.responseData?.visitorsPurposes || [];
+      this.visitorTypes =  data?.responseData?.visitorsTypes || [];
+      this.IdProofs =  data?.responseData?.visitorsIdTypes || [];
+    });
     this.locations = [
       'delhi',
       'banglore',
@@ -111,14 +117,6 @@ export class FormComponent implements OnInit {
       'pune',
       'hyderabad',
       'chennai',
-    ];
-    this.visitorTypes = ['walkin', 'invited'];
-    this.IdProofs = [
-      'aadhaar',
-      'voter_id',
-      'passport',
-      'pan',
-      'driving_liscense',
     ];
   }
 }
