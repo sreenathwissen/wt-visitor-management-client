@@ -1,0 +1,49 @@
+.required {
+  color: red;
+}
+
+@media only screen and (min-width: 768px) {
+  .container {
+    margin-right: 0;
+    padding-right: 0;
+  }
+}
+
+.prof {
+  max-height: 100px;
+  max-width: 100px;
+}
+
+.id-pic {
+  max-height: 100px;
+  max-width: 200px;
+}
+
+.bg-right {
+  height: 130vh;
+  width: 100%;
+  object-fit: cover;
+}
+
+.bg-top {
+  height: 20vh;
+  width: 100vw;
+  object-fit: cover;
+  display: none;
+}
+
+@media only screen and (max-width: 768px) {
+  .bg-right {
+    display: none;
+  }
+  .bg-top {
+    display: block;
+  }
+  .id-pic,
+  .prof {
+    margin-top: 2rem;
+  }
+}
+.bottom-button {
+  margin-right: 2rem;
+}
