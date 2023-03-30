@@ -1,5 +1,5 @@
 import { FormBuilder, NgForm, Validators } from '@angular/forms';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { ToastrService } from 'ngx-toastr';
 import { HttpClient } from '@angular/common/http';
@@ -15,11 +15,12 @@ export class FormComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private imageCompress: NgxImageCompressService,
     private toastr: ToastrService,
-    private http: HttpClient
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef
   ) {}
   purposes!: string[];
-  locations!: string[];
   visitorTypes!: string[];
+  timeOut: any;
   IdProofs!: string[];
   isSubmitted!: boolean;
   formGroup = this._formBuilder.group({
@@ -40,6 +41,7 @@ export class FormComponent implements OnInit {
       ]),
     ],
     purposeOfVisit: ['', Validators.required],
+    otherPurpose: [''],
     pointOfContact: ['', Validators.required],
     pointOfContactEmail: [
       '',
@@ -57,6 +59,13 @@ export class FormComponent implements OnInit {
   }
   changePurposeOfVisit(e: any) {
     this.formGroup.controls['purposeOfVisit'].setValue(e.target.value);
+    if (e.target.value === 'Others') {
+      this.formGroup.controls['otherPurpose'].markAsTouched();
+        this.formGroup.controls['otherPurpose'].setValidators(
+          Validators.required
+        );
+    }
+    this.cdr.detectChanges();
   }
   changeLocation(e: any) {
     this.formGroup.controls['location'].setValue(e.target.value);
@@ -73,6 +82,7 @@ export class FormComponent implements OnInit {
       this.toastr.error('Please give valid form values', 'Invalid');
       false;
     } else {
+      this.f['purposeOfVisit'].setValue(this.f['otherPurpose'].value);
       console.log(this.formGroup.value);
       this.toastr.success('Visitor Added Successfully', 'Success');
       this.formRef.resetForm();
@@ -105,18 +115,12 @@ export class FormComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-    this.http.get('http://localhost:8080/api/refdata').subscribe((data: any) => {
-      this.purposes =  data?.responseData?.visitorsPurposes || [];
-      this.visitorTypes =  data?.responseData?.visitorsTypes || [];
-      this.IdProofs =  data?.responseData?.visitorsIdTypes || [];
-    });
-    this.locations = [
-      'delhi',
-      'banglore',
-      'mumbai',
-      'pune',
-      'hyderabad',
-      'chennai',
-    ];
+    this.http
+      .get('http://localhost:8080/api/refdata')
+      .subscribe((data: any) => {
+        this.visitorTypes = data?.responseData?.visitorsPurposes || [];
+        this.purposes = data?.responseData?.visitorsTypes || [];
+        this.IdProofs = data?.responseData?.visitorsIdTypes || [];
+      });
   }
 }

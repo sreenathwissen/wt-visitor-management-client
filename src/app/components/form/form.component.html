@@ -98,6 +98,7 @@
                 >Purpose of Visit<span class="required">*</span></label
               >
               <select
+              *ngIf="f.purposeOfVisit.value !== 'Others'"
                 class="form-control"
                 id="purposeOfVisit"
                 formControlName="purposeOfVisit"
@@ -114,14 +115,29 @@
                   {{ purpose | titlecase }}
                 </option>
               </select>
+              <input
+              *ngIf="f.purposeOfVisit.value === 'Others'"
+                type="text"
+                class="form-control"
+                placeholder="Describe the purpose"
+                formControlName="otherPurpose"
+                [ngClass]="{
+                  'is-invalid':
+                    (f.otherPurpose.touched && f.otherPurpose.errors) ||
+                    (f.otherPurpose.untouched && isSubmitted),
+                  'is-valid': f.otherPurpose.valid
+                }"
+              />
               <div
                 *ngIf="
                   (f.purposeOfVisit.touched && f.purposeOfVisit.errors) ||
-                  (f.purposeOfVisit.untouched && isSubmitted)
+                  (f.purposeOfVisit.untouched && isSubmitted) ||
+                  (f.otherPurpose.touched && f.otherPurpose.errors) ||
+                  (f.otherPurpose.untouched && isSubmitted)
                 "
                 class="invalid-feedback"
               >
-                <div *ngIf="f.purposeOfVisit.errors?.required">
+                <div *ngIf="f.purposeOfVisit.errors?.required || f.otherPurpose.errors?.required">
                   Purpose is required!
                 </div>
               </div>
@@ -188,26 +204,18 @@
               <label for="location" class="form-label"
                 >Location<span class="required">*</span></label
               >
-              <select
+              <input
+                type="text"
                 class="form-control"
                 id="location"
                 formControlName="location"
-                (change)="changeLocation($event)"
                 [ngClass]="{
                   'is-invalid':
                     (f.location.touched && f.location.errors) ||
                     (f.location.untouched && isSubmitted),
                   'is-valid': f.location.valid
                 }"
-              >
-                <option>Select any One</option>
-                <option
-                  *ngFor="let location of locations"
-                  value="{{ location }}"
-                >
-                  {{ location | titlecase }}
-                </option>
-              </select>
+              />
               <div
                 *ngIf="
                   (f.location.touched && f.location.errors) ||
