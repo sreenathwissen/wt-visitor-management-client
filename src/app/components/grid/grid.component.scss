@@ -1,0 +1,17 @@
+.overlay {
+  height: 100vh;
+  width: 100vw;
+  background-color: #000;
+  opacity: 0.4;
+  justify-content: center;
+  vertical-align: middle;
+  padding: auto;
+  position: absolute;
+  top: 0;
+  display: flex;
+}
+
+.spinner-border {
+  position: absolute;
+  top: 50vh;
+}

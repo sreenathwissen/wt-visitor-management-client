@@ -19,6 +19,7 @@ export class FormComponent implements OnInit {
     private cdr: ChangeDetectorRef
   ) {}
   purposes!: string[];
+  showSpinner!: boolean;
   visitorTypes!: string[];
   timeOut: any;
   IdProofs!: string[];
@@ -48,11 +49,11 @@ export class FormComponent implements OnInit {
       Validators.pattern('^[A-Za-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),
     ],
     location: ['', Validators.required],
-    visitorImage: ['', Validators.required],
+    visitorImageBase64: ['', Validators.required],
     visitorType: ['', Validators.required],
     idProofNumber: ['', Validators.required],
     idProofType: ['', Validators.required],
-    idProofImage: ['', Validators.required],
+    idProofImageBase64: ['', Validators.required],
   });
   get f() {
     return this.formGroup.controls;
@@ -61,9 +62,9 @@ export class FormComponent implements OnInit {
     this.formGroup.controls['purposeOfVisit'].setValue(e.target.value);
     if (e.target.value === 'Others') {
       this.formGroup.controls['otherPurpose'].markAsTouched();
-        this.formGroup.controls['otherPurpose'].setValidators(
-          Validators.required
-        );
+      this.formGroup.controls['otherPurpose'].setValidators(
+        Validators.required
+      );
     }
     this.cdr.detectChanges();
   }
@@ -82,9 +83,28 @@ export class FormComponent implements OnInit {
       this.toastr.error('Please give valid form values', 'Invalid');
       false;
     } else {
-      this.f['purposeOfVisit'].setValue(this.f['otherPurpose'].value);
+      this.showSpinner = true;
+      if (this.f['otherPurpose'].value)
+        this.f['purposeOfVisit'].setValue(this.f['otherPurpose'].value);
+      this.f['visitorImageBase64'].setValue(
+        this.f['visitorImageBase64'].value.replace('data:image/png;base64,', '')
+      );
+      this.f['idProofImageBase64'].setValue(
+        this.f['idProofImageBase64'].value.replace('data:image/png;base64,', '')
+      );
       console.log(this.formGroup.value);
-      this.toastr.success('Visitor Added Successfully', 'Success');
+      this.http
+        .post('http://localhost:8080/api/visitor', this.formGroup.value)
+        .subscribe((resp: any) => {
+          if (resp.responseStatus === 'SUCCESS') {
+            this.toastr.success('Visitor Added Successfully', 'Success');
+          } else {
+            this.toastr.error('Some error occurred', 'Failure');
+          }
+        })
+        .add(() => {
+          this.showSpinner = false;
+        });
       this.formRef.resetForm();
       this.formGroup.reset();
       this.formGroup.markAsUntouched();
