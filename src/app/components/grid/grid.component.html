@@ -24,7 +24,9 @@
         <div class="row">
           <div class="col-md-6 text-center">
             <img
-              src="{{ selectedVisitor?.visitorImage }}"
+              src="{{
+                'data:image/png;base64,' + selectedVisitor?.visitorImageBase64
+              }}"
               alt="Visitor Image"
               height="100"
               width="100"
@@ -47,8 +49,9 @@
         </button>
         <button
           type="button"
-          (click)="updateOutTime(selectedVisitor?.visitorIdNumber)"
+          (click)="updateOutTime(selectedVisitor?.id)"
           class="btn btn-primary"
+          disabled="{{ selectedVisitor?.outTime }}"
         >
           Update Checkout
         </button>
@@ -66,3 +69,9 @@
   (rowClicked)="onRowClicked($event)"
 >
 </ag-grid-angular>
+
+<div class="overlay" *ngIf="showSpinner">
+  <div class="spinner-border text-primary" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>

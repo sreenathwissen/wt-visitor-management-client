@@ -98,8 +98,8 @@
                 >Purpose of Visit<span class="required">*</span></label
               >
               <select
-              *ngIf="f.purposeOfVisit.value !== 'Others'"
-                class="form-control"
+                *ngIf="f.purposeOfVisit.value !== 'Others'"
+                class="form-select"
                 id="purposeOfVisit"
                 formControlName="purposeOfVisit"
                 (change)="changePurposeOfVisit($event)"
@@ -116,7 +116,7 @@
                 </option>
               </select>
               <input
-              *ngIf="f.purposeOfVisit.value === 'Others'"
+                *ngIf="f.purposeOfVisit.value === 'Others'"
                 type="text"
                 class="form-control"
                 placeholder="Describe the purpose"
@@ -137,7 +137,12 @@
                 "
                 class="invalid-feedback"
               >
-                <div *ngIf="f.purposeOfVisit.errors?.required || f.otherPurpose.errors?.required">
+                <div
+                  *ngIf="
+                    f.purposeOfVisit.errors?.required ||
+                    f.otherPurpose.errors?.required
+                  "
+                >
                   Purpose is required!
                 </div>
               </div>
@@ -231,16 +236,16 @@
           </div>
           <div class="col-md-6">
             <div class="mb-3">
-              <label for="visitorImage" class="form-label"
+              <label for="visitorImageBase64" class="form-label"
                 >Profile Image<span class="required">*</span></label
               >
               <div class="row">
                 <div class="col-md-6">
                   <button
                     type="button"
-                    id="visitorImage"
+                    id="visitorImageBase64"
                     class="form-control btn btn-primary"
-                    (click)="compressFile('visitorImage', 100, 100)"
+                    (click)="compressFile('visitorImageBase64', 100, 100)"
                   >
                     Upload
                   </button>
@@ -249,25 +254,28 @@
                   <img
                     class="prof"
                     src="{{
-                      formGroup.controls['visitorImage'].value
-                        ? formGroup.controls['visitorImage'].value
+                      formGroup.controls['visitorImageBase64'].value
+                        ? formGroup.controls['visitorImageBase64'].value
                         : '../../../assets/images/dummy-prof.png'
                     }}"
                   />
                 </div>
                 <div
                   class="required"
-                  *ngIf="f.visitorImage.touched && f.visitorImage.errors"
+                  *ngIf="
+                    f.visitorImageBase64.touched && f.visitorImageBase64.errors
+                  "
                 >
-                  <div *ngIf="f.visitorImage.errors?.notValid">
+                  <div *ngIf="f.visitorImageBase64.errors?.notValid">
                     &nbsp;&nbsp;&nbsp;&nbsp;Upload Only Images!
                   </div>
                 </div>
                 <div
                   class="required"
                   *ngIf="
-                    (f.visitorImage.touched && f.visitorImage.value === '') ||
-                    (f.visitorImage.untouched && isSubmitted)
+                    (f.visitorImageBase64.touched &&
+                      f.visitorImageBase64.value === '') ||
+                    (f.visitorImageBase64.untouched && isSubmitted)
                   "
                 >
                   &nbsp;&nbsp;&nbsp;&nbsp;Profile Image is required!
@@ -279,7 +287,7 @@
                 >Visitor Type<span class="required">*</span></label
               >
               <select
-                class="form-control"
+                class="form-select"
                 id="visitorType"
                 formControlName="visitorType"
                 (change)="changeVisitorType($event)"
@@ -315,7 +323,7 @@
                 >ID Proof<span class="required">*</span></label
               >
               <select
-                class="form-control"
+                class="form-select"
                 id="idProofType"
                 formControlName="idProofType"
                 (change)="changeIdProofType($event)"
@@ -372,16 +380,16 @@
               </div>
             </div>
             <div class="mb-3">
-              <label for="idProofImage" class="form-label"
+              <label for="idProofImageBase64" class="form-label"
                 >Id Proof Image<span class="required">*</span></label
               >
               <div class="row">
                 <div class="col-md-6">
                   <button
                     type="button"
-                    id="idProofImage"
+                    id="idProofImageBase64"
                     class="form-control btn btn-primary"
-                    (click)="compressFile('idProofImage', 200, 100)"
+                    (click)="compressFile('idProofImageBase64', 200, 100)"
                   >
                     Upload
                   </button>
@@ -390,25 +398,28 @@
                   <img
                     class="id-pic"
                     src="{{
-                      formGroup.controls['idProofImage'].value
-                        ? formGroup.controls['idProofImage'].value
+                      formGroup.controls['idProofImageBase64'].value
+                        ? formGroup.controls['idProofImageBase64'].value
                         : '../../../assets/images/id-card.png'
                     }}"
                   />
                 </div>
                 <div
                   class="required"
-                  *ngIf="f.idProofImage.touched && f.idProofImage.errors"
+                  *ngIf="
+                    f.idProofImageBase64.touched && f.idProofImageBase64.errors
+                  "
                 >
-                  <div *ngIf="f.idProofImage.errors?.notValid">
+                  <div *ngIf="f.idProofImageBase64.errors?.notValid">
                     &nbsp;&nbsp;&nbsp;&nbsp;Upload Only Images!
                   </div>
                 </div>
                 <div
                   class="required"
                   *ngIf="
-                    (f.idProofImage.touched && f.idProofImage.value === '') ||
-                    (f.idProofImage.untouched && isSubmitted)
+                    (f.idProofImageBase64.touched &&
+                      f.idProofImageBase64.value === '') ||
+                    (f.idProofImageBase64.untouched && isSubmitted)
                   "
                 >
                   &nbsp;&nbsp;&nbsp;&nbsp;ID Image is required!
@@ -420,6 +431,12 @@
         <div style="display: flex">
           <div class="bottom-button">
             <button type="button" (click)="onSubmit()" class="btn btn-primary">
+              <span
+                *ngIf="showSpinner"
+                class="spinner-border spinner-border-sm"
+                role="status"
+                aria-hidden="true"
+              ></span>
               Submit
             </button>
           </div>

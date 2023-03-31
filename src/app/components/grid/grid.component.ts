@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 
@@ -8,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class GridComponent implements OnInit {
   columnDefs = [
-    { headerName: 'Visitor ID Number', field: 'visitorIdNumber' },
+    { headerName: 'Visitor ID Number', field: 'id' },
     {
       headerName: 'View',
       field: 'view',
@@ -35,8 +36,8 @@ export class GridComponent implements OnInit {
     { headerName: 'ID Proof Number', field: 'idProofNumber' },
     { headerName: 'In-time', field: 'inTime' },
     { headerName: 'Out-time', field: 'outTime' },
-    { headerName: 'Visitor Image', field: 'visitorImage', hide: true },
-    { headerName: 'ID Proof Image', field: 'idProofImage', hide: true },
+    { headerName: 'Visitor Image', field: 'visitorImageBase64', hide: true },
+    { headerName: 'ID Proof Image', field: 'idProofImageBase64', hide: true },
   ];
 
   rowData!: any[];
@@ -45,63 +46,23 @@ export class GridComponent implements OnInit {
     sortable: true,
     filter: true,
     floatingFilter: true,
+    resizable: true,
   };
   selectedVisitor: any;
-  constructor(private toastr: ToastrService) {}
+  showSpinner!: boolean;
+  constructor(private toastr: ToastrService, private http: HttpClient) {}
   ngOnInit(): void {
-    this.rowData = [
-      {
-        visitorIdNumber: 1,
-        fullName: 'Toyota',
-        email: 'Celica',
-        phoneNumber: 35000,
-        pointOfContact: 'Toyota',
-        pointOfContactEmail: 'Celica',
-        location: 35000,
-        purposeOfVisit: 'Toyota',
-        visitorType: 'Celica',
-        idProofType: 35000,
-        idProofNumber: 'Toyota',
-        inTime: 'Celica',
-        outTime: 35000,
-        visitorImage: 'Toyota',
-        idProofImage: 'Celica',
-      },
-      {
-        visitorIdNumber: 2,
-        fullName: 'Toyota',
-        email: 'Celica',
-        phoneNumber: 35000,
-        pointOfContact: 'Toyota',
-        pointOfContactEmail: 'Celica',
-        location: 35000,
-        purposeOfVisit: 'Toyota',
-        visitorType: 'Celica',
-        idProofType: 35000,
-        idProofNumber: 'Toyota',
-        inTime: 'Celica',
-        outTime: 35000,
-        visitorImage: 'Toyota',
-        idProofImage: 'Celica',
-      },
-      {
-        visitorIdNumber: 3,
-        fullName: 'Toyota',
-        email: 'Celica',
-        phoneNumber: 35000,
-        pointOfContact: 'Toyota',
-        pointOfContactEmail: 'Celica',
-        location: 35000,
-        purposeOfVisit: 'Toyota',
-        visitorType: 'Celica',
-        idProofType: 35000,
-        idProofNumber: 'Toyota',
-        inTime: 'Celica',
-        outTime: 35000,
-        visitorImage: 'Toyota',
-        idProofImage: 'Celica',
-      },
-    ];
+    this.showSpinner = true;
+    this.http
+      .post('http://localhost:8080/api/visitor/fetch', [])
+      .subscribe((resp: any) => {
+        if (resp.responseStatus === 'SUCCESS') {
+          this.rowData = resp.responseData || [];
+        }
+      })
+      .add(() => {
+        this.showSpinner = false;
+      });
   }
   onRowClicked(e: any) {
     if (e.event.target?.getAttribute('data-toggle') === 'modal') {
@@ -110,9 +71,18 @@ export class GridComponent implements OnInit {
     }
   }
   updateOutTime(id: number) {
+    this.showSpinner = true;
     console.log('id to be updated: ', id);
-    this.toastr.success('Visitor Updated Successfully', 'Success');
-    // delay(1000);
-    // window.location.reload();
+    this.http
+      .put('http://localhost:8080/api/visitor/logout?id=' + id, null)
+      .subscribe((resp: any) => {
+        if (resp.responseStatus === 'SUCCESS') {
+          this.toastr.success('Visitor Updated Successfully', 'Success');
+        }
+      })
+      .add(() => {
+        this.showSpinner = false;
+        window.location.reload();
+      });
   }
 }
