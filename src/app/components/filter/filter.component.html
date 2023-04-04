@@ -1,0 +1,171 @@
+<div class="accordion" id="faq">
+  <div class="card">
+    <div class="card-header" id="faqhead1">
+      <a
+        href="#"
+        class="btn btn-header-link collapsed"
+        data-toggle="collapse"
+        data-target="#faq1"
+        aria-expanded="true"
+        aria-controls="faq1"
+        >Filter</a
+      >
+    </div>
+    <div
+      id="faq1"
+      class="collapse"
+      aria-labelledby="faqhead1"
+      data-parent="#faq"
+    >
+      <div class="card-body">
+        <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <div class="col-lg-4 col-md-6">
+              <div class="row">
+                <label for="fullName" class="col-sm-3 col-form-label"
+                  >Full Name</label
+                >
+                <div class="col-sm-9">
+                  <input
+                    type="text"
+                    class="form-control form-control-sm"
+                formControlName="fullName"
+                    formCon
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+              <div class="row">
+                <label for="email" class="col-sm-3 col-form-label"
+                  >Email</label
+                >
+                <div class="col-sm-9">
+                  <input
+                    type="email"
+                    class="form-control form-control-sm"
+                    id="email"
+                    formControlName="email"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+              <div class="row">
+                <label for="pointOfContact" class="col-sm-3 col-form-label"
+                  >Point of Contact</label
+                >
+                <div class="col-sm-9">
+                  <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    id="pointOfContact"
+                    formControlName="pointOfContact"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4 col-md-6">
+              <div class="row">
+                <label for="location" class="col-sm-3 col-form-label"
+                  >Location</label
+                >
+                <div class="col-sm-9">
+                  <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    id="location"
+                    formControlName="location"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+              <div class="row">
+                <label for="purposeOfVisit" class="col-sm-3 col-form-label"
+                  >Purpose of Visit</label
+                >
+                <div class="col-sm-9">
+                  <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    id="purposeOfVisit"
+                    formControlName="purposeOfVisit"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+              <div class="row">
+                <label for="visitorType" class="col-sm-3 col-form-label"
+                  >Visitor Type</label
+                >
+                <div class="col-sm-9">
+                  <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    id="visitorType"
+                    formControlName="visitorType"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4 col-md-6">
+              <div class="row">
+                <label for="idProofType" class="col-sm-3 col-form-label"
+                  >ID Proof Type</label
+                >
+                <div class="col-sm-9">
+                  <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    id="idProofType"
+                    formControlName="idProofType"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+              <div class="row">
+                <label for="inTime" class="col-sm-3 col-form-label"
+                  >In-Time</label
+                >
+                <div class="col-sm-9">
+                  <input
+                    type="date"
+                    class="form-control form-control-sm"
+                    id="inTime"
+                    formControlName="inTime"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+              <div class="row">
+                <label for="outTime" class="col-sm-3 col-form-label"
+                  >Out Time</label
+                >
+                <div class="col-sm-9">
+                  <input
+                    type="date"
+                    class="form-control form-control-sm"
+                    id="outTime"
+                    formControlName="outTime"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <button class="btn btn-sm btn-primary" type="submit">Search</button>
+              <button class="btn btn-sm btn-outline-primary reset" type="reset">Reset</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

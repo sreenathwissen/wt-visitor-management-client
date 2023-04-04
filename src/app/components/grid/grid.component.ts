@@ -85,4 +85,18 @@ export class GridComponent implements OnInit {
         window.location.reload();
       });
   }
+  searchWithFilterParams(e: any) {
+    console.log('event: ', e);
+    this.showSpinner = true;
+    this.http
+      .post('http://localhost:8080/api/visitor/fetch', e)
+      .subscribe((resp: any) => {
+        if (resp.responseStatus === 'SUCCESS') {
+          this.rowData = resp.responseData || [];
+        }
+      })
+      .add(() => {
+        this.showSpinner = false;
+      });
+  }
 }
