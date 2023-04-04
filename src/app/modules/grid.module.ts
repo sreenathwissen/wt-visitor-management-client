@@ -7,6 +7,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { ToastrModule } from 'ngx-toastr';
 import { GridComponent } from '../components/grid/grid.component';
+import { FilterModule } from './filter.module';
 
 @NgModule({
   declarations: [GridComponent],
@@ -16,6 +17,7 @@ import { GridComponent } from '../components/grid/grid.component';
     CommonModule,
     HttpClientModule,
     AgGridModule,
+    FilterModule,
     ToastrModule.forRoot(),
   ],
   providers: [NgxImageCompressService],
