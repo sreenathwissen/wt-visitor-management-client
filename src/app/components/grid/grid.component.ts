@@ -9,7 +9,8 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class GridComponent implements OnInit {
   columnDefs = [
-    { headerName: 'Visitor ID Number', field: 'id' },
+    { headerName: 'Visitor ID Number', field: 'id', hide: true},
+    { headerName: 'Full Name', field: 'fullName' },
     {
       headerName: 'View',
       field: 'view',
@@ -24,7 +25,6 @@ export class GridComponent implements OnInit {
         </button>`;
       },
     },
-    { headerName: 'Full Name', field: 'fullName' },
     { headerName: 'Email', field: 'email' },
     { headerName: 'Phone Number', field: 'phoneNumber' },
     { headerName: 'Point of Contact', field: 'pointOfContact' },
