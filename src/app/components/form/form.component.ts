@@ -138,8 +138,8 @@ export class FormComponent implements OnInit {
     this.http
       .get('http://localhost:8080/api/refdata')
       .subscribe((data: any) => {
-        this.visitorTypes = data?.responseData?.visitorsPurposes || [];
-        this.purposes = data?.responseData?.visitorsTypes || [];
+        this.purposes = data?.responseData?.visitorsPurposes || [];
+        this.visitorTypes = data?.responseData?.visitorsTypes || [];
         this.IdProofs = data?.responseData?.visitorsIdTypes || [];
       });
   }
