@@ -42,11 +42,12 @@ export class FilterComponent implements OnInit {
             new Date().toISOString().split('T')[0]
         );
         filterParams.push({
+          dataType: "DATE",
           fieldName: 'inTime',
           operator: 'BETWEEN',
           values: [
-            new Date(this.formGroup.controls['inTimeFrom'].value),
-            new Date(this.formGroup.controls['inTimeTo'].value),
+            new Date(this.formGroup.controls['inTimeFrom'].value).toISOString().slice(0,10)+'T00:00:00',
+            new Date(this.formGroup.controls['inTimeTo'].value).toISOString().slice(0,10)+'T23:59:59',
           ],
         });
       } else if (
@@ -63,11 +64,12 @@ export class FilterComponent implements OnInit {
             new Date().toISOString().split('T')[0]
         );
         filterParams.push({
+          dataType: "DATE",
           fieldName: 'outTime',
           operator: 'BETWEEN',
           values: [
-            new Date(this.formGroup.controls['outTimeFrom'].value),
-            new Date(this.formGroup.controls['outTimeTo'].value),
+            new Date(this.formGroup.controls['outTimeFrom'].value).toISOString().slice(0,10)+'T00:00:00',
+            new Date(this.formGroup.controls['outTimeTo'].value).toISOString().slice(0,10)+'T23:59:59',
           ],
         });
       } else if (
@@ -75,6 +77,7 @@ export class FilterComponent implements OnInit {
         this.formGroup.controls[key].touched
       ) {
         filterParams.push({
+          dataType: "STRING",
           fieldName: key,
           operator: 'LIKE',
           values: [this.formGroup.controls[key].value],
