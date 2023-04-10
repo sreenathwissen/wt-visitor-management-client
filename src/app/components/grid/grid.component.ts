@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { FormComponent } from '../form/form.component';
 
 @Component({
   selector: 'app-grid',
@@ -8,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./grid.component.scss'],
 })
 export class GridComponent implements OnInit {
+  @ViewChild(FormComponent) formComponent!: FormComponent;
   columnDefs = [
     { headerName: 'Visitor ID Number', field: 'id', hide: true},
     { headerName: 'Full Name', field: 'fullName' },
