@@ -1,5 +1,5 @@
 import { FormBuilder, NgForm, Validators } from '@angular/forms';
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { ToastrService } from 'ngx-toastr';
 import { HttpClient } from '@angular/common/http';
@@ -11,6 +11,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class FormComponent implements OnInit {
   @ViewChild('formRef') formRef!: NgForm;
+  @Output() closeModal = new EventEmitter();
   constructor(
     private _formBuilder: FormBuilder,
     private imageCompress: NgxImageCompressService,
@@ -106,6 +107,7 @@ export class FormComponent implements OnInit {
             this.formGroup.markAsUntouched();
             this.isSubmitted = false;
             //TODO: close modal and append resp to rowData
+            this.closeModal.emit(resp.responseData);
           } else {
             this.handleFailure();
           }
