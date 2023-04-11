@@ -93,9 +93,10 @@ export class FormComponent implements OnInit {
       this.f['visitorImageBase64'].setValue(
         this.f['visitorImageBase64'].value.replace('data:image/png;base64,', '')
       );
-      this.f['idProofImageBase64'].setValue(
-        this.f['idProofImageBase64'].value.replace('data:image/png;base64,', '')
-      );
+      if(this.f['idProofImageBase64'].value)
+        this.f['idProofImageBase64'].setValue(
+          this.f['idProofImageBase64'].value.replace('data:image/png;base64,', '')
+        );
       console.log(this.formGroup.value);
       this.http
         .post('http://localhost:8080/api/visitor', this.formGroup.value)
