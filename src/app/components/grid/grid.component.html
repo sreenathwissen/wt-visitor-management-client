@@ -1,11 +1,18 @@
 <button
   type="button"
+  class="btn btn-success export-btn"
+  (click)="downloadExcel()"
+>
+<i class="fa-solid fa-file-arrow-down"></i>&nbsp;Export Excel
+</button>
+<button
+  type="button"
   class="btn btn-success add-visitor-btn"
   data-toggle="modal"
   data-target="#exampleModalCenter2"
   #addVisitorModal
 >
-  + Visitor
+<i class="fa-solid fa-user-plus"></i>&nbsp;Visitor
 </button>
 <app-filter
   (searchWithFilterParams)="searchWithFilterParams($event)"
@@ -119,6 +126,7 @@
         </button>
       </div>
       <ng-template [ngTemplateOutlet]="viewModalBody"></ng-template>
+      <hr>
     </div>
   </div>
 </div>
@@ -183,6 +191,7 @@
   (rowClicked)="onRowClicked($event)"
   [pagination]="true"
   [paginationAutoPageSize]="true"
+  (gridReady)="onGridReady($event)"
 >
 </ag-grid-angular>
 

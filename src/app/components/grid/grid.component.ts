@@ -3,6 +3,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { FormComponent } from '../form/form.component';
 import { RowNode } from 'ag-grid-community';
+import 'ag-grid-enterprise'
 
 @Component({
   selector: 'app-grid',
@@ -19,6 +20,7 @@ export class GridComponent implements OnInit {
     {
       headerName: 'Action',
       field: 'view',
+      width: 203,
       cellRenderer: (params: any) => {    
         let ret = `<button
           type="button"
@@ -26,7 +28,7 @@ export class GridComponent implements OnInit {
           data-toggle="modal"
           data-target="#exampleModalCenter3"
         >
-          View
+        <i class="fa-solid fa-eye"></i>&nbsp;View
         </button>`;
         if(!params.data?.outTime)
         {ret = ret + `
@@ -36,7 +38,7 @@ export class GridComponent implements OnInit {
           data-toggle="modal"
           data-target="#exampleModalCenter"
         >
-          Checkout
+        <i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i>&nbsp;Checkout
         </button>`;}
         return ret;
       },
@@ -67,6 +69,7 @@ export class GridComponent implements OnInit {
   selectedVisitor: any;
   selectedRowNode!: RowNode;
   showSpinner!: boolean;
+  api: any;
   constructor(private toastr: ToastrService, private http: HttpClient) {}
   ngOnInit(): void {
     this.showSpinner = true;
@@ -126,5 +129,11 @@ export class GridComponent implements OnInit {
     this.addVisitorModal.nativeElement.click();
     this.rowData.unshift(e);
     this.rowData = [...this.rowData];
+  }
+  onGridReady = (params: any) => {
+    this.api = params.api;
+}
+  downloadExcel() {
+    this.api.exportDataAsExcel();
   }
 }
