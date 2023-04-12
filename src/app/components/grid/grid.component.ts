@@ -17,17 +17,28 @@ export class GridComponent implements OnInit {
     { headerName: 'Visitor ID Number', field: 'id', hide: true },
     { headerName: 'Full Name', field: 'fullName' },
     {
-      headerName: 'View',
+      headerName: 'Action',
       field: 'view',
-      cellRenderer: () => {
-        return `<button
+      cellRenderer: (params: any) => {    
+        let ret = `<button
           type="button"
-          class="btn btn-primary"
+          class="btn btn-primary btn-sm"
           data-toggle="modal"
-          data-target="#exampleModalCenter"
+          data-target="#exampleModalCenter3"
         >
           View
         </button>`;
+        if(!params.data?.outTime)
+        {ret = ret + `
+        <button
+          type="button"
+          class="btn btn-success btn-sm checkout"
+          data-toggle="modal"
+          data-target="#exampleModalCenter"
+        >
+          Checkout
+        </button>`;}
+        return ret;
       },
     },
     { headerName: 'Email', field: 'email' },
@@ -72,7 +83,6 @@ export class GridComponent implements OnInit {
   }
   onRowClicked(e: any) {
     if (e.event.target?.getAttribute('data-toggle') === 'modal') {
-      console.log(e);
       this.selectedVisitor = e.data;
       this.selectedRowNode = e.node;
     }
