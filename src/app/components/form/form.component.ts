@@ -1,5 +1,5 @@
 import { FormBuilder, NgForm, Validators } from '@angular/forms';
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { ToastrService } from 'ngx-toastr';
 import { HttpClient } from '@angular/common/http';
@@ -11,6 +11,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class FormComponent implements OnInit {
   @ViewChild('formRef') formRef!: NgForm;
+  @Output() closeModal = new EventEmitter();
   constructor(
     private _formBuilder: FormBuilder,
     private imageCompress: NgxImageCompressService,
@@ -50,10 +51,10 @@ export class FormComponent implements OnInit {
     ],
     location: ['', Validators.required],
     visitorImageBase64: ['', Validators.required],
-    visitorType: ['', Validators.required],
+    visitorType: [''],
     idProofNumber: ['', Validators.required],
     idProofType: ['', Validators.required],
-    idProofImageBase64: ['', Validators.required],
+    idProofImageBase64: [''],
   });
   get f() {
     return this.formGroup.controls;
@@ -77,6 +78,9 @@ export class FormComponent implements OnInit {
   changeIdProofType(e: any) {
     this.formGroup.controls['idProofType'].setValue(e.target.value);
   }
+  resetForm() {
+    this.formRef.reset();
+  }
   onSubmit() {
     this.isSubmitted = true;
     if (this.formGroup.invalid) {
@@ -89,27 +93,43 @@ export class FormComponent implements OnInit {
       this.f['visitorImageBase64'].setValue(
         this.f['visitorImageBase64'].value.replace('data:image/png;base64,', '')
       );
-      this.f['idProofImageBase64'].setValue(
-        this.f['idProofImageBase64'].value.replace('data:image/png;base64,', '')
-      );
+      if(this.f['idProofImageBase64'].value)
+        this.f['idProofImageBase64'].setValue(
+          this.f['idProofImageBase64'].value.replace('data:image/png;base64,', '')
+        );
       console.log(this.formGroup.value);
       this.http
         .post('http://localhost:8080/api/visitor', this.formGroup.value)
         .subscribe((resp: any) => {
           if (resp.responseStatus === 'SUCCESS') {
             this.toastr.success('Visitor Added Successfully', 'Success');
+            this.formRef.resetForm();
+            this.formGroup.reset();
+            this.formGroup.markAsUntouched();
+            this.isSubmitted = false;
+            //TODO: close modal and append resp to rowData
+            this.closeModal.emit(resp.responseData);
           } else {
-            this.toastr.error('Some error occurred', 'Failure');
+            this.handleFailure();
           }
+        },
+        err => {
+          this.handleFailure();
         })
         .add(() => {
           this.showSpinner = false;
         });
-      this.formRef.resetForm();
-      this.formGroup.reset();
-      this.formGroup.markAsUntouched();
-      this.isSubmitted = false;
     }
+  }
+  handleFailure() {
+    this.f['visitorImageBase64'].setValue(
+      'data:image/png;base64,' + this.f['visitorImageBase64'].value
+    );
+    if(this.f['idProofImageBase64'].value)
+      this.f['idProofImageBase64'].setValue(
+        'data:image/png;base64,' + this.f['idProofImageBase64'].value
+      );
+    this.toastr.error('Some error occurred', 'Failure');
   }
   compressFile(controlName: string, width: number, height: number) {
     this.formGroup.controls[controlName].setValue('');

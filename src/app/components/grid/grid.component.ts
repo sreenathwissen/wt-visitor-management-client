@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { FormComponent } from '../form/form.component';
+import { RowNode } from 'ag-grid-community';
 
 @Component({
   selector: 'app-grid',
@@ -8,8 +10,11 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./grid.component.scss'],
 })
 export class GridComponent implements OnInit {
+  @ViewChild(FormComponent) formComponent!: FormComponent;
+  @ViewChild('addVisitorModal') addVisitorModal!: ElementRef;
+  @ViewChild('checkoutVisitorModal') checkoutVisitorModal!: ElementRef;
   columnDefs = [
-    { headerName: 'Visitor ID Number', field: 'id', hide: true},
+    { headerName: 'Visitor ID Number', field: 'id', hide: true },
     { headerName: 'Full Name', field: 'fullName' },
     {
       headerName: 'View',
@@ -49,6 +54,7 @@ export class GridComponent implements OnInit {
     resizable: true,
   };
   selectedVisitor: any;
+  selectedRowNode!: RowNode;
   showSpinner!: boolean;
   constructor(private toastr: ToastrService, private http: HttpClient) {}
   ngOnInit(): void {
@@ -68,6 +74,7 @@ export class GridComponent implements OnInit {
     if (e.event.target?.getAttribute('data-toggle') === 'modal') {
       console.log(e);
       this.selectedVisitor = e.data;
+      this.selectedRowNode = e.node;
     }
   }
   updateOutTime(id: number) {
@@ -75,14 +82,20 @@ export class GridComponent implements OnInit {
     console.log('id to be updated: ', id);
     this.http
       .put('http://localhost:8080/api/visitor/logout?id=' + id, null)
-      .subscribe((resp: any) => {
-        if (resp.responseStatus === 'SUCCESS') {
-          this.toastr.success('Visitor Updated Successfully', 'Success');
+      .subscribe(
+        (resp: any) => {
+          if (resp.responseStatus === 'SUCCESS') {
+            this.toastr.success('Visitor Updated Successfully', 'Success');
+            this.selectedRowNode.setData(resp.responseData);
+            this.checkoutVisitorModal.nativeElement.click();
+          }
+        },
+        (error) => {
+          this.toastr.error('Some error occurred', 'Failure');
         }
-      })
+      )
       .add(() => {
         this.showSpinner = false;
-        window.location.reload();
       });
   }
   searchWithFilterParams(e: any) {
@@ -98,5 +111,10 @@ export class GridComponent implements OnInit {
       .add(() => {
         this.showSpinner = false;
       });
+  }
+  closeModalWithAppendData(e: any) {
+    this.addVisitorModal.nativeElement.click();
+    this.rowData.unshift(e);
+    this.rowData = [...this.rowData];
   }
 }

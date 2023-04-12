@@ -8,6 +8,7 @@ import { NgxImageCompressService } from 'ngx-image-compress';
 import { ToastrModule } from 'ngx-toastr';
 import { GridComponent } from '../components/grid/grid.component';
 import { FilterModule } from './filter.module';
+import { FormModule } from './form.module';
 
 @NgModule({
   declarations: [GridComponent],
@@ -18,6 +19,7 @@ import { FilterModule } from './filter.module';
     HttpClientModule,
     AgGridModule,
     FilterModule,
+    FormModule,
     ToastrModule.forRoot(),
   ],
   providers: [NgxImageCompressService],

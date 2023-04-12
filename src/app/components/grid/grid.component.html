@@ -1,5 +1,15 @@
+
+<button
+type="button"
+class="btn btn-success add-visitor-btn"
+data-toggle="modal"
+data-target="#exampleModalCenter2"
+#addVisitorModal
+>
++ Visitor
+</button>
 <app-filter (searchWithFilterParams)="searchWithFilterParams($event)"></app-filter>
-<!-- Modal -->
+<!-- Modal for checkout visitor from grid -->
 <div
   class="modal fade"
   id="exampleModalCenter"
@@ -17,6 +27,7 @@
           class="close"
           data-dismiss="modal"
           aria-label="Close"
+          #checkoutVisitorModal
         >
           <span aria-hidden="true">&times;</span>
         </button>
@@ -61,8 +72,54 @@
   </div>
 </div>
 
+<!-- Modal for add visitor -->
+<div
+  class="modal fade"
+  id="exampleModalCenter2"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">New Visitor Details</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="formComponent.resetForm()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-form (closeModal)="closeModalWithAppendData($event)"></app-form>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          (click)="formComponent.resetForm()"
+        >
+          Reset
+        </button>
+        <button
+          type="button"
+          (click)="formComponent.onSubmit()"
+          class="btn btn-primary"
+        >
+          Submit
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <ag-grid-angular
-  style="width: 98.6vw; height: 75vh"
+  style="width: 97.5vw; height: 75vh; margin: 0 auto"
   class="ag-theme-alpine"
   [rowData]="rowData"
   [columnDefs]="columnDefs"
