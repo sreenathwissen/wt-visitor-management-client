@@ -1,14 +1,63 @@
-
 <button
-type="button"
-class="btn btn-success add-visitor-btn"
-data-toggle="modal"
-data-target="#exampleModalCenter2"
-#addVisitorModal
+  type="button"
+  class="btn btn-success export-btn"
+  (click)="downloadExcel()"
 >
-+ Visitor
+<i class="fa-solid fa-file-arrow-down"></i>&nbsp;Export Excel
 </button>
-<app-filter (searchWithFilterParams)="searchWithFilterParams($event)"></app-filter>
+<button
+  type="button"
+  class="btn btn-success add-visitor-btn"
+  data-toggle="modal"
+  data-target="#exampleModalCenter2"
+  #addVisitorModal
+>
+<i class="fa-solid fa-user-plus"></i>&nbsp;Visitor
+</button>
+<app-filter
+  (searchWithFilterParams)="searchWithFilterParams($event)"
+></app-filter>
+<ng-template #viewModalBody>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-6 text-center">
+        <img
+          src="{{
+            'data:image/png;base64,' + selectedVisitor?.visitorImageBase64
+          }}"
+          alt="Visitor Image"
+          height="100"
+          width="100"
+        />
+        <div><b>Profile Image</b></div>
+        <hr />
+        <img
+          src="{{
+            'data:image/png;base64,' + selectedVisitor?.idProofImageBase64
+          }}"
+          alt="Visitor Image"
+          height="100"
+          width="150"
+        />
+        <div><b>ID Proof Image</b></div>
+      </div>
+      <div class="col-md-6">
+        <b>Name:</b> {{ selectedVisitor?.fullName }}<br />
+        <b>Email:</b> {{ selectedVisitor?.email }}<br />
+        <b>Phone Number:</b> {{ selectedVisitor?.phoneNumber }}<br />
+        <b>Purpose of Visit:</b> {{ selectedVisitor?.purposeOfVisit }}<br />
+        <b>Point of Contact:</b> {{ selectedVisitor?.pointOfContact }}<br />
+        <b>Point of Contact Email:</b> {{ selectedVisitor?.pointOfContactEmail
+        }}<br />
+        <b>Location:</b> {{ selectedVisitor?.location }}<br />
+        <b>Visitor Type:</b> {{ selectedVisitor?.visitorType }}<br />
+        <b>ID Proof Type:</b> {{ selectedVisitor?.idProofType }}<br />
+        <b>ID Proof Number:</b> {{ selectedVisitor?.idProofNumber }}<br />
+        <b>IN Time:</b> {{ selectedVisitor?.inTime }}<br />
+      </div>
+    </div>
+  </div>
+</ng-template>
 <!-- Modal for checkout visitor from grid -->
 <div
   class="modal fade"
@@ -32,25 +81,7 @@ data-target="#exampleModalCenter2"
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-md-6 text-center">
-            <img
-              src="{{
-                'data:image/png;base64,' + selectedVisitor?.visitorImageBase64
-              }}"
-              alt="Visitor Image"
-              height="100"
-              width="100"
-            />
-          </div>
-          <div class="col-md-6">
-            <b>Name:</b> {{ selectedVisitor?.fullName }}<br />
-            <b>Email:</b> {{ selectedVisitor?.email }}<br />
-            <b>Phone Number:</b> {{ selectedVisitor?.phoneNumber }}
-          </div>
-        </div>
-      </div>
+      <ng-template [ngTemplateOutlet]="viewModalBody"></ng-template>
       <div class="modal-footer">
         <button
           type="button"
@@ -72,6 +103,34 @@ data-target="#exampleModalCenter2"
   </div>
 </div>
 
+<div
+  class="modal fade"
+  id="exampleModalCenter3"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Visitor Details</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          #checkoutVisitorModal
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <ng-template [ngTemplateOutlet]="viewModalBody"></ng-template>
+      <hr>
+    </div>
+  </div>
+</div>
+
 <!-- Modal for add visitor -->
 <div
   class="modal fade"
@@ -81,10 +140,15 @@ data-target="#exampleModalCenter2"
   aria-labelledby="exampleModalCenterTitle"
   aria-hidden="true"
 >
-  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+  <div
+    class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+    role="document"
+  >
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">New Visitor Details</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">
+          New Visitor Details
+        </h5>
         <button
           type="button"
           class="close"
@@ -127,6 +191,7 @@ data-target="#exampleModalCenter2"
   (rowClicked)="onRowClicked($event)"
   [pagination]="true"
   [paginationAutoPageSize]="true"
+  (gridReady)="onGridReady($event)"
 >
 </ag-grid-angular>
 

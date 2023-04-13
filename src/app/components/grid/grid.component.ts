@@ -3,6 +3,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { FormComponent } from '../form/form.component';
 import { RowNode } from 'ag-grid-community';
+import 'ag-grid-enterprise'
 
 @Component({
   selector: 'app-grid',
@@ -17,17 +18,29 @@ export class GridComponent implements OnInit {
     { headerName: 'Visitor ID Number', field: 'id', hide: true },
     { headerName: 'Full Name', field: 'fullName' },
     {
-      headerName: 'View',
+      headerName: 'Action',
       field: 'view',
-      cellRenderer: () => {
-        return `<button
+      width: 203,
+      cellRenderer: (params: any) => {    
+        let ret = `<button
           type="button"
-          class="btn btn-primary"
+          class="btn btn-primary btn-sm"
+          data-toggle="modal"
+          data-target="#exampleModalCenter3"
+        >
+        <i class="fa-solid fa-eye"></i>&nbsp;View
+        </button>`;
+        if(!params.data?.outTime)
+        {ret = ret + `
+        <button
+          type="button"
+          class="btn btn-success btn-sm checkout"
           data-toggle="modal"
           data-target="#exampleModalCenter"
         >
-          View
-        </button>`;
+        <i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i>&nbsp;Checkout
+        </button>`;}
+        return ret;
       },
     },
     { headerName: 'Email', field: 'email' },
@@ -56,6 +69,7 @@ export class GridComponent implements OnInit {
   selectedVisitor: any;
   selectedRowNode!: RowNode;
   showSpinner!: boolean;
+  api: any;
   constructor(private toastr: ToastrService, private http: HttpClient) {}
   ngOnInit(): void {
     this.showSpinner = true;
@@ -72,7 +86,6 @@ export class GridComponent implements OnInit {
   }
   onRowClicked(e: any) {
     if (e.event.target?.getAttribute('data-toggle') === 'modal') {
-      console.log(e);
       this.selectedVisitor = e.data;
       this.selectedRowNode = e.node;
     }
@@ -116,5 +129,11 @@ export class GridComponent implements OnInit {
     this.addVisitorModal.nativeElement.click();
     this.rowData.unshift(e);
     this.rowData = [...this.rowData];
+  }
+  onGridReady = (params: any) => {
+    this.api = params.api;
+}
+  downloadExcel() {
+    this.api.exportDataAsExcel();
   }
 }

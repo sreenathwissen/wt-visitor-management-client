@@ -16,15 +16,16 @@
   padding: 20px;
 }
 
-#faq .card .card-header .btn-header-link:after {
-  content: "\f106";
+#faq .card .card-header .btn-header-link:before {
+  content: "\f078";
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
-  float: right;
+  float: left;
+  position: absolute;
 }
 
-#faq .card .card-header .btn-header-link.collapsed:after {
-  content: "\f107";
+#faq .card .card-header .btn-header-link.collapsed:before {
+  content: "\f054";
 }
 
 #faq .card .collapsing {
