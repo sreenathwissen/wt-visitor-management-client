@@ -96,22 +96,7 @@
         class="form-control"
         id="cardNumber"
         formControlName="cardNumber"
-        [ngClass]="{
-          'is-invalid':
-            (f.cardNumber.touched && f.cardNumber.errors) ||
-            (f.cardNumber.untouched && isSubmitted),
-          'is-valid': f.cardNumber.valid
-        }"
       />
-      <div
-        *ngIf="
-          (f.cardNumber.touched && f.cardNumber.errors) ||
-          (f.cardNumber.untouched && isSubmitted)
-        "
-        class="invalid-feedback"
-      >
-        <div *ngIf="f.cardNumber.errors?.required">Card Number is required!</div>
-      </div>
     </div>
     <div class="mb-3">
       <label for="purposeOfVisit" class="form-label"

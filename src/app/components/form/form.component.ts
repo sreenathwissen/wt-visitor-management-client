@@ -57,7 +57,7 @@ export class FormComponent implements OnInit {
     idProofNumber: ['', Validators.required],
     idProofType: ['', Validators.required],
     idProofImageBase64: [''],
-    cardNumber: ['', Validators.required]
+    cardNumber: ['']
   });
   get f() {
     return this.formGroup.controls;
