@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { RefdataService } from 'src/app/services/refdata.service';
 
 @Component({
   selector: 'app-filter',
@@ -8,11 +9,12 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class FilterComponent implements OnInit {
   @Output() searchWithFilterParams = new EventEmitter<{}[]>();
-  constructor(private _formBuilder: FormBuilder) {}
+  constructor(private _formBuilder: FormBuilder, public refdata: RefdataService) {}
   formGroup = this._formBuilder.group({
     fullName: [''],
     email: [''],
     purposeOfVisit: [''],
+    otherPurpose: [''],
     pointOfContact: [''],
     location: [''],
     visitorType: [''],
@@ -28,6 +30,14 @@ export class FilterComponent implements OnInit {
     (
       Object.keys(this.formGroup.controls) as (keyof typeof FormGroup)[]
     ).forEach((key: any, index) => {
+      if(key === 'purposeOfVisit' && this.formGroup.controls['purposeOfVisit'].value === 'Others') {
+        filterParams.push({
+          dataType: "STRING",
+          fieldName: 'purposeOfVisit',
+          operator: 'LIKE',
+          values: [this.formGroup.controls['otherPurpose'].value],
+        });
+      }
       if (
         JSON.stringify(filterParams).indexOf('inTime') === -1 &&
         (key === 'inTimeFrom' || key === 'inTimeTo') &&
@@ -74,7 +84,8 @@ export class FilterComponent implements OnInit {
         });
       } else if (
         key.indexOf('Time') === -1 &&
-        this.formGroup.controls[key].touched
+        this.formGroup.controls[key].touched &&
+        this.formGroup.controls['purposeOfVisit'].value !== 'Others'
       ) {
         filterParams.push({
           dataType: "STRING",
@@ -85,5 +96,25 @@ export class FilterComponent implements OnInit {
       }
     });
     this.searchWithFilterParams.emit(filterParams);
+  }
+
+  get f() {
+    return this.formGroup.controls;
+  }
+
+  changePurposeOfVisit(e: any) {
+    this.formGroup.controls['purposeOfVisit'].setValue(e.target.value);
+    this.formGroup.controls['visitorType'].setValue('');
+    this.formGroup.controls['visitorType'].markAsUntouched();
+    this.formGroup.controls['otherPurpose'].setValue('');
+    this.formGroup.controls['otherPurpose'].markAsUntouched();
+  }
+
+  changeVisitorType(e: any) {
+    this.formGroup.controls['visitorType'].setValue(e.target.value);
+  }
+
+  changeIdProofType(e: any) {
+    this.formGroup.controls['idProofType'].setValue(e.target.value);
   }
 }
