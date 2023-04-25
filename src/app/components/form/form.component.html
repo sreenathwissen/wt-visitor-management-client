@@ -88,11 +88,21 @@
       </div>
     </div>
     <div class="mb-3">
+      <label for="fullName" class="form-label"
+        >Card Number<span class="required">*</span></label
+      >
+      <input
+        type="text"
+        class="form-control"
+        id="cardNumber"
+        formControlName="cardNumber"
+      />
+    </div>
+    <div class="mb-3">
       <label for="purposeOfVisit" class="form-label"
         >Purpose of Visit<span class="required">*</span></label
       >
       <select
-        *ngIf="f.purposeOfVisit.value !== 'Others'"
         class="form-select"
         id="purposeOfVisit"
         formControlName="purposeOfVisit"
@@ -104,7 +114,6 @@
           'is-valid': f.purposeOfVisit.valid
         }"
       >
-        <option>Select any One</option>
         <option *ngFor="let purpose of purposes" value="{{ purpose }}">
           {{ purpose | titlecase }}
         </option>
@@ -140,6 +149,22 @@
           Purpose is required!
         </div>
       </div>
+    </div>
+    <div class="mb-3" *ngIf="f.purposeOfVisit.value === 'Interview'">
+      <label for="visitorType" class="form-label">Visitor Type</label>
+      <select
+        class="form-select"
+        id="visitorType"
+        formControlName="visitorType"
+        (change)="changeVisitorType($event)"
+      >
+        <option
+          *ngFor="let visitorType of visitorTypes"
+          value="{{ visitorType }}"
+        >
+          {{ visitorType | titlecase }}
+        </option>
+      </select>
     </div>
     <div class="mb-3">
       <label for="pointOfContact" class="form-label"
@@ -271,23 +296,6 @@
       </div>
     </div>
     <div class="mb-3">
-      <label for="visitorType" class="form-label">Visitor Type</label>
-      <select
-        class="form-select"
-        id="visitorType"
-        formControlName="visitorType"
-        (change)="changeVisitorType($event)"
-      >
-        <option>Select any One</option>
-        <option
-          *ngFor="let visitorType of visitorTypes"
-          value="{{ visitorType }}"
-        >
-          {{ visitorType | titlecase }}
-        </option>
-      </select>
-    </div>
-    <div class="mb-3">
       <label for="idProofType" class="form-label"
         >ID Proof<span class="required">*</span></label
       >
@@ -303,7 +311,6 @@
           'is-valid': f.idProofType.valid
         }"
       >
-        <option>Select any One</option>
         <option *ngFor="let IdProof of IdProofs" value="{{ IdProof }}">
           {{ IdProof.replace("_", " ") | titlecase }}
         </option>

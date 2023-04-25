@@ -3,6 +3,7 @@ import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output, ViewChild }
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { ToastrService } from 'ngx-toastr';
 import { HttpClient } from '@angular/common/http';
+import { RefdataService } from 'src/app/services/refdata.service';
 
 @Component({
   selector: 'app-form',
@@ -17,7 +18,8 @@ export class FormComponent implements OnInit {
     private imageCompress: NgxImageCompressService,
     private toastr: ToastrService,
     private http: HttpClient,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private refdataService: RefdataService
   ) {}
   purposes!: string[];
   showSpinner!: boolean;
@@ -55,6 +57,7 @@ export class FormComponent implements OnInit {
     idProofNumber: ['', Validators.required],
     idProofType: ['', Validators.required],
     idProofImageBase64: [''],
+    cardNumber: ['']
   });
   get f() {
     return this.formGroup.controls;
@@ -67,6 +70,7 @@ export class FormComponent implements OnInit {
         Validators.required
       );
     }
+    this.formGroup.controls['visitorType'].setValue('');
     this.cdr.detectChanges();
   }
   changeLocation(e: any) {
@@ -80,6 +84,7 @@ export class FormComponent implements OnInit {
   }
   resetForm() {
     this.formRef.reset();
+    this.isSubmitted = false;
   }
   onSubmit() {
     this.isSubmitted = true;
@@ -155,12 +160,17 @@ export class FormComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-    this.http
-      .get('http://localhost:8080/api/refdata')
+    this.refdataService.getRefdata()
       .subscribe((data: any) => {
         this.purposes = data?.responseData?.visitorsPurposes || [];
         this.visitorTypes = data?.responseData?.visitorsTypes || [];
         this.IdProofs = data?.responseData?.visitorsIdTypes || [];
+      }).add(()=>{
+        this.refdataService.refDataObj={
+          purposes: this.purposes,
+          visitorTypes: this.visitorTypes,
+          IdProofs: this.IdProofs
+        }
       });
   }
 }

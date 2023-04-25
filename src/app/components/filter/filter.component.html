@@ -82,48 +82,21 @@
             </div>
             <div class="col-lg-4 col-md-6">
               <div class="row">
-                <label for="purposeOfVisit" class="col-sm-3 col-form-label"
-                  >Purpose of Visit</label
-                >
-                <div class="col-sm-9">
-                  <input
-                    type="text"
-                    class="form-control form-control-sm"
-                    id="purposeOfVisit"
-                    formControlName="purposeOfVisit"
-                  />
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-              <div class="row">
-                <label for="visitorType" class="col-sm-3 col-form-label"
-                  >Visitor Type</label
-                >
-                <div class="col-sm-9">
-                  <input
-                    type="text"
-                    class="form-control form-control-sm"
-                    id="visitorType"
-                    formControlName="visitorType"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-4 col-md-6">
-              <div class="row">
                 <label for="idProofType" class="col-sm-3 col-form-label"
                   >ID Proof Type</label
                 >
                 <div class="col-sm-9">
-                  <input
-                    type="text"
-                    class="form-control form-control-sm"
+                  <select
+                    class="form-select form-select-sm"
                     id="idProofType"
                     formControlName="idProofType"
-                  />
+                    (change)="changeIdProofType($event)"
+                  >
+                  <option disabled selected value> -- select an option -- </option>
+                  <option *ngFor="let IdProof of refdata.refDataObj.IdProofs" value="{{ IdProof }}">
+                      {{ IdProof.replace("_", " ") | titlecase }}
+                    </option>
+                  </select>
                 </div>
               </div>
             </div>
@@ -160,6 +133,8 @@
                 </div>
               </div>
             </div>
+          </div>
+          <div class="row">
             <div class="col-lg-4 col-md-6">
               <div class="row">
                 <label for="outTime" class="col-sm-3 col-form-label"
@@ -190,6 +165,70 @@
                       />
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+              <div class="row">
+                <label for="purposeOfVisit" class="col-sm-3 col-form-label"
+                  >Purpose of Visit</label
+                >
+                <div class="col-sm-9">
+                  <select
+                    class="form-select form-select-sm"
+                    id="purposeOfVisit"
+                    formControlName="purposeOfVisit"
+                    (change)="changePurposeOfVisit($event)"
+                  >
+                  <option disabled selected value> -- select an option -- </option>
+                    <option
+                      *ngFor="let purpose of refdata.refDataObj.purposes"
+                      value="{{ purpose }}"
+                    >
+                      {{ purpose | titlecase }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-lg-4 col-md-6"
+              *ngIf="f.purposeOfVisit.value === 'Others'"
+            >
+              <div class="row">
+                <label for="otherPurpose" class="col-sm-3 col-form-label"
+                  >Other purpose</label
+                >
+                <div class="col-sm-9">
+                  <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    id="otherPurpose"
+                    formControlName="otherPurpose"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6" *ngIf="f.purposeOfVisit.value === 'Interview'">
+              <div class="row">
+                <label for="visitorType" class="col-sm-3 col-form-label"
+                  >Visitor Type</label
+                >
+                <div class="col-sm-9">
+                  <select
+                    class="form-select form-select-sm"
+                    id="visitorType"
+                    formControlName="visitorType"
+                    (change)="changeVisitorType($event)"
+                  >
+                  <option disabled selected value> -- select an option -- </option>
+                  <option
+                      *ngFor="let visitorType of refdata.refDataObj.visitorTypes"
+                      value="{{ visitorType }}"
+                    >
+                      {{ visitorType | titlecase }}
+                    </option>
+                  </select>
                 </div>
               </div>
             </div>

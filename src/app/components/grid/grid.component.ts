@@ -44,6 +44,7 @@ export class GridComponent implements OnInit {
       },
     },
     { headerName: 'Email', field: 'email' },
+    { headerName: 'Card Number', field: 'cardNumber' },
     { headerName: 'Phone Number', field: 'phoneNumber' },
     { headerName: 'Point of Contact', field: 'pointOfContact' },
     { headerName: 'Point of Contact EMail', field: 'pointOfContactEmail' },
