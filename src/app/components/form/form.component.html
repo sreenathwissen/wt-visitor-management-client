@@ -89,7 +89,7 @@
     </div>
     <div class="mb-3">
       <label for="fullName" class="form-label"
-        >Card Number<span class="required">*</span></label
+        >Card Number</label
       >
       <input
         type="text"
@@ -268,7 +268,9 @@
             class="prof"
             src="{{
               formGroup.controls['visitorImageBase64'].value
-                ? formGroup.controls['visitorImageBase64'].value
+                ? (formGroup.controls['visitorImageBase64'].value.indexOf('data:image/png;base64,') === -1 ?
+                'data:image/png;base64,'+ formGroup.controls['visitorImageBase64'].value :
+                formGroup.controls['visitorImageBase64'].value)
                 : '../../../assets/images/dummy-prof.png'
             }}"
           />
@@ -375,7 +377,9 @@
             class="id-pic"
             src="{{
               formGroup.controls['idProofImageBase64'].value
-                ? formGroup.controls['idProofImageBase64'].value
+                ? (formGroup.controls['idProofImageBase64'].value.indexOf('data:image/png;base64,') === -1 ?
+                'data:image/png;base64,'+ formGroup.controls['idProofImageBase64'].value :
+                formGroup.controls['idProofImageBase64'].value)
                 : '../../../assets/images/id-card.png'
             }}"
           />
