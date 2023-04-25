@@ -28,6 +28,7 @@ export class FormComponent implements OnInit {
   IdProofs!: string[];
   isSubmitted!: boolean;
   formGroup = this._formBuilder.group({
+    id: [''],
     fullName: ['', Validators.required],
     email: [
       '',
@@ -83,6 +84,7 @@ export class FormComponent implements OnInit {
     this.formGroup.controls['idProofType'].setValue(e.target.value);
   }
   resetForm() {
+    this.formGroup.reset();
     this.formRef.reset();
     this.isSubmitted = false;
   }
@@ -108,6 +110,10 @@ export class FormComponent implements OnInit {
         .subscribe((resp: any) => {
           if (resp.responseStatus === 'SUCCESS') {
             this.toastr.success('Visitor Added Successfully', 'Success');
+            //check if it is edit mode
+            if(this.f['id'].value) {
+              resp.responseData.editMode = true; 
+            }   
             this.formRef.resetForm();
             this.formGroup.reset();
             this.formGroup.markAsUntouched();
@@ -127,13 +133,6 @@ export class FormComponent implements OnInit {
     }
   }
   handleFailure() {
-    this.f['visitorImageBase64'].setValue(
-      'data:image/png;base64,' + this.f['visitorImageBase64'].value
-    );
-    if(this.f['idProofImageBase64'].value)
-      this.f['idProofImageBase64'].setValue(
-        'data:image/png;base64,' + this.f['idProofImageBase64'].value
-      );
     this.toastr.error('Some error occurred', 'Failure');
   }
   compressFile(controlName: string, width: number, height: number) {

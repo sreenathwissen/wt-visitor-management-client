@@ -26,7 +26,7 @@ export class GridComponent implements OnInit {
           type="button"
           class="btn btn-primary btn-sm"
           data-toggle="modal"
-          data-target="#exampleModalCenter3"
+          data-target="#exampleModalCenter2"
         >
         <i class="fa-solid fa-eye"></i>&nbsp;View
         </button>`;
@@ -71,6 +71,7 @@ export class GridComponent implements OnInit {
   selectedRowNode!: RowNode;
   showSpinner!: boolean;
   api: any;
+  isNew!: boolean;
   constructor(private toastr: ToastrService, private http: HttpClient) {}
   ngOnInit(): void {
     this.showSpinner = true;
@@ -88,7 +89,9 @@ export class GridComponent implements OnInit {
   onRowClicked(e: any) {
     if (e.event.target?.getAttribute('data-toggle') === 'modal') {
       this.selectedVisitor = e.data;
-      this.selectedRowNode = e.node;
+      this.selectedRowNode = e.node;    
+      this.isNew = false;
+      this.formComponent.formGroup.patchValue(this.selectedVisitor);
     }
   }
   updateOutTime(id: number) {
@@ -128,8 +131,12 @@ export class GridComponent implements OnInit {
   }
   closeModalWithAppendData(e: any) {
     this.addVisitorModal.nativeElement.click();
-    this.rowData.unshift(e);
-    this.rowData = [...this.rowData];
+    if(e.editMode) {
+      this.selectedRowNode.setData(e);
+    } else {
+      this.rowData.unshift(e);
+      this.rowData = [...this.rowData];
+    }
   }
   onGridReady = (params: any) => {
     this.api = params.api;
