@@ -20,7 +20,7 @@ export class FormComponent implements OnInit {
     private http: HttpClient,
     private cdr: ChangeDetectorRef,
     private refdataService: RefdataService
-  ) {}
+  ) { }
   purposes!: string[];
   showSpinner!: boolean;
   visitorTypes!: string[];
@@ -58,7 +58,7 @@ export class FormComponent implements OnInit {
     idProofNumber: ['', Validators.required],
     idProofType: ['', Validators.required],
     idProofImageBase64: [''],
-    cardNumber: ['']
+    tempCardNo: ['']
   });
   get f() {
     return this.formGroup.controls;
@@ -100,7 +100,7 @@ export class FormComponent implements OnInit {
       this.f['visitorImageBase64'].setValue(
         this.f['visitorImageBase64'].value.replace('data:image/png;base64,', '')
       );
-      if(this.f['idProofImageBase64'].value)
+      if (this.f['idProofImageBase64'].value)
         this.f['idProofImageBase64'].setValue(
           this.f['idProofImageBase64'].value.replace('data:image/png;base64,', '')
         );
@@ -111,9 +111,9 @@ export class FormComponent implements OnInit {
           if (resp.responseStatus === 'SUCCESS') {
             this.toastr.success('Visitor Added Successfully', 'Success');
             //check if it is edit mode
-            if(this.f['id'].value) {
-              resp.responseData.editMode = true; 
-            }   
+            if (this.f['id'].value) {
+              resp.responseData.editMode = true;
+            }
             this.formRef.resetForm();
             this.formGroup.reset();
             this.formGroup.markAsUntouched();
@@ -124,9 +124,9 @@ export class FormComponent implements OnInit {
             this.handleFailure();
           }
         },
-        err => {
-          this.handleFailure();
-        })
+          err => {
+            this.handleFailure();
+          })
         .add(() => {
           this.showSpinner = false;
         });
@@ -164,8 +164,8 @@ export class FormComponent implements OnInit {
         this.purposes = data?.responseData?.visitorsPurposes || [];
         this.visitorTypes = data?.responseData?.visitorsTypes || [];
         this.IdProofs = data?.responseData?.visitorsIdTypes || [];
-      }).add(()=>{
-        this.refdataService.refDataObj={
+      }).add(() => {
+        this.refdataService.refDataObj = {
           purposes: this.purposes,
           visitorTypes: this.visitorTypes,
           IdProofs: this.IdProofs

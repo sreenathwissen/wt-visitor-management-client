@@ -16,35 +16,47 @@ export class GridComponent implements OnInit {
   @ViewChild('checkoutVisitorModal') checkoutVisitorModal!: ElementRef;
   columnDefs = [
     { headerName: 'Visitor ID Number', field: 'id', hide: true },
-    { headerName: 'Full Name', field: 'fullName' },
     {
       headerName: 'Action',
       field: 'view',
-      width: 203,
-      cellRenderer: (params: any) => {    
-        let ret = `<button
+      pinned: true,
+      filter: false,
+      width: 150,
+      cellRenderer: (params: any) => {
+        if (params.data?.outTime) {
+          return `<button
+            type="button"
+            class="btn btn-primary btn-sm"
+            data-toggle="modal"
+            data-target="#exampleModalCenter2"
+          >
+          <i class="fa-solid fa-eye"></i>
+          </button>`;
+        }
+        else {
+          return `
+          <button
           type="button"
           class="btn btn-primary btn-sm"
           data-toggle="modal"
           data-target="#exampleModalCenter2"
         >
-        <i class="fa-solid fa-eye"></i>&nbsp;View
-        </button>`;
-        if(!params.data?.outTime)
-        {ret = ret + `
+        <i class="fa-solid fa-pencil"></i>
+        </button>
         <button
           type="button"
           class="btn btn-success btn-sm checkout"
           data-toggle="modal"
           data-target="#exampleModalCenter"
         >
-        <i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i>&nbsp;Checkout
-        </button>`;}
-        return ret;
+        <i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i>
+        </button>`;
+        }
       },
     },
+    { headerName: 'Full Name', field: 'fullName', pinned: true },
     { headerName: 'Email', field: 'email' },
-    { headerName: 'Card Number', field: 'cardNumber' },
+    { headerName: 'Temp Card No', field: 'tempCardNo' },
     { headerName: 'Phone Number', field: 'phoneNumber' },
     { headerName: 'Point of Contact', field: 'pointOfContact' },
     { headerName: 'Point of Contact EMail', field: 'pointOfContactEmail' },
@@ -66,13 +78,14 @@ export class GridComponent implements OnInit {
     filter: true,
     floatingFilter: true,
     resizable: true,
+    cellStyle: { border: "none" }
   };
   selectedVisitor: any;
   selectedRowNode!: RowNode;
   showSpinner!: boolean;
   api: any;
   isNew!: boolean;
-  constructor(private toastr: ToastrService, private http: HttpClient) {}
+  constructor(private toastr: ToastrService, private http: HttpClient) { }
   ngOnInit(): void {
     this.showSpinner = true;
     this.http
@@ -89,7 +102,7 @@ export class GridComponent implements OnInit {
   onRowClicked(e: any) {
     if (e.event.target?.getAttribute('data-toggle') === 'modal') {
       this.selectedVisitor = e.data;
-      this.selectedRowNode = e.node;    
+      this.selectedRowNode = e.node;
       this.isNew = false;
       this.formComponent.formGroup.patchValue(this.selectedVisitor);
     }
@@ -131,7 +144,7 @@ export class GridComponent implements OnInit {
   }
   closeModalWithAppendData(e: any) {
     this.addVisitorModal.nativeElement.click();
-    if(e.editMode) {
+    if (e.editMode) {
       this.selectedRowNode.setData(e);
     } else {
       this.rowData.unshift(e);
@@ -140,7 +153,7 @@ export class GridComponent implements OnInit {
   }
   onGridReady = (params: any) => {
     this.api = params.api;
-}
+  }
   downloadExcel() {
     this.api.exportDataAsExcel();
   }
