@@ -10,7 +10,7 @@
   class="btn btn-success add-visitor-btn"
   data-toggle="modal"
   data-target="#exampleModalCenter2"
-  (click)="isNew = true"
+  (click)="isNew = true; selectedVisitor = null"
   #addVisitorModal
 >
   <i class="fa-solid fa-user-plus"></i>&nbsp;Visitor
@@ -79,9 +79,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle">
-          {{
-            isNew ? "New" : selectedVisitor?.outTime ? "View" : "Update"
-          }}
+          {{ isNew ? "New" : selectedVisitor?.outTime ? "View" : "Update" }}
           Visitor Details
         </h5>
         <button
