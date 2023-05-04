@@ -1,5 +1,12 @@
 import { FormBuilder, NgForm, Validators } from '@angular/forms';
-import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { ToastrService } from 'ngx-toastr';
 import { HttpClient } from '@angular/common/http';
@@ -20,7 +27,7 @@ export class FormComponent implements OnInit {
     private http: HttpClient,
     private cdr: ChangeDetectorRef,
     private refdataService: RefdataService
-  ) { }
+  ) {}
   purposes!: string[];
   showSpinner!: boolean;
   visitorTypes!: string[];
@@ -58,7 +65,8 @@ export class FormComponent implements OnInit {
     idProofNumber: ['', Validators.required],
     idProofType: ['', Validators.required],
     idProofImageBase64: [''],
-    tempCardNo: ['']
+    tempCardNo: [''],
+    inTime: [''],
   });
   get f() {
     return this.formGroup.controls;
@@ -102,31 +110,41 @@ export class FormComponent implements OnInit {
       );
       if (this.f['idProofImageBase64'].value)
         this.f['idProofImageBase64'].setValue(
-          this.f['idProofImageBase64'].value.replace('data:image/png;base64,', '')
+          this.f['idProofImageBase64'].value.replace(
+            'data:image/png;base64,',
+            ''
+          )
         );
       console.log(this.formGroup.value);
       this.http
         .post('http://localhost:8080/api/visitor', this.formGroup.value)
-        .subscribe((resp: any) => {
-          if (resp.responseStatus === 'SUCCESS') {
-            this.toastr.success('Visitor Added Successfully', 'Success');
-            //check if it is edit mode
-            if (this.f['id'].value) {
-              resp.responseData.editMode = true;
+        .subscribe(
+          (resp: any) => {
+            if (resp.responseStatus === 'SUCCESS') {
+              this.toastr.success(
+                'Visitor ' +
+                  (this.formGroup.value.inTime ? 'Updated' : 'Added') +
+                  ' Successfully',
+                'Success'
+              );
+              //check if it is edit mode
+              if (this.f['id'].value) {
+                resp.responseData.editMode = true;
+              }
+              this.formRef.resetForm();
+              this.formGroup.reset();
+              this.formGroup.markAsUntouched();
+              this.isSubmitted = false;
+              //TODO: close modal and append resp to rowData
+              this.closeModal.emit(resp.responseData);
+            } else {
+              this.handleFailure();
             }
-            this.formRef.resetForm();
-            this.formGroup.reset();
-            this.formGroup.markAsUntouched();
-            this.isSubmitted = false;
-            //TODO: close modal and append resp to rowData
-            this.closeModal.emit(resp.responseData);
-          } else {
+          },
+          (err) => {
             this.handleFailure();
           }
-        },
-          err => {
-            this.handleFailure();
-          })
+        )
         .add(() => {
           this.showSpinner = false;
         });
@@ -159,17 +177,19 @@ export class FormComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-    this.refdataService.getRefdata()
+    this.refdataService
+      .getRefdata()
       .subscribe((data: any) => {
         this.purposes = data?.responseData?.visitorsPurposes || [];
         this.visitorTypes = data?.responseData?.visitorsTypes || [];
         this.IdProofs = data?.responseData?.visitorsIdTypes || [];
-      }).add(() => {
+      })
+      .add(() => {
         this.refdataService.refDataObj = {
           purposes: this.purposes,
           visitorTypes: this.visitorTypes,
-          IdProofs: this.IdProofs
-        }
+          IdProofs: this.IdProofs,
+        };
       });
   }
 }
