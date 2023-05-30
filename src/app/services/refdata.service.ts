@@ -11,7 +11,7 @@ export class RefdataService {
 
   refDataObj: any = {};
 
-  getRefdata(): Observable<any> {
+  public getRefdata(): Observable<any> {
     return this.http
       .get('http://localhost:8080/api/refdata');
   }

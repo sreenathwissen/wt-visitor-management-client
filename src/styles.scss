@@ -1,8 +1,14 @@
 @import "~ag-grid-community/styles//ag-grid.css";
 @import "~ag-grid-community/styles//ag-theme-material.css";
-
 /* You can add global styles to this file, and also import other style files */
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.modal-content-color .mat-dialog-container{
+  background-color: rgb(219, 235, 241);
+  border-radius: 5px;
 }
