@@ -44,3 +44,30 @@
 .reset {
   margin-left: 0.5rem;
 }
+
+.filter-heading {
+  font-size: 1rem;
+  font-weight: 410;
+}
+
+.filter-heading-margin {
+  margin: 9rem;
+  color: rgba(13,153,255,1);
+}
+
+.filter-heading-label {
+  font-size: 1rem;
+  font-weight: 410;
+  color: grey;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.filter-date-time {
+  display: inline;
+}
+
+.filter-heading-button {
+  margin-top: 5rem;
+  margin-left: 40%;
+}

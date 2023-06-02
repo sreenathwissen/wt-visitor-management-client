@@ -1,6 +1,10 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { RefdataService } from 'src/app/services/refdata.service';
+import { VisitorDataService } from 'src/app/services/visitor-data.service';
+import { refData } from 'src/app/services/visitor-dataTypes';
 
 @Component({
   selector: 'app-filter',
@@ -9,68 +13,80 @@ import { RefdataService } from 'src/app/services/refdata.service';
 })
 export class FilterComponent implements OnInit {
   @Output() searchWithFilterParams = new EventEmitter<{}[]>();
-  constructor(private _formBuilder: FormBuilder, public refdata: RefdataService) {}
+  public visitorsPurposes!: any;
+  public purposeOfVisitForm: any;
+  public visitorTypes!: string[];
+  showSpinner!: boolean;
+  visitorData: any;
+
+  constructor(private _formBuilder: FormBuilder, public refdata: RefdataService, 
+    public dialogRef: MatDialogRef<FilterComponent>, private _refdataService: RefdataService,
+    private _http: HttpClient, private _visitorDataService: VisitorDataService) {}
+
   formGroup = this._formBuilder.group({
-    fullName: [''],
-    email: [''],
     purposeOfVisit: [''],
-    otherPurpose: [''],
+    inDate: [''],
+    checkInTime:[''],
+    outDate: [''],
+    checkOutTime: [''],
     pointOfContact: [''],
-    location: [''],
-    visitorType: [''],
-    idProofType: [''],
-    inTimeFrom: [''],
-    inTimeTo: [''],
-    outTimeFrom: [''],
-    outTimeTo: [''],
+    otherPurpose: [''],
+    visitorType: ['']
   });
-  ngOnInit(): void {}
+
+  ngOnInit(): void {
+    this._refdataService.getRefdata().subscribe((refData: refData)=> {
+      this.visitorsPurposes = refData.responseData.visitorsPurposes;
+      this.visitorTypes = refData.responseData.visitorsTypes;
+   });
+  }
+
   onSubmit() {
     let filterParams: any[] = [];
     (
       Object.keys(this.formGroup.controls) as (keyof typeof FormGroup)[]
     ).forEach((key: any, index) => {
-      if(key === 'purposeOfVisit' && this.formGroup.controls['purposeOfVisit'].value === 'Others') {
+      if(key === 'purposeOfVisit' && this.purposeOfVisitForm === 'Others') {
         filterParams.push({
           dataType: "STRING",
           fieldName: 'purposeOfVisit',
-          operator: 'LIKE',
+          operator: 'EQUALS',
           values: [this.formGroup.controls['otherPurpose'].value],
         });
       }
       if (
         JSON.stringify(filterParams).indexOf('inTime') === -1 &&
-        (key === 'inTimeFrom' || key === 'inTimeTo') &&
-        (this.formGroup.controls['inTimeFrom'].touched ||
-          this.formGroup.controls['inTimeTo'].touched)
+        (key === 'inDate' || key === 'checkInTime') &&
+        (this.formGroup.controls['inDate'].touched ||
+          this.formGroup.controls['checkInTime'].touched)
       ) {
-        this.formGroup.controls['inTimeFrom'].setValue(
-          this.formGroup.controls['inTimeFrom'].value || '2023-01-01'
+        this.formGroup.controls['inDate'].setValue(
+          this.formGroup.controls['inDate'].value || '2023-01-01'
         );
-        this.formGroup.controls['inTimeTo'].setValue(
-          this.formGroup.controls['inTimeTo'].value ||
-            new Date().toISOString().split('T')[0]
+        this.formGroup.controls['checkInTime'].setValue(
+          this.formGroup.controls['checkInTime'].value ||
+            '00:00:00'
         );
         filterParams.push({
           dataType: "DATE",
           fieldName: 'inTime',
           operator: 'BETWEEN',
           values: [
-            new Date(this.formGroup.controls['inTimeFrom'].value).toISOString().slice(0,10)+'T00:00:00',
-            new Date(this.formGroup.controls['inTimeTo'].value).toISOString().slice(0,10)+'T23:59:59',
+            new Date(this.formGroup.controls['inDate'].value).toISOString().slice(0,10)+'T00:00:00',
+            new Date(this.formGroup.controls['inDate'].value).toISOString().slice(0,10)+'T'+this.formGroup.controls['checkInTime'].value
           ],
         });
       } else if (
         JSON.stringify(filterParams).indexOf('outTime') === -1 &&
-        (key === 'outTimeFrom' || key === 'outTimeTo') &&
-        (this.formGroup.controls['outTimeFrom'].touched ||
-          this.formGroup.controls['outTimeTo'].touched)
+        (key === 'outDate' || key === 'checkOutTime') &&
+        (this.formGroup.controls['outDate'].touched ||
+          this.formGroup.controls['checkOutTime'].touched)
       ) {
-        this.formGroup.controls['outTimeFrom'].setValue(
-          this.formGroup.controls['outTimeFrom'].value || '2023-01-01'
+        this.formGroup.controls['outDate'].setValue(
+          this.formGroup.controls['outDate'].value || '2023-01-01'
         );
-        this.formGroup.controls['outTimeTo'].setValue(
-          this.formGroup.controls['outTimeTo'].value ||
+        this.formGroup.controls['checkOutTime'].setValue(
+          this.formGroup.controls['checkOutTime'].value ||
             new Date().toISOString().split('T')[0]
         );
         filterParams.push({
@@ -78,8 +94,8 @@ export class FilterComponent implements OnInit {
           fieldName: 'outTime',
           operator: 'BETWEEN',
           values: [
-            new Date(this.formGroup.controls['outTimeFrom'].value).toISOString().slice(0,10)+'T00:00:00',
-            new Date(this.formGroup.controls['outTimeTo'].value).toISOString().slice(0,10)+'T23:59:59',
+            new Date(this.formGroup.controls['outDate'].value).toISOString().slice(0,10)+'T00:00:00',
+            new Date(this.formGroup.controls['outDate'].value).toISOString().slice(0,10)+'T'+this.formGroup.controls['checkOutTime'].value
           ],
         });
       } else if (
@@ -95,7 +111,22 @@ export class FilterComponent implements OnInit {
         });
       }
     });
-    this.searchWithFilterParams.emit(filterParams);
+    this.searchWithFilter(filterParams);
+  }
+
+  public searchWithFilter(params: any): void {
+    this.showSpinner = true;
+    this._http
+      .post('http://localhost:8080/api/visitor/fetch', params)
+      .subscribe((resp: any) => {
+        if (resp.responseStatus === 'SUCCESS') {
+          this.visitorData = resp.responseData;
+          this.dialogRef.close(this.visitorData);
+        }
+      })
+      .add(() => {
+        this.showSpinner = false;
+      });
   }
 
   get f() {
@@ -103,11 +134,7 @@ export class FilterComponent implements OnInit {
   }
 
   changePurposeOfVisit(e: any) {
-    this.formGroup.controls['purposeOfVisit'].setValue(e.target.value);
-    this.formGroup.controls['visitorType'].setValue('');
-    this.formGroup.controls['visitorType'].markAsUntouched();
-    this.formGroup.controls['otherPurpose'].setValue('');
-    this.formGroup.controls['otherPurpose'].markAsUntouched();
+    this.purposeOfVisitForm = this.formGroup.controls['purposeOfVisit'].value;
   }
 
   changeVisitorType(e: any) {
@@ -116,5 +143,9 @@ export class FilterComponent implements OnInit {
 
   changeIdProofType(e: any) {
     this.formGroup.controls['idProofType'].setValue(e.target.value);
+  }
+
+  public cancel(): void {
+    this.dialogRef.close();
   }
 }
