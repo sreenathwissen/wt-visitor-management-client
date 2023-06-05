@@ -15,7 +15,11 @@ import { CheckoutComponent } from './checkout/checkout.component';
 export class AdminComponent implements OnInit {
   @ViewChild(FormComponent) formComponent!: FormComponent;
   columnDefs = [
-    { headerName: 'Full Name', field: 'fullName', suppressSizeToFit: false},
+    { headerName: 'Full Name', field: 'fullName', suppressSizeToFit: false, 
+    cellRenderer: (params: any) => {
+      return `<img src="data:image/png;base64, ${params.data?.visitorImageBase64}" style="border-radius:50%;" width="30px" height="30px"/>
+      <span style="margin-left:15px;">${params.data?.fullName}</span>`;
+    }},
     { headerName: 'Email Address', field: 'email', suppressSizeToFit: false},
     { headerName: 'Phone Number', field: 'phoneNumber', suppressSizeToFit: false},
     { headerName: 'Point of Contact', field: 'pointOfContact', suppressSizeToFit: false},
@@ -24,22 +28,22 @@ export class AdminComponent implements OnInit {
     {
       headerName: 'status',
       field: '',
-      width: 150,
+      width: 180,
       cellRenderer: (params: any) => {
         if (params.data?.outTime) {
           return `<button
             type="button"
             class="btn btn-secondary btn-sm"
           >
-          Checked Out
-          </button>`;
+          Checked Out</button>`;
         } else {
           return `
           <button
           type="button"
-          class="btn btn-danger btn-sm"
+          class="btn btn-sm"
+          style="background-color:rgba(245, 119, 119, 0.37) !important; color: rgba(182, 8, 8, 0.699); border: 0px; width:100%;"
         >
-        Active
+         Active
         </button>`;
         }
       },
