@@ -119,8 +119,12 @@ export class AdminComponent implements OnInit {
   };
 
   public getVisitorsDetails(item: visitorTypesCount): void {
-   if(this._visitorDataService.getVisitorsDetails()) {
-    this.visitorDetails = this._visitorDataService.getVisitorsDetails();
+   if(this._visitorDataService.selectedRowNode) {
+    this.visitorDetails.filter(data => {
+      if(data.id === this._visitorDataService.selectedRowNode.data.id){
+        const index = this.visitorDetails.indexOf(data);
+        this.visitorDetails[index] = this._visitorDataService.selectedRowNode.data;
+      }});
    }
     if((item.visitorType === 'Meeting') || (item.visitorType === 'Interview') || (item.visitorType === 'Vendor')) {
       this.rowData = this.visitorDetails.filter(row => row.purposeOfVisit === item.visitorType);
