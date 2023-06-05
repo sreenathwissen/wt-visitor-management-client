@@ -33,9 +33,6 @@ export class CheckoutPopupComponent {
               this.toastr.success('Visitor Updated Successfully', 'Success');
               this._visitorDataService.selectedRowNode.setData(resp.responseData);
               this.dialogRef.close();
-              this._visitorDataService.getVisitersData().subscribe(data => {
-                this._visitorDataService.setVisitorsDetails(data.responseData);
-              })
             }
           },
           (error) => {
