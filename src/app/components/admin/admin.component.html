@@ -1,0 +1,44 @@
+<div class="admin-dashboard">
+<section>
+    <div class="topnav">
+    <span class="admin-dashboard_title">Admin Dashboard</span>
+    <div class="search-container">
+        <form>
+          <div class="admin-search-bar">
+          <input type="text" placeholder="Search By Name...." name="search">
+          <button type="submit"><i class="fa fa-search"></i></button>
+        </div>
+        </form>
+        <i class="fa fa-filter admin-filter"></i>
+    </div>
+    
+</div>
+</section>
+<section>
+ <button class="visitor-types" *ngFor="let item of visitorType" (click)="getVisitorsDetails(item)">
+    <img [src]=item.img height="50px" width="50px" class="visitors-img"/>
+    <span class="visitors-type">{{item.visitorType}}<p class="visitor-active-title">&nbsp;</p></span>
+    <span class="visitors-count"><span class="visitors-count-item">{{item.count}}</span><p class="visitor-active-title">Active count</p>
+    </span>
+ </button>
+</section>
+<section class="visitors-list">
+    <ag-grid-angular
+  class="ag-theme-material"
+  [rowData]="rowData"
+  [columnDefs]="columnDefs"
+  [defaultColDef]="defaultColDef"
+  (rowClicked)="onRowClicked($event)"
+  [pagination]="true"
+  [paginationAutoPageSize]="true"
+  (gridReady)="onGridReady($event)"
+>
+</ag-grid-angular>
+
+<div class="overlay" *ngIf="showSpinner">
+  <div class="spinner-border text-primary" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+</section>
+</div>

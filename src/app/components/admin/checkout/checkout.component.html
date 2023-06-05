@@ -1,0 +1,12 @@
+<span *ngIf="checkedOut; else active">
+    <button type="button" class="btn btn-outline-light" disabled>
+        <img src="./assets/images/checkout.jpg" />
+    </button>
+</span>
+<ng-template #active>
+    <span>
+        <button type="button" class="btn btn-outline-light" (click)="openDialog()">
+            <img src="./assets/images/checkout.jpg" />
+        </button>
+    </span>
+</ng-template>

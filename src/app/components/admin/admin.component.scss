@@ -1,0 +1,109 @@
+.admin-dashboard {
+    background-color: rgb(206, 220, 224);
+    height: 50.313rem;
+}
+
+.admin-header {
+    margin-top: 30px;
+}
+
+.admin-dashboard_title {
+    font-size: 20px;
+    padding-left: 50px;
+    font-weight: 600;
+}
+
+.topnav .search-container {
+    float: right;
+    border: 1px solid grey;
+}
+  
+.topnav input[type=text] {
+    padding: 6px;
+    margin-top: 8px;
+    font-size: 17px;
+    border: none;
+    border-radius: 5px 0 0 5px;
+    font-style: italic;
+}
+  
+.topnav .search-container button {
+    float: right;
+    padding: 6px 10px;
+    margin-top: 8px;
+    margin-right: 16px;
+    background: white;
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+    border-radius: 0 5px 5px 0;
+    border-left: 1px solid grey;
+}
+
+.topnav .admin-filter {
+    float: right;
+    position: absolute;
+    left: 95%;
+    margin-top: 8px;
+}
+
+.admin-search-bar {
+    position: absolute;
+    left: 75%;
+}
+
+.visitor-types {
+    display: inline-block;
+    border-radius: 10px;
+    background-color: white;
+    color: black;
+    height: 70px;
+    width: 278px;
+    margin-left: 50px;
+    margin-top: 50px;
+    border: none;
+}
+
+.visitors-img {
+    margin-right: 10px;
+    margin-left: 20px;
+    margin-top: -26px;
+}
+
+.visitors-type {
+    margin: 20px;
+    font-weight: 600;
+    color:grey;
+    font-size: 17px;
+    margin-top: 20px;
+    width: 60px;
+    display: inline-block;
+}
+
+.visitors-count {
+    font-weight: 600;
+    color:black;
+    font-size: 25px;
+    margin-top: 5px;
+    width: 60px;
+    display: inline-block;
+}
+
+.visitor-active-title {
+    font-size:10px;
+    color:grey;
+}
+
+.visitors-count-item {
+    margin-left: 16px;
+}
+
+.visitors-list {
+    margin: 50px;
+    background: white;
+}
+
+.admin-filter {
+    font-size: 25px;
+    color: rgb(133, 55, 197);
+}

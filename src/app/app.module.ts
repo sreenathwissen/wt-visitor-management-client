@@ -8,19 +8,24 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FormModule } from './modules/form.module';
 import { GridModule } from './modules/grid.module';
+import { AgGridModule } from 'ag-grid-angular';
+import { AdminModule } from './modules/admin.module';
 
 @NgModule({
   declarations: [AppComponent, NavbarComponent],
   providers: [],
   bootstrap: [AppComponent],
   imports: [
+    AgGridModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     CommonModule,
     FormModule,
     GridModule,
+    AdminModule
   ],
-  exports: [],
+  exports: [
+  ],
 })
 export class AppModule {}
