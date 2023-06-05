@@ -6,6 +6,7 @@ import { VisitorDataService } from 'src/app/services/visitor-data.service';
 import { refData, responseData, visitorTypesCount, visitorsDataType } from 'src/app/services/visitor-dataTypes';
 import { RefdataService } from 'src/app/services/refdata.service';
 import { CheckoutComponent } from './checkout/checkout.component';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-admin',
@@ -88,7 +89,13 @@ export class AdminComponent implements OnInit {
   }
 
   public getVisitorData(): void {
-    this._visitorDataService.getVisitersData().subscribe((visitorsData: visitorsDataType) => {
+    this._visitorDataService.getVisitersData().pipe(
+      map((data: any) => { data.responseData.sort((x: any, y: any) => {
+        console.log(x?.outTime?.slice(11) < y?.outTime?.slice(11));
+        const date1 = x.outTime ? new Date(x.outTime) : new Date();
+        const date2 = y.outTime ? new Date(y.outTime) : new Date();
+        return date1.getTime() < date2.getTime() ? 1 : -1})
+      return data;})).subscribe((visitorsData: visitorsDataType) => {
       if(visitorsData.responseStatus === 'SUCCESS') {
         this.getPurposeofVisitCount(visitorsData);
         this.visitorType.push({"img": "./assets/images/meeting.jpg", "visitorType": this.visitorsPurposes[0], "count": this.meetings},
@@ -136,5 +143,11 @@ export class AdminComponent implements OnInit {
       this.rowData = this.visitorDetails.filter(row => (row.purposeOfVisit != "Meeting") && 
       (row.purposeOfVisit != "Interview") && (row.purposeOfVisit != "Vendor"));
     }
+  }
+
+  public onFilterChanged() {
+    this.api.setQuickFilter(
+      (document.getElementById('filter-text-box') as HTMLInputElement).value
+    );
   }
 }
