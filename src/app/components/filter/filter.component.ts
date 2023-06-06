@@ -46,7 +46,7 @@ export class FilterComponent implements OnInit {
    });
   }
 
-  onSubmit() {
+  public onSubmit() {
     let filterParams: any[] = [];
     (
       Object.keys(this.formGroup.controls) as (keyof typeof FormGroup)[]
