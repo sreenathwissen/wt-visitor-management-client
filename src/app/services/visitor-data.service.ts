@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { RowNode } from 'ag-grid-community';
 import { Observable, Subject } from 'rxjs';
-import { responseData } from './visitor-dataTypes';
 
 @Injectable({
   providedIn: 'root'

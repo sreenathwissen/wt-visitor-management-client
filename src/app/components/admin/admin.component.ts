@@ -1,12 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { RowNode } from 'ag-grid-community';
 import { FormComponent } from '../form/form.component';
 import 'ag-grid-enterprise';
 import { VisitorDataService } from 'src/app/services/visitor-data.service';
 import { refData, responseData, visitorTypesCount, visitorsDataType } from 'src/app/services/visitor-dataTypes';
 import { RefdataService } from 'src/app/services/refdata.service';
-import { CheckoutComponent } from './checkout/checkout.component';
+import { CheckoutComponent } from './checkout/checkout.component'; 
 import { map } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { FilterComponent } from '../filter/filter.component';
 
 @Component({
   selector: 'app-admin',
@@ -74,7 +75,8 @@ export class AdminComponent implements OnInit {
   public visitorsPurposes!: Array<string>;
 
   constructor(private _visitorDataService: VisitorDataService,
-    private _refdataService: RefdataService) { }
+    private _refdataService: RefdataService,
+    public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.showSpinner = true;
@@ -143,6 +145,20 @@ export class AdminComponent implements OnInit {
       this.rowData = this.visitorDetails.filter(row => (row.purposeOfVisit != "Meeting") && 
       (row.purposeOfVisit != "Interview") && (row.purposeOfVisit != "Vendor"));
     }
+  }
+
+  public openDialog(): void {
+    const dialogRef = this.dialog.open(FilterComponent, {
+      width: '310px',
+      height: '100%',
+      position: {left:'80%'}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.rowData = result;
+      }
+    }); 
   }
 
   public onFilterChanged() {
