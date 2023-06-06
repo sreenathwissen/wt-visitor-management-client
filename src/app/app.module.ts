@@ -10,6 +10,7 @@ import { FormModule } from './modules/form.module';
 import { GridModule } from './modules/grid.module';
 import { AgGridModule } from 'ag-grid-angular';
 import { AdminModule } from './modules/admin.module';
+import { VisitorModule } from './modules/visitor.module';
 
 @NgModule({
   declarations: [AppComponent, NavbarComponent],
@@ -23,7 +24,8 @@ import { AdminModule } from './modules/admin.module';
     CommonModule,
     FormModule,
     GridModule,
-    AdminModule
+    AdminModule,
+    VisitorModule
   ],
   exports: [
   ],

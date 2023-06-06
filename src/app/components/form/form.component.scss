@@ -10,8 +10,9 @@
 }
 
 .prof {
-  max-height: 100px;
-  max-width: 100px;
+  height: 200px;
+  width: 200px;
+  margin-left: 233px;
 }
 
 .id-pic {
@@ -46,4 +47,65 @@
 }
 .bottom-button {
   margin-right: 2rem;
+}
+
+.container{    
+  max-width: 800px;
+  left: 20%;
+  position: absolute;
+  top:15%;
+  border: 1px solid black;
+  padding: 70px;
+  background-color: white;
+}
+
+::placeholder,option, [hidden]  {
+  color: grey;
+  opacity: 1;
+  font-size: 1rem;
+}
+
+.dashed {
+  border-style: dashed;
+  height: 200px;
+  width: 200px;
+  margin-left: 220px;
+  border-color: #0d6efd;
+  border-radius: 10px;
+}
+
+.camera-icon {
+  font-size:60px;
+  margin-left: 68px;
+  margin-top: 64px;
+}
+
+.submit-form {
+  width: 100%;
+  background-color: lightgrey;
+  color: darkslategrey;
+  font-weight: 600;
+}
+
+.reset-form {
+  text-decoration: none;
+  margin-left: 600px;
+  font-size:17px;
+}
+
+.visitor-form {
+  width: 100%;
+  height: 180%;
+  background-color: rgb(206, 220, 224);
+}
+
+.wissen-logo {
+  margin-top: -100px;
+  margin-left: -70px;
+}
+
+.visitors-text {
+  margin-left: 267px;
+  margin-top: 10px;
+  width: 132px;
 }
