@@ -139,7 +139,7 @@ export class AdminComponent implements OnInit {
 
   public openDialog(): void {
     const dialogRef = this.dialog.open(FilterComponent, {
-      width: '300px',
+      width: '310px',
       height: '100%',
       position: {left:'80%'}
     });

@@ -24,14 +24,19 @@ export class FilterComponent implements OnInit {
     private _http: HttpClient, private _visitorDataService: VisitorDataService) {}
 
   formGroup = this._formBuilder.group({
-    purposeOfVisit: [''],
-    inDate: [''],
-    checkInTime:[''],
-    outDate: [''],
-    checkOutTime: [''],
+    purposeOfVisit: ['Meeting'],
+    checkInTimeFrom:['12:00:00'],
+    checkInTimeTo:['12:59:59'],
+    checkOutTimeFrom: ['12:00:00'],
+    checkOutTimeTo: ['12:59:59'],
     pointOfContact: [''],
     otherPurpose: [''],
-    visitorType: ['']
+    visitorType: [''],
+    checkinSelected: ['checkin-selected'],
+    inTimeFrom: [new Date().toISOString().split('T')[0]],
+    inTimeTo: [new Date().toISOString().split('T')[0]],
+    outTimeFrom: [new Date().toISOString().split('T')[0]],
+    outTimeTo: [new Date().toISOString().split('T')[0]],
   });
 
   ngOnInit(): void {
@@ -56,52 +61,69 @@ export class FilterComponent implements OnInit {
       }
       if (
         JSON.stringify(filterParams).indexOf('inTime') === -1 &&
-        (key === 'inDate' || key === 'checkInTime') &&
-        (this.formGroup.controls['inDate'].touched ||
-          this.formGroup.controls['checkInTime'].touched)
+        (key === 'inTimeFrom' || key === 'inTimeTo') &&
+        (this.formGroup.controls['inTimeFrom'].touched ||
+          this.formGroup.controls['inTimeTo'].touched)
       ) {
-        this.formGroup.controls['inDate'].setValue(
-          this.formGroup.controls['inDate'].value || '2023-01-01'
+        this.formGroup.controls['inTimeFrom'].setValue(
+          this.formGroup.controls['inTimeFrom'].value || '2023-01-01'
         );
-        this.formGroup.controls['checkInTime'].setValue(
-          this.formGroup.controls['checkInTime'].value ||
-            '00:00:00'
+        this.formGroup.controls['inTimeTo'].setValue(
+          this.formGroup.controls['inTimeTo'].value ||
+            new Date().toISOString().split('T')[0]
+        );
+        this.formGroup.controls['checkInTimeFrom'].setValue(
+          this.formGroup.controls['checkInTimeFrom'].value ||
+          '00:00:00'
+        );
+        this.formGroup.controls['checkInTimeTo'].setValue(
+          this.formGroup.controls['checkInTimeTo'].value ||
+          '23:59:59'
         );
         filterParams.push({
           dataType: "DATE",
           fieldName: 'inTime',
           operator: 'BETWEEN',
           values: [
-            new Date(this.formGroup.controls['inDate'].value).toISOString().slice(0,10)+'T00:00:00',
-            new Date(this.formGroup.controls['inDate'].value).toISOString().slice(0,10)+'T'+this.formGroup.controls['checkInTime'].value
+            new Date(this.formGroup.controls['inTimeFrom'].value).toISOString().slice(0,10)+'T'+ this.formGroup.controls['checkInTimeFrom'].value,
+            new Date(this.formGroup.controls['inTimeTo'].value).toISOString().slice(0,10)+'T'+ this.formGroup.controls['checkInTimeTo'].value,
           ],
         });
       } else if (
         JSON.stringify(filterParams).indexOf('outTime') === -1 &&
-        (key === 'outDate' || key === 'checkOutTime') &&
-        (this.formGroup.controls['outDate'].touched ||
-          this.formGroup.controls['checkOutTime'].touched)
+        (key === 'outTimeFrom' || key === 'outTimeTo') &&
+        (this.formGroup.controls['outTimeFrom'].touched ||
+          this.formGroup.controls['outTimeTo'].touched)
       ) {
-        this.formGroup.controls['outDate'].setValue(
-          this.formGroup.controls['outDate'].value || '2023-01-01'
+        this.formGroup.controls['outTimeFrom'].setValue(
+          this.formGroup.controls['outTimeFrom'].value || '2023-01-01'
         );
-        this.formGroup.controls['checkOutTime'].setValue(
-          this.formGroup.controls['checkOutTime'].value ||
+        this.formGroup.controls['outTimeTo'].setValue(
+          this.formGroup.controls['outTimeTo'].value ||
             new Date().toISOString().split('T')[0]
+        );
+        this.formGroup.controls['checkOutTimeFrom'].setValue(
+          this.formGroup.controls['checkOutTimeFrom'].value ||
+          '00:00:00'
+        );
+        this.formGroup.controls['checkOutTimeTo'].setValue(
+          this.formGroup.controls['checkOutTimeTo'].value ||
+          '23:59:59'
         );
         filterParams.push({
           dataType: "DATE",
           fieldName: 'outTime',
           operator: 'BETWEEN',
           values: [
-            new Date(this.formGroup.controls['outDate'].value).toISOString().slice(0,10)+'T00:00:00',
-            new Date(this.formGroup.controls['outDate'].value).toISOString().slice(0,10)+'T'+this.formGroup.controls['checkOutTime'].value
+            new Date(this.formGroup.controls['outTimeFrom'].value).toISOString().slice(0,10)+'T'+this.formGroup.controls['checkOutTimeFrom'].value,
+            new Date(this.formGroup.controls['outTimeTo'].value).toISOString().slice(0,10)+'T'+this.formGroup.controls['checkOutTimeTo'].value
           ],
         });
       } else if (
         key.indexOf('Time') === -1 &&
         this.formGroup.controls[key].touched &&
-        this.formGroup.controls['purposeOfVisit'].value !== 'Others'
+        this.formGroup.controls['purposeOfVisit'].value !== 'Others' &&
+        key !== 'checkinSelected'
       ) {
         filterParams.push({
           dataType: "STRING",

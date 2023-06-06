@@ -1,142 +1,128 @@
-       <div class="container">
-        <span class="filter-heading">Filters<span class="filter-heading-margin" (click)="cancel()">clear</span></span>
-        <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-          <div class="row">
-            <div class="col-lg-12 col-md-6">
-              <div class="row">
-                <label for="purposeOfVisit" class="col-sm-3 col-lg-12 col-form-label filter-heading-label"
-                  >Purpose of Visit</label>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-                <div class="col-sm-9">
-                <div class="form-check" *ngFor="let purpose of visitorsPurposes">
-                  <input class="form-check-input" type="radio" [value]="purpose" id="flexCheckDefault" formControlName="purposeOfVisit" (change)="changePurposeOfVisit($event)">
-                  <label class="form-check-label" for="flexCheckDefault">
-                    {{purpose}}
-                  </label>
-                </div>
-              </div>
-              </div>
-          <div class="row">
-            <div class="col-lg-12 col-md-6">
-              <div class="row">
-                <label for="inTime" class="col-sm-3 col-lg-12 col-form-label filter-heading-label"
-                  >Check-in</label
-                >
-                <div class="col-sm-6 col-lg-12">
-                  <div class="row">
-                    <div class="col-lg-6">
-                      <input
-                        type="text"
-                        class="form-control form-control-sm"
-                        id="inTime"
-                        formControlName="inDate"
-                        placeholder="From"
-                        onfocus="(this.type='date')"
-                        onblur="(this.type='text')"
-                      />
-                    </div>
-                    <div class="col-lg-6">
-                      <input type="time" class="form-control form-control-sm col-lg-6" id="appt" name="appt" step="3" formControlName="checkInTime">
-                      </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-12 col-md-6">
-              <div class="row">
-                <label for="outTime" class="col-sm-3 col-form-label col-lg-12 filter-heading-label"
-                  >Check-out</label
-                >
-                <div class="col-sm-9 col-lg-12">
-                  <div class="row">
-                    <div class="col-lg-6">
-                      <input
-                        type="text"
-                        class="form-control form-control-sm"
-                        id="outTime"
-                        formControlName="outDate"
-                        placeholder="From"
-                        onfocus="(this.type='date')"
-                        onblur="(this.type='text')"
-                      />
-                    </div>
-                    <div class="col-lg-6">
-                      <input type="time" class="form-control form-control-sm col-lg-6" id="appt" name="appt" step="3" formControlName="checkOutTime">
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div
-              class="col-lg-12 col-md-6"
-              *ngIf="purposeOfVisitForm === 'Others'"
-            >
-              <div class="row">
-                <label for="otherPurpose" class="col-sm-3 col-lg-12 col-form-label"
-                  >Other purpose</label
-                >
-                <div class="col-sm-9 col-lg-12">
-                  <input
-                    type="text"
-                    class="form-control form-control-sm"
-                    id="otherPurpose"
-                    formControlName="otherPurpose"
-                  />
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-12 col-md-6" *ngIf="purposeOfVisitForm === 'Interview'">
-              <div class="row">
-                <label for="visitorType" class="col-sm-3 col-lg-12 col-form-label"
-                  >Visitor Type</label
-                >
-                <div class="col-sm-9 col-lg-12">
-                  <select
-                    class="form-select form-select-sm"
-                    id="visitorType"
-                    formControlName="visitorType"
-                    (change)="changeVisitorType($event)"
-                  >
-                  <option disabled selected value> -- select an option -- </option>
-                  <option
-                      *ngFor="let visitorType of visitorTypes"
-                      value="{{ visitorType }}"
-                    >
-                      {{ visitorType | titlecase }}
-                    </option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-12 col-md-6">
-              <div class="row">
-                <label for="pointOfContact" class="col-sm-3 col-form-label col-lg-12 filter-heading-label"
-                  >Point of Contact</label
-                >
-                <div class="col-sm-9 col-lg-12">
-                  <input
-                    type="text"
-                    class="form-control form-control-sm"
-                    id="pointOfContact"
-                    formControlName="pointOfContact"
-                  />
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-12 filter-heading-button">
-              <button class="btn btn-sm btn-outline-primary" type="reset" (click)="cancel()">
-                Cancel
-              </button>
-              <button class="btn btn-sm btn-primary reset" type="submit" (click)="onSubmit()">
-                Apply
-              </button>
-            </div>
-          </div>
-        </form>
+<div class="container">
+  <span class="filter-heading">Filters<span class="filter-heading-margin" (click)="cancel()">clear</span></span>
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col-lg-12 col-md-6">
+        <div class="row">
+          <label for="purposeOfVisit" class="col-sm-3 col-lg-12 col-form-label filter-heading-label">Purpose of
+            Visit</label>
+        </div>
       </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-9">
+        <div class="form-check" *ngFor="let purpose of visitorsPurposes">
+          <input class="form-check-input" type="radio" [value]="purpose" id="flexCheckDefault"
+            formControlName="purposeOfVisit" (change)="changePurposeOfVisit($event)">
+          <label class="form-check-label" for="flexCheckDefault">
+            {{purpose}}
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 col-md-6">
+        <div class="row">
+          <div class="checkinrow">
+            <input class="form-check-input" type="radio" value="checkin-selected" id="flexRadioselected"
+              name="checkinSelected" formControlName="checkinSelected">
+            <label for="flexRadioselected" class="filter-heading-label checkin-lable">Check-in</label>
+
+            <input class="form-check-input checkout" type="radio" id="flexRadioDefault" name="checkinSelected"
+              formControlName="checkinSelected">
+            <label for="flexRadioDefault" class="filter-heading-label checkin-lable">Check-out</label>
+          </div>
+          <div class="col-sm-6 col-lg-12"
+            *ngIf="formGroup.controls['checkinSelected'].value === 'checkin-selected'; else checkoutSelected">
+            <div class="row intimeto">
+              <div class="col-lg-6">
+                <input type="text" class="form-control form-control-sm" id="inTime" formControlName="inTimeFrom"
+                  placeholder="From Date" onfocus="(this.type='date')" onblur="(this.type='text')" />
+              </div>
+              <div class="col-lg-6">
+                <input type="time" class="form-control form-control-sm col-lg-6" id="appt" name="appt" step="3"
+                  formControlName="checkInTimeFrom">
+              </div>
+            </div>
+            <div class="row intimeto">
+              <div class="col-lg-6">
+                <input type="text" class="form-control form-control-sm" id="inTime" formControlName="inTimeTo"
+                  placeholder="To Date" onfocus="(this.type='date')" onblur="(this.type='text')" />
+              </div>
+              <div class="col-lg-6">
+                <input type="time" class="form-control form-control-sm col-lg-6" id="appt" name="appt" step="3"
+                  formControlName="checkInTimeTo">
+              </div>
+            </div>
+          </div>
+          <ng-template #checkoutSelected>
+            <div class="col-sm-9 col-lg-12">
+              <div class="row intimeto">
+                <div class="col-lg-6">
+                  <input type="text" class="form-control form-control-sm" id="outTime" formControlName="outTimeFrom"
+                    placeholder="From Date" onfocus="(this.type='date')" onblur="(this.type='text')" />
+                </div>
+                <div class="col-lg-6">
+                  <input type="time" class="form-control form-control-sm col-lg-6" step="3"
+                    formControlName="checkOutTimeFrom">
+                </div>
+              </div>
+              <div class="row intimeto">
+                <div class="col-lg-6">
+                  <input type="text" class="form-control form-control-sm" id="outTime" formControlName="outTimeTo"
+                    placeholder="To Date" onfocus="(this.type='date')" onblur="(this.type='text')" />
+                </div>
+                <div class="col-lg-6">
+                  <input type="time" class="form-control form-control-sm col-lg-6" id="appt" name="appt" step="3"
+                    formControlName="checkOutTimeTo">
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 col-md-6" *ngIf="purposeOfVisitForm === 'Others'">
+        <div class="row">
+          <label for="otherPurpose" class="col-sm-3 col-form-label col-lg-12 filter-heading-label">Other purpose</label>
+          <div class="col-sm-9 col-lg-12">
+            <input type="text" class="form-control form-control-sm" id="otherPurpose" formControlName="otherPurpose" />
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12 col-md-6" *ngIf="purposeOfVisitForm === 'Interview'">
+        <div class="row">
+          <label for="visitorType" class="col-sm-3 col-form-label col-lg-12 filter-heading-label">Visitor Type</label>
+          <div class="col-sm-9 col-lg-12">
+            <select class="form-select form-select-sm" id="visitorType" formControlName="visitorType"
+              (change)="changeVisitorType($event)">
+              <option disabled selected value> -- select an option -- </option>
+              <option *ngFor="let visitorType of visitorTypes" value="{{ visitorType }}">
+                {{ visitorType | titlecase }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12 col-md-6">
+        <div class="row">
+          <label for="pointOfContact" class="col-sm-3 col-form-label col-lg-12 filter-heading-label">Point of
+            Contact</label>
+          <div class="col-sm-9 col-lg-12">
+            <input type="text" class="form-control form-control-sm" id="pointOfContact"
+              formControlName="pointOfContact" />
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-12 filter-heading-button">
+        <button class="btn btn-sm btn-outline-primary" type="reset" (click)="cancel()">
+          Cancel
+        </button>
+        <button class="btn btn-sm btn-primary reset" type="submit" (click)="onSubmit()">
+          Apply
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
