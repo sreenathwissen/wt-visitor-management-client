@@ -1,13 +1,15 @@
+<div class="visitor-form">
 <div class="container">
+  <img src="./assets/images/Wissen-logo.png" class="wissen-logo">
   <form [formGroup]="formGroup" #formRef="ngForm">
     <div class="mb-3">
-      <label for="fullName" class="form-label">Full Name<span class="required">*</span></label>
       <input type="text" class="form-control" id="fullName" formControlName="fullName" [ngClass]="{
           'is-invalid':
             (f.fullName.touched && f.fullName.errors) ||
             (f.fullName.untouched && isSubmitted),
           'is-valid': f.fullName.valid
-        }" />
+        }"
+        placeholder="Enter your full name here..." />
       <div *ngIf="
           (f.fullName.touched && f.fullName.errors) ||
           (f.fullName.untouched && isSubmitted)
@@ -16,13 +18,13 @@
       </div>
     </div>
     <div class="mb-3">
-      <label for="email" class="form-label">Email<span class="required">*</span></label>
       <input type="email" class="form-control" id="email" formControlName="email" [ngClass]="{
           'is-invalid':
             (f.email.touched && f.email.errors) ||
             (f.email.untouched && isSubmitted),
           'is-valid': f.email.valid
-        }" />
+        }"
+        placeholder="Enter your email address here..."  />
       <div *ngIf="
           (f.email.touched && f.email.errors) ||
           (f.email.untouched && isSubmitted)
@@ -32,13 +34,28 @@
       </div>
     </div>
     <div class="mb-3">
-      <label for="phoneNumber" class="form-label">Phone Number<span class="required">*</span></label>
+      <input type="text" class="form-control" id="location" formControlName="location" [ngClass]="{
+          'is-invalid':
+            (f.location.touched && f.location.errors) ||
+            (f.location.untouched && isSubmitted),
+          'is-valid': f.location.valid
+        }"
+        placeholder="Enter your location here..." />
+      <div *ngIf="
+          (f.location.touched && f.location.errors) ||
+          (f.location.untouched && isSubmitted)
+        " class="invalid-feedback">
+        <div *ngIf="f.location.errors?.required">Location is required!</div>
+      </div>
+    </div>
+    <div class="mb-3">
       <input type="tel" class="form-control" id="phoneNumber" formControlName="phoneNumber" [ngClass]="{
           'is-invalid':
             (f.phoneNumber.touched && f.phoneNumber.errors) ||
             (f.phoneNumber.untouched && isSubmitted),
           'is-valid': f.phoneNumber.valid
-        }" />
+        }"
+        placeholder="Enter your phone number here..."  />
       <div *ngIf="
           (f.phoneNumber.touched && f.phoneNumber.errors) ||
           (f.phoneNumber.untouched && isSubmitted)
@@ -54,20 +71,9 @@
         </div>
       </div>
     </div>
-    <div class="mb-3">
-      <label for="tempCardNo" class="form-label">Temp Card No</label>
-      <input type="text" class="form-control" id="tempCardNo" formControlName="tempCardNo" [ngClass]="{
-          'is-invalid':
-            f.tempCardNo.touched && f.tempCardNo.errors,
-          'is-valid':
-            f.tempCardNo.touched && f.tempCardNo.valid
-        }" />
-
-    </div>
 
 
     <div class="mb-3">
-      <label for="purposeOfVisit" class="form-label">Purpose of Visit<span class="required">*</span></label>
       <select class="form-select" id="purposeOfVisit" formControlName="purposeOfVisit"
         (change)="changePurposeOfVisit($event)" [ngClass]="{
           'is-invalid':
@@ -75,6 +81,7 @@
             (f.purposeOfVisit.untouched && isSubmitted),
           'is-valid': f.purposeOfVisit.valid
         }">
+        <option value="" disabled selected hidden>Purpose of visit</option>
         <option *ngFor="let purpose of purposes" value="{{ purpose }}">
           {{ purpose | titlecase }}
         </option>
@@ -101,21 +108,21 @@
       </div>
     </div>
     <div class="mb-3" *ngIf="f.purposeOfVisit.value === 'Interview'">
-      <label for="visitorType" class="form-label">Visitor Type</label>
       <select class="form-select" id="visitorType" formControlName="visitorType" (change)="changeVisitorType($event)">
+        <option value="" disabled selected hidden>Visitor Types</option>
         <option *ngFor="let visitorType of visitorTypes" value="{{ visitorType }}">
           {{ visitorType | titlecase }}
         </option>
       </select>
     </div>
     <div class="mb-3">
-      <label for="pointOfContact" class="form-label">Point Of Contact Name<span class="required">*</span></label>
       <input type="text" class="form-control" id="pointOfContact" formControlName="pointOfContact" [ngClass]="{
           'is-invalid':
             (f.pointOfContact.touched && f.pointOfContact.errors) ||
             (f.pointOfContact.untouched && isSubmitted),
           'is-valid': f.pointOfContact.valid
-        }" />
+        }"
+        placeholder="Point of contact" />
       <div *ngIf="
           (f.pointOfContact.touched && f.pointOfContact.errors) ||
           (f.pointOfContact.untouched && isSubmitted)
@@ -125,74 +132,8 @@
         </div>
       </div>
     </div>
-    <div class="mb-3">
-      <label for="pointOfContactEmail" class="form-label">Point Of Contact Email</label>
-      <input type="text" class="form-control" id="pointOfContactEmail" formControlName="pointOfContactEmail" [ngClass]="{
-          'is-invalid':
-            f.pointOfContactEmail.touched && f.pointOfContactEmail.errors,
-          'is-valid':
-            f.pointOfContactEmail.touched && f.pointOfContactEmail.valid
-        }" />
-      <div *ngIf="
-          (f.pointOfContactEmail.touched && f.pointOfContactEmail.errors) ||
-          (f.pointOfContactEmail.untouched && isSubmitted)
-        " class="invalid-feedback">
-        <div *ngIf="f.pointOfContactEmail.errors?.pattern">
-          Enter Valid Email ID!
-        </div>
-      </div>
-    </div>
-    <div class="mb-3">
-      <label for="location" class="form-label">Location<span class="required">*</span></label>
-      <input type="text" class="form-control" id="location" formControlName="location" [ngClass]="{
-          'is-invalid':
-            (f.location.touched && f.location.errors) ||
-            (f.location.untouched && isSubmitted),
-          'is-valid': f.location.valid
-        }" />
-      <div *ngIf="
-          (f.location.touched && f.location.errors) ||
-          (f.location.untouched && isSubmitted)
-        " class="invalid-feedback">
-        <div *ngIf="f.location.errors?.required">Location is required!</div>
-      </div>
-    </div>
-    <div class="mb-3">
-      <label for="visitorImageBase64" class="form-label">Profile Image<span class="required">*</span></label>
-      <div class="row">
-        <div class="col-md-6">
-          <button type="button" id="visitorImageBase64" class="form-control btn btn-primary"
-            (click)="compressFile('visitorImageBase64', 100, 100)">
-            Upload
-          </button>
-        </div>
-        <div class="col-md-6 text-center">
-          <img class="prof" src="{{
-              formGroup.controls['visitorImageBase64'].value
-                ? (formGroup.controls['visitorImageBase64'].value.indexOf('data:image/png;base64,') === -1 ?
-                'data:image/png;base64,'+ formGroup.controls['visitorImageBase64'].value :
-                formGroup.controls['visitorImageBase64'].value)
-                : '../../../assets/images/dummy-prof.png'
-            }}" />
-        </div>
-        <div class="required" *ngIf="
-            f.visitorImageBase64.touched && f.visitorImageBase64.errors
-          ">
-          <div *ngIf="f.visitorImageBase64.errors?.notValid">
-            &nbsp;&nbsp;&nbsp;&nbsp;Upload Only Images!
-          </div>
-        </div>
-        <div class="required" *ngIf="
-            (f.visitorImageBase64.touched &&
-              f.visitorImageBase64.value === '') ||
-            (f.visitorImageBase64.untouched && isSubmitted)
-          ">
-          &nbsp;&nbsp;&nbsp;&nbsp;Profile Image is required!
-        </div>
-      </div>
-    </div>
-    <div class="mb-3">
-      <label for="idProofType" class="form-label">ID Proof<span class="required">*</span></label>
+    <div class="row">
+    <div class="col-lg-6 mb-4">
       <select class="form-select" id="idProofType" formControlName="idProofType" (change)="changeIdProofType($event)"
         [ngClass]="{
           'is-invalid':
@@ -200,6 +141,7 @@
             (f.idProofType.untouched && isSubmitted),
           'is-valid': f.idProofType.valid
         }">
+        <option value="" disabled selected hidden>Select an Identity Proof</option>
         <option *ngFor="let IdProof of IdProofs" value="{{ IdProof }}">
           {{ IdProof.replace("_", " ") | titlecase }}
         </option>
@@ -213,14 +155,14 @@
         </div>
       </div>
     </div>
-    <div class="mb-3">
-      <label for="idProofNumber" class="form-label">ID Proof Number<span class="required">*</span></label>
+    <div class=" col-lg-6 mb-4">
       <input type="text" class="form-control" id="idProofNumber" formControlName="idProofNumber" [ngClass]="{
           'is-invalid':
             (f.idProofNumber.touched && f.idProofNumber.errors) ||
             (f.idProofNumber.untouched && isSubmitted),
           'is-valid': f.idProofNumber.valid
-        }" />
+        }"
+        placeholder="ID Proof Number" />
       <div *ngIf="
           (f.idProofNumber.touched && f.idProofNumber.errors) ||
           (f.idProofNumber.untouched && isSubmitted)
@@ -230,32 +172,61 @@
         </div>
       </div>
     </div>
+    </div>
     <div class="mb-3">
-      <label for="idProofImageBase64" class="form-label">Id Proof Image</label>
-      <div class="row">
-        <div class="col-md-6">
-          <button type="button" id="idProofImageBase64" class="form-control btn btn-primary"
-            (click)="compressFile('idProofImageBase64', 200, 100)">
-            Upload
-          </button>
-        </div>
-        <div class="col-md-6 text-center">
-          <img class="id-pic" src="{{
-              formGroup.controls['idProofImageBase64'].value
-                ? (formGroup.controls['idProofImageBase64'].value.indexOf('data:image/png;base64,') === -1 ?
-                'data:image/png;base64,'+ formGroup.controls['idProofImageBase64'].value :
-                formGroup.controls['idProofImageBase64'].value)
-                : '../../../assets/images/id-card.png'
-            }}" />
-        </div>
-        <div class="required" *ngIf="
-            f.idProofImageBase64.touched && f.idProofImageBase64.errors
-          ">
-          <div *ngIf="f.idProofImageBase64.errors?.notValid">
-            &nbsp;&nbsp;&nbsp;&nbsp;Upload Only Images!
+        <div class="mb-3">
+          <div class="row">
+            <div class="col-md-6" *ngIf="!f.visitorImageBase64.value; else visitorimage">
+              <div class="dashed" id="visitorImageBase64" (click)="compressFile('visitorImageBase64', 100, 100)">
+        <i class="fa fa-camera camera-icon"></i>
+              </div>
+              <p class="visitors-text">Let's click a picture</p>
+            </div>
+            <ng-template #visitorimage>
+            <div class="col-md-6 text-center">
+              <img class="prof" src="{{
+                  formGroup.controls['visitorImageBase64'].value
+                    ? (formGroup.controls['visitorImageBase64'].value.indexOf('data:image/png;base64,') === -1 ?
+                    'data:image/png;base64,'+ formGroup.controls['visitorImageBase64'].value :
+                    formGroup.controls['visitorImageBase64'].value)
+                    : '../../../assets/images/dummy-prof.png'
+                }}" />
+                <p class="visitors-text">Picture added</p>
+            </div>
+          </ng-template>
+            <div class="required" *ngIf="
+                f.visitorImageBase64.touched && f.visitorImageBase64.errors
+              ">
+              <div *ngIf="f.visitorImageBase64.errors?.notValid">
+                &nbsp;&nbsp;&nbsp;&nbsp;Upload Only Images!
+              </div>
+            </div>
+            <div class="required" *ngIf="
+                (f.visitorImageBase64.touched &&
+                  f.visitorImageBase64.value === '') ||
+                (f.visitorImageBase64.untouched && isSubmitted)
+              ">
+              &nbsp;&nbsp;&nbsp;&nbsp;Profile Image is required!
+            </div>
           </div>
-        </div>
       </div>
     </div>
+    <div class="form-footer">
+      <a
+        class="reset-form"
+        (click)="resetForm()"
+      >
+        Reset
+    </a>
+      <br/>
+      <button
+        type="button"
+        (click)="onSubmit()"
+        class="btn submit-form"
+      >
+        Done
+      </button>
+    </div>
   </form>
+</div>
 </div>

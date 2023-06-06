@@ -1,0 +1,42 @@
+.container {
+    height: 50.313rem;
+}
+
+.company-logo {
+    justify-content: center;
+    display: flex;
+    height: 90px;
+}
+
+.welcome-image {
+    left: 30%;
+    position: absolute;
+    margin-top: 55px;
+}
+
+.welcome-text {
+    font-size: 40px;
+    margin-bottom: 55px;
+    margin-left: 70px;
+}
+
+.register-button {
+    background-color: rgb(9, 101, 240);
+    color: white;
+    width: 570px;
+}
+
+.registered-button {
+    color: rgb(9, 101, 240);
+    text-decoration: none;
+    margin-left: 17%;
+    display: block;
+    margin-top: 15px;
+}
+
+.register {
+    position: absolute;
+    top: 110%;
+    left: 30%;
+    width: 100%;
+}

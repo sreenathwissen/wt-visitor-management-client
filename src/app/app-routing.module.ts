@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormComponent } from './components/form/form.component';
 import { GridComponent } from './components/grid/grid.component';
 import { AdminComponent } from './components/admin/admin.component';
+import { VisitorComponent } from './components/visitor/visitor.component';
+import { ThankyouComponent } from './sharedModules/thankyou/thankyou.component';
 
 const routes: Routes = [
   {
@@ -10,8 +12,16 @@ const routes: Routes = [
     component: AdminComponent,
   },
   {
+    path: 'visitor',
+    component: VisitorComponent,
+  },
+  {
     path: 'add',
     component: FormComponent,
+  },
+  {
+    path: 'thankyou',
+    component: ThankyouComponent,
   },
   {
     path: '**',

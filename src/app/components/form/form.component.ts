@@ -11,6 +11,7 @@ import { NgxImageCompressService } from 'ngx-image-compress';
 import { ToastrService } from 'ngx-toastr';
 import { HttpClient } from '@angular/common/http';
 import { RefdataService } from 'src/app/services/refdata.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-form',
@@ -26,7 +27,8 @@ export class FormComponent implements OnInit {
     private toastr: ToastrService,
     private http: HttpClient,
     private cdr: ChangeDetectorRef,
-    private refdataService: RefdataService
+    private refdataService: RefdataService,
+    private router: Router
   ) {}
   purposes!: string[];
   showSpinner!: boolean;
@@ -56,8 +58,7 @@ export class FormComponent implements OnInit {
     otherPurpose: [''],
     pointOfContact: ['', Validators.required],
     pointOfContactEmail: [
-      '',
-      Validators.pattern('^[A-Za-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),
+      ''
     ],
     location: ['', Validators.required],
     visitorImageBase64: ['', Validators.required],
@@ -148,6 +149,7 @@ export class FormComponent implements OnInit {
         .add(() => {
           this.showSpinner = false;
         });
+        this.router.navigate(['/thankyou']);
     }
   }
   handleFailure() {
