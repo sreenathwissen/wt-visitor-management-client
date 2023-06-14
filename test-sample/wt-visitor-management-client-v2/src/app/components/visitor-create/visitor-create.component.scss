@@ -1,0 +1,16 @@
+.form-control {
+  line-height: 2.5 !important;
+}
+
+input#profileFile {
+  display: inline-block;
+  // left: 10px !important;
+  width: 50%;
+  padding: 120px 0 0 0;
+  height: 100px;
+  overflow: hidden;
+  box-sizing: border-box;
+  border-radius: 20px;
+  background-size: 200px 200px !important;
+  margin: 0px auto;
+}

@@ -1,0 +1,135 @@
+<!-- main app container -->
+<div class="w-50 card m-5 justify-content-center mx-auto">
+    <h5 class="card-header">Wissen</h5>
+    <div class="card-body">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+
+            <!--  <div class="row">
+                <div class="col-12 mb-3">
+                    <input type="text" formControlName="fullName" class="form-control"
+                        placeholder="*Enter Full Name here..."
+                        [ngClass]="{ 'is-invalid': submitted && form.fullName.errors }" />
+                    <div *ngIf="submitted && form.fullName.errors" class="invalid-feedback">
+                        <div *ngIf="form.fullName.errors.required">Full Name is required</div>
+                    </div>
+                </div>
+            </div> -->
+
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <input type="text" formControlName="fullName" class="form-control"
+                        placeholder="*Enter Full Name here..."
+                        [ngClass]="{ 'is-invalid': submitted && form.fullName.errors }" />
+                    <div *ngIf="submitted && form.fullName.errors" class="invalid-feedback">
+                        <div *ngIf="form.fullName.errors.required">Full Name is required</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <input type="text" formControlName="email" class="form-control" placeholder="*Enter Email here..."
+                        [ngClass]="{ 'is-invalid': submitted && form.email.errors }" />
+                    <div *ngIf="submitted && form.email.errors" class="invalid-feedback">
+                        <div *ngIf="form.email.errors.required">Email is required</div>
+                        <div *ngIf="form.email.errors.email">Email must be a valid email address</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <input type="text" formControlName="phoneNumber" class="form-control"
+                        placeholder="*Enter Phone Number here..."
+                        [ngClass]="{ 'is-invalid': submitted && form.phoneNumber.errors }" />
+                    <div *ngIf="submitted && form.phoneNumber.errors" class="invalid-feedback">
+                        <div *ngIf="form.phoneNumber.errors.required">PhoneNumber is required</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <select formControlName="visitorType" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && form.visitorType.errors }">
+                        <option value="" disabled selected hidden>Please select the type of visit </option>
+                        <option *ngFor="let type of refdata.visitorsTypes" value="{{ type }}">{{ type }} </option>
+                    </select>
+                    <div *ngIf="submitted && form.visitorType.errors" class="invalid-feedback">
+                        <div *ngIf="form.visitorType.errors.required">VisitorType is required</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <input type="text" formControlName="employeeId" class="form-control"
+                        placeholder="*Enter employeeId here..."
+                        [ngClass]="{ 'is-invalid': submitted && form.employeeId.errors }" />
+                    <div *ngIf="submitted && form.employeeId.errors" class="invalid-feedback">
+                        <div *ngIf="form.employeeId.errors.required">employeeId is required</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-6 mb-3">
+                    <select formControlName="proofType" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && form.proofType.errors }">
+                        <option value='' disabled selected hidden>Please select the type of Proof </option>
+                        <option *ngFor="let proof of refdata.proofTypes" value="{{ proof }}">{{ proof }} </option>
+                    </select>
+                    <div *ngIf="submitted && form.proofType.errors" class="invalid-feedback">
+                        <div *ngIf="form.proofType.errors.required">ProofType is required</div>
+                    </div>
+                </div>
+                <div class="col-6 mb-3">
+                    <input type="text" formControlName="idProofNumber" class="form-control"
+                        placeholder="*Enter Id Proof Number here..."
+                        [ngClass]="{ 'is-invalid': submitted && form.idProofNumber.errors }" />
+                    <div *ngIf="submitted && form.idProofNumber.errors" class="invalid-feedback">
+                        <div *ngIf="form.idProofNumber.errors.required">ProofNumber is required</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-6 mb-3">
+                    <input type="text" formControlName="location" class="form-control"
+                        placeholder="Enter Location here..." value="Bangalore" />
+                </div>
+                <div class="col-6 mb-3">
+                    <input type="text" formControlName="tempCardNo" class="form-control"
+                        placeholder="Temporary Id number here..." />
+                </div>
+            </div>
+
+            <div class="row">
+                <input #file id="profileFile" type="file" formControlName="profileImage" class="form-control"
+                    accept="image/" (change)="previewImage(file.files)"
+                    [ngClass]="{ 'is-invalid': submitted && form.profileImage.errors }"
+                    [ngStyle]="{'background': 'url(' + imagePreview + ') center center no-repeat #e4e4e4' }" />
+                <div *ngIf="submitted && form.profileImage.errors" class="invalid-feedback">
+                    <div *ngIf="form.profileImage.errors.required">Iamge is required</div>
+                </div>
+
+
+                <!-- <input #file type="file" accept='image/*' (change)="preview(file.files)" /> -->
+                <!-- <img [src]="imgURL" height="200" width="200" *ngIf="imgURL"> -->
+
+                <!-- <input #file id="profileFile" type="file" (change)="previewImage(file.files)"
+                    [ngStyle]="{'background': 'url(' + imgURL + ') center center no-repeat #e4e4e4' }" /> -->
+                <!-- [ngStyle]="{'background-image': 'url(' + imgURL + ')' }" /> -->
+            </div> <br />
+
+
+
+
+            <div class="text-center">
+                <button class="btn btn-primary me-2">Register</button>
+                <button class="btn btn-secondary" type="reset" #reset (click)="onReset()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
