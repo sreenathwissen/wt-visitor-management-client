@@ -1,4 +1,13 @@
-<ag-grid-angular style="height: 75vh; margin: 0 auto" class="ag-theme-material" [rowData]="rowData"
-    [columnDefs]="columnDefs" [defaultColDef]="defaultColDef" (rowClicked)="onRowClicked($event)" [pagination]="true"
-    [paginationAutoPageSize]="true" (gridReady)="onGridReady($event)">
+<!-- <p>{{myinputMsg}}</p>>
+<button (click)="sendValues()"> Send Data </button> -->
+
+
+<ag-grid-angular style="height: 75vh; margin: 0 auto" class="ag-theme-material" [rowData]="agGridData"
+    [columnDefs]="columnDefs" [defaultColDef]="defaultColDef" [pagination]="true" [paginationAutoPageSize]="true"
+    [headerHeight]="40" [rowHeight]="60">
 </ag-grid-angular>
+
+<!-- <ag-grid-angular class="ag-theme-material" style="width: 100%; height: calc(100vh - 200px);" rowSelection="single"
+    [rowHeight]="43" [columnDefs]="columnDefs" rowModelType="infinite" [paginationAutoPageSize]="true"
+    [rowData]="agGridData">
+</ag-grid-angular> -->

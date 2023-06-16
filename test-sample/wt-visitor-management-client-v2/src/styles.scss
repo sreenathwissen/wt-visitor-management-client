@@ -1,5 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/dist/css/bootstrap.css";
 
+/** Ag grid style */
 @import "ag-grid-community/styles/ag-grid.css";
 @import "ag-grid-community/styles/ag-theme-alpine.css";
+
+.ag-cell-value {
+  display: flex !important;
+  //   justify-content: center;
+  align-items: center;
+}
+
+body {
+  background-color: #eef2fa;
+}

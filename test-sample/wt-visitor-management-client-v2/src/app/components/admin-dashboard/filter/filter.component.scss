@@ -1,0 +1,69 @@
+.custom-model {
+  background: white;
+  width: 20%;
+  height: 500px;
+  float: right;
+  position: absolute;
+  right: 0%;
+  display: inline;
+  z-index: 9;
+  border: 1px solid gray;
+}
+
+/* Model */
+
+.card {
+  cursor: pointer;
+}
+
+.card:hover {
+  background-color: #d3d3d3;
+}
+
+.selection-heightlight {
+  height: 5px;
+  width: 100%;
+  background-color: #192d57;
+  border-radius: 20px;
+}
+
+.image_resolution {
+  width: 4em;
+  height: 4em;
+}
+.card-body {
+  padding: 10px;
+}
+.width-25 {
+  width: 25%;
+}
+
+.card-title-custom {
+  font-size: x-large;
+  color: #675959;
+  width: 55%;
+}
+
+.card-count-number {
+  font-size: x-large;
+  position: relative;
+  left: 90px;
+}
+
+.inline-div {
+  display: inline-block;
+  //   width: 33%;
+}
+
+.data-count {
+  position: absolute;
+  text-align: center;
+}
+.count-value {
+  font-size: x-large;
+  font-weight: bold;
+}
+.count-text {
+  font-size: small;
+  color: #675959;
+}

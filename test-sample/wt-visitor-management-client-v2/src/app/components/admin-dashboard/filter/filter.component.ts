@@ -1,7 +1,11 @@
 import { formatDate } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Visitor } from '@angular/compiler';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
 import { DataType, GenericFilter, OperatorOperator } from 'src/app/model/generic-filter-dto';
+import { TimingEntity } from 'src/app/model/timings-model';
+import { VisitorEntity } from 'src/app/model/visitor-model';
 import { RefDataService } from 'src/app/service/refdata.service';
 import { VisitorService } from 'src/app/service/visitor.service';
 
@@ -11,6 +15,21 @@ import { VisitorService } from 'src/app/service/visitor.service';
   styleUrls: ['./filter.component.scss']
 })
 export class FilterComponent implements OnInit {
+
+  //Passing data from filter to grid 
+  // myInputMessage: string = "I am the parent comppnent";
+
+  // mychildMsg: string = '';
+
+  // GetChildData(data: any) {
+  //   console.log(data);
+  //   //this.mychildMsg = data;
+  // }
+
+  agGridResults: Array<VisitorEntity> = [];
+  filterResponse: Array<VisitorEntity> = [];
+  selectedTab: string = 'Meeting';
+
 
   //declaration
   filterForm!: FormGroup;
@@ -48,6 +67,27 @@ export class FilterComponent implements OnInit {
     return date;
   }
 
+
+  /** Update Grid with filter results */
+  filterGridResults(visitorType: string) {
+    this.selectedTab = visitorType;
+    this.agGridResults = [];
+    if (this.filterResponse.length > 0) {
+      for (var i = 0; i < this.filterResponse.length; i++) {
+        var visitorDetails = this.filterResponse[i];
+
+        for (let timing of this.filterResponse[i].timings) {
+          if (timing.visitorType == visitorType) {
+
+            this.agGridResults.push(this.filterResponse[i]);
+          }
+
+        }
+
+      }
+    }
+  }
+
   /** Method to fetch Visitor data */
   fetchVisitorData() {
 
@@ -55,7 +95,7 @@ export class FilterComponent implements OnInit {
       return;
     }
 
-    let inputRequest = createFetchRequest(this.filterForm);
+    let inputRequest = this.createFetchRequest(this.filterForm);
     console.log(inputRequest);
 
     let jsonString = JSON.stringify(inputRequest, null, 4);
@@ -65,7 +105,10 @@ export class FilterComponent implements OnInit {
       (resp: any) => {
         if (resp.responseStatus === 'SUCCESS') {
           //success toaster
-          console.log(resp.responseData);
+          //convert timings array to map one single list
+          this.filterResponse = this.convertFaltMapTimings(resp.responseData);
+
+          this.filterGridResults('Meeting');
         } else {
           //failure toaster
           console.log('Failed to Fetch Data!!');
@@ -82,55 +125,97 @@ export class FilterComponent implements OnInit {
 
 
 
-}
-function createFetchRequest(filterForm: FormGroup<any>): Array<GenericFilter> {
-  let filterRequest: Array<GenericFilter> = [];
-  /** Full Name */
-  let fullNameValue = filterForm.controls['fullName'].value;
-  if (fullNameValue != null && fullNameValue.length > 0) {
-    filterRequest.push(createInStringRequest('fullName', fullNameValue));
+
+  private createFetchRequest(filterForm: FormGroup<any>): Array<GenericFilter> {
+    let filterRequest: Array<GenericFilter> = [];
+    /** Full Name */
+    let fullNameValue = filterForm.controls['fullName'].value;
+    if (fullNameValue != null && fullNameValue.length > 0) {
+      filterRequest.push(this.createInStringRequest('fullName', fullNameValue));
+    }
+    /** employeeId */
+    let employeeIdValue = filterForm.controls['employeeId'].value;
+    if (employeeIdValue != null && employeeIdValue.length > 0) {
+      filterRequest.push(this.createInStringRequest('employeeId', employeeIdValue));
+    }
+
+    /** proofType */
+    let proofTypeValue = filterForm.controls['proofType'].value;
+    if (proofTypeValue != null && proofTypeValue.length > 0) {
+      filterRequest.push(this.createInStringRequest('proofType', proofTypeValue));
+    }
+
+    /** visitorType */
+    let visitorTypeValue = filterForm.controls['visitorType'].value;
+    if (visitorTypeValue != null && visitorTypeValue.length > 0) {
+      filterRequest.push(this.createInArrayRequest('visitorType', visitorTypeValue));
+    }
+
+    /** Timings */
+
+
+
+    // : [this.defaultVisitorType, Validators.required],
+    //   // validates date format yyyy-mm-dd
+    //   durationFrom: [this.defaultTime(true), [Validators.required]],
+    //     durationTo: [this.defaultTime(false), [Validators.required]],
+    //       timingType: ['inTime', Validators.required],
+    //     : [''],
+    //     : [''],
+    //   fullName: ['']
+
+    return filterRequest;
+
   }
-  /** employeeId */
-  let employeeIdValue = filterForm.controls['employeeId'].value;
-  if (employeeIdValue != null && employeeIdValue.length > 0) {
-    filterRequest.push(createInStringRequest('employeeId', employeeIdValue));
+
+
+  private createInStringRequest(fieldName: string, value: string): GenericFilter {
+    return new GenericFilter(fieldName, OperatorOperator.IN, [value], DataType.STRING);
   }
 
-  /** proofType */
-  let proofTypeValue = filterForm.controls['proofType'].value;
-  if (proofTypeValue != null && proofTypeValue.length > 0) {
-    filterRequest.push(createInStringRequest('proofType', proofTypeValue));
+  private createInArrayRequest(fieldName: string, value: Array<string>): GenericFilter {
+    return new GenericFilter(fieldName, OperatorOperator.IN, value, DataType.STRING);
   }
 
-  /** visitorType */
-  let visitorTypeValue = filterForm.controls['visitorType'].value;
-  if (visitorTypeValue != null && visitorTypeValue.length > 0) {
-    filterRequest.push(createInArrayRequest('visitorType', visitorTypeValue));
+
+
+  private convertFaltMapTimings(respData: VisitorEntity[]): VisitorEntity[] {
+    const out: VisitorEntity[] = []
+    respData.forEach((obj: VisitorEntity) => {
+      obj.timings.forEach((timing: TimingEntity) => {
+        obj.timingId = timing.id;
+        obj.inTime = timing.inTime;
+        obj.outTime = timing.outTime;
+        obj.employeeId = timing.employeeId;
+        obj.visitorType = timing.visitorType;
+        out.push({ ...obj });
+      });
+    });
+    console.log(out);
+
+    return out;
   }
 
-  /** Timings */
+  display: string = '';
+  openModal() {
+    this.display = "block";
+  }
+  onCloseHandled() {
+    this.display = "none";
+  }
 
 
+  //test
+  customModel: boolean = false;
 
-  // : [this.defaultVisitorType, Validators.required],
-  //   // validates date format yyyy-mm-dd
-  //   durationFrom: [this.defaultTime(true), [Validators.required]],
-  //     durationTo: [this.defaultTime(false), [Validators.required]],
-  //       timingType: ['inTime', Validators.required],
-  //     : [''],
-  //     : [''],
-  //   fullName: ['']
+  openCustomModal() {
+    this.customModel = true;
+  }
 
-  return filterRequest;
+  closeCustomModal() {
+    this.customModel = false;
+  }
+
+
 
 }
-
-
-function createInStringRequest(fieldName: string, value: string): GenericFilter {
-  return new GenericFilter(fieldName, OperatorOperator.IN, [value], DataType.STRING);
-}
-
-function createInArrayRequest(fieldName: string, value: Array<string>): GenericFilter {
-  return new GenericFilter(fieldName, OperatorOperator.IN, value, DataType.STRING);
-}
-

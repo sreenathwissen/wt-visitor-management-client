@@ -1,9 +1,115 @@
-<div class="row p-3">
+<div class="custom-model" *ngIf="customModel">
+    <button (click)="closeCustomModal()">Close Model</button>
+    thids is sampel testing
+</div>
+
+
+
+
+
+
+
+<div class="row p-3 test-blur">
     <div class="col-8 mb-3">
         Admin Dashboard
     </div>
     <div class="col-4 mb-3">
         <input type="text" placeholder="Please Search here.." />
-        <button>Filter</button>
+        <button (click)="openCustomModal()">Open Model</button>
+
+    </div>
+</div>
+
+<div class="row p-3">
+    <div class="col-3 mb-3" (click)="filterGridResults('Meeting')">
+        <div class="card">
+            <div class="card-body">
+                <div class="inline-div width-25">
+                    <img src="assets/images/meeting.png" class="image_resolution" />
+                </div>
+                <div class="inline-div card-title-custom">Meeting</div>
+                <div class="inline-div data-count">
+                    <span class="count-value">20</span><br />
+                    <span class="count-text">Active Count</span>
+                </div>
+            </div>
+            <div *ngIf="selectedTab == 'Meeting'" class="selection-heightlight"></div>
+        </div>
+    </div>
+    <div class="col-3 mb-3" (click)="filterGridResults('Interview')">
+        <div class="card">
+            <div class="card-body">
+                <div class="inline-div width-25">
+                    <img src="assets/images/interview.png" class="image_resolution" />
+                </div>
+                <div class="inline-div card-title-custom">Interview</div>
+                <div class="inline-div data-count">
+                    <span class="count-value">05</span><br />
+                    <span class="count-text">Active Count</span>
+                </div>
+            </div>
+            <div *ngIf="selectedTab == 'Interview'" class="selection-heightlight"></div>
+        </div>
+    </div>
+    <div class="col-3 mb-3" (click)="filterGridResults('Vendor')">
+        <div class="card">
+            <div class="card-body">
+                <div class="inline-div width-25">
+                    <img src="assets/images/vendor.png" class="image_resolution" />
+                </div>
+                <div class="inline-div card-title-custom">Vendor</div>
+                <div class="inline-div data-count">
+                    <span class="count-value">05</span><br />
+                    <span class="count-text">Active Count</span>
+                </div>
+            </div>
+            <div *ngIf="selectedTab == 'Vendor'" class="selection-heightlight"></div>
+        </div>
+    </div>
+    <div class="col-3 mb-3" (click)="filterGridResults('Others')">
+
+        <div class="card">
+            <div class="card-body">
+                <div class="inline-div width-25">
+                    <img src="assets/images/others.png" class="image_resolution" />
+                </div>
+                <div class="inline-div card-title-custom">Others</div>
+                <div class="inline-div data-count">
+                    <span class="count-value">05</span><br />
+                    <span class="count-text">Active Count</span>
+                </div>
+            </div>
+            <div *ngIf="selectedTab == 'Others'" class="selection-heightlight"></div>
+        </div>
+    </div>
+</div>
+<!-- to render the grid -->
+<!-- {{mychildMsg}}
+<app-grid [myinputMsg]="myInputMessage" (myOutput)="GetChildData($event)"></app-grid> -->
+<app-grid [agGridData]='agGridResults'></app-grid>
+
+
+
+
+<!-- Model -->
+
+
+<!-- Modal -->
+<button type="button" class="btn btn-info btn-lg" (click)="openModal()">click to open</button>
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':display}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Model Title</h4>
+                <button type="button" class="close" aria-label="Close" (click)="onCloseHandled()"><span
+                        aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <p>Model body text</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" (click)="onCloseHandled()">Close</button>
+            </div>
+        </div>
     </div>
 </div>
