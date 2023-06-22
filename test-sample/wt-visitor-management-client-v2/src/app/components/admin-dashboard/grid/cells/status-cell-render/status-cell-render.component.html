@@ -1,0 +1,14 @@
+<div>
+    <span class="cell-common color-active" *ngIf="isactive">
+        &nbsp; &nbsp; &nbsp; &nbsp; Active &nbsp;  &nbsp; &nbsp;
+        <i class="bi bi-check-circle"></i>
+        <!-- 
+        <i class="bi bi-check-circle-fill"></i>
+        <i class="bi bi-check2-circle"></i> 
+        -->
+    </span>
+    <span class="cell-common color-checkout" *ngIf="!isactive">
+        Checked Out &nbsp;
+        <i class="bi bi-slash-circle"></i>
+    </span>
+</div>

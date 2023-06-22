@@ -1,10 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { AppUrlConstants } from '../components/constants/app-url.constants';
 
 @Injectable()
 export class VisitorService {
+
+  otpSubject: Subject<any> = new Subject();
+  otpQueryParams!: string;
 
   constructor(private httpClient: HttpClient) { }
 
@@ -22,44 +25,41 @@ export class VisitorService {
   fetchVisitor(requestBody: any): Observable<any> {
     let requestHeaders = {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
       }
     };
     return this.httpClient.post(AppUrlConstants.visitorFetch, requestBody, requestHeaders);
   }
+
+  /** Method to update visitor details on check-out */
+  checkooutVisitor(queryParams: string) {
+    let requestHeaders = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    };
+    let url = AppUrlConstants.checkoutVisitor.concat(queryParams);
+    return this.httpClient.put(url, requestHeaders);
+  }
+
+  /** Method to send otp to registerd email if valid */
+  sendOtpToVisitor(queryParams: string): Observable<any> {
+    // let url = AppUrlConstants.sendOtpToVisitor.concat(queryParams);
+    // return this.httpClient.get(url);
+
+    let requestHeaders = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    };
+    let url = AppUrlConstants.checkoutVisitor.concat(queryParams);
+    return this.httpClient.put(url, requestHeaders);
+  }
+
 }
 
-/* 
 
-this.http
-  .post('http://localhost:8080/api/visitor', this.formGroup.value)
-  .subscribe(
-    (resp: any) => {
-      if (resp.responseStatus === 'SUCCESS') {
-        this.toastr.success(
-          'Visitor ' +
-          (this.formGroup.value.inTime ? 'Updated' : 'Added') +
-          ' Successfully',
-          'Success'
-        );
-        //check if it is edit mode
-        if (this.f['id'].value) {
-          resp.responseData.editMode = true;
-        }
-        this.formRef.resetForm();
-        this.formGroup.reset();
-        this.formGroup.markAsUntouched();
-        this.isSubmitted = false;
-        //TODO: close modal and append resp to rowData
-        this.closeModal.emit(resp.responseData);
-      } else {
-        this.handleFailure();
-      }
-    },
-    (err) => {
-      this.handleFailure();
-    }
-  )
-  .add(() => {
-    this.showSpinner = false;
-  }); */
+

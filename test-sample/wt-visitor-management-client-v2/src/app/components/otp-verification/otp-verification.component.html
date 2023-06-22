@@ -1,0 +1,32 @@
+<div class="w-50 card m-5 justify-content-center mx-auto">
+    <div class="text-center">
+        <img src="assets/images/Wissen-logo.png" class="w-50" /><br />
+    </div>
+    <div class="text-center">
+        <h1> Welcome back to our Space!!</h1>
+    </div> <br/> <br/>
+    <div class="text-center width-80-center">
+
+        <br/>
+        <div *ngIf="retryCount==3"> We have a sent a 6 digit OTP to your registered email Id..</div>
+        <div *ngIf="retryCount!=3"> Successfully resent the otp to the resisterd emailId</div>
+        <div *ngIf="retryCount==0"> Reached maximum retry count</div>
+
+        <form [formGroup]="otpVerificationForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <input type="number" formControlName="otp" class="form-control"
+                        placeholder="Please enter Otp..."
+                        [ngClass]="{ 'is-invalid': submitted && form.otp.errors }" />
+                    <div *ngIf="submitted && form.otp.errors" class="invalid-feedback">
+                        <div *ngIf="form.otp.errors.required">OTP is required</div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <div> <button type="button" (click)="resendOtp()" class="btn btn-light w-100">Send Again</button> </div> <br/>
+                <div> <button type="submit" class="btn btn-primary me-2 w-100">Enter</button> </div> <br/>
+            </div>
+        </form>
+    </div><br />
+</div>

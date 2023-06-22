@@ -1,0 +1,23 @@
+.cell-common {
+    border-radius: 8px;
+    /* width: 6rem; */
+    /* height: 2rem; */
+    /* text-align: center; */
+    /* display: flex; */
+    /* justify-content: center; */
+    font-size: small;
+    padding: 0.5rem;
+    font-weight: 400;
+}
+
+.color-active{
+    background-color: #ffefca;
+    border: 1px solid #f7e0ab;
+    color: #b77f3d;
+}
+
+.color-checkout{
+    background-color: #e6e7ec;
+    border: 1px solid #d8dce6;
+    color: #717671;
+}

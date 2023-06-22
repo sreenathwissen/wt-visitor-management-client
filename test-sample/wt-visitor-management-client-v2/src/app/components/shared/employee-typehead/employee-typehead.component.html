@@ -1,0 +1,17 @@
+<!-- <input [value]="employeeSearch" (input)="changeFn($event)"> -->
+
+
+<!-- <div class="ng-autocomplete"> -->
+    <ng-autocomplete [data]="data" [searchKeyword]="keyword" [placeholder]="inputPlaceholder"
+        (selected)='selectEvent($event)' (inputChanged)='onChangeSearch($event)'
+        [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate" [debounceTime]='600'>
+    </ng-autocomplete>
+
+    <ng-template #itemTemplate let-item>
+        <a [innerHTML]='item.allData'></a>
+    </ng-template>
+
+    <ng-template #notFoundTemplate let-notFound>
+        <div [innerHTML]="notFound"></div>
+    </ng-template>
+<!-- </div> -->

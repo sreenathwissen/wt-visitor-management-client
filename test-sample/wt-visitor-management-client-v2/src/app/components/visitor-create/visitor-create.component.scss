@@ -4,13 +4,32 @@
 
 input#profileFile {
   display: inline-block;
-  // left: 10px !important;
-  width: 50%;
-  padding: 120px 0 0 0;
-  height: 100px;
+  width: 15rem;
+  padding: 11rem 0 0 0;
+  height: 11rem;
   overflow: hidden;
   box-sizing: border-box;
   border-radius: 20px;
-  background-size: 200px 200px !important;
+  background-size: 10rem 10rem !important;
   margin: 0px auto;
+}
+
+::-webkit-file-upload-button {
+  display: none;
+}
+
+.title-create{
+  color: #1c2e57;
+}
+
+.ng-autocomplete {
+  width: 100%;
+  line-height: 2.5 !important; 
+    background-color: var(--bs-body-bg);
+    background-clip: padding-box;
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 1px;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }

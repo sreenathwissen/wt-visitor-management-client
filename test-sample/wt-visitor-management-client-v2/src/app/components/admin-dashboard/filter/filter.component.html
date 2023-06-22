@@ -1,115 +1,195 @@
+<!-- Custom Model  -->
 <div class="custom-model" *ngIf="customModel">
-    <button (click)="closeCustomModal()">Close Model</button>
-    thids is sampel testing
+    <div class="shadow-sm p-3 mb-3 bg-white rounded">
+        <span class="modal-title">Filters</span>
+        <span class="text-primary model-reset" (click)="onFilterReset()">Clear all</span>
+    </div>
+    <div class="container">
+        <form [formGroup]="filterForm" (ngSubmit)="onFilterSubmit()">
+
+            <div class="row mb-3">
+                <label>Visitor Type</label>
+                <div *ngFor="let type of refdata.visitorsTypes">
+                    <input type="checkbox" value="{{type}}" formControlName="visitorType"
+                        (change)="onCheckboxChange(type, $event)" /> &nbsp; {{ type }}
+                </div>
+                <div *ngIf="submitted && form.visitorType.errors" class="invalid-feedback">
+                    <div *ngIf="form.visitorType.errors.required">Visitor Type is required</div>
+                </div>
+            </div><br />
+
+            <div class="row mb-1">
+                <input type="radio" class="col-1 mb-3" formControlName="timingType" value="inTime" />
+                <span class="form-check-label col-3 mb-3" for="checkIn">Check In</span>
+
+                <input type="radio" class="col-1 mb-3" formControlName="timingType" value="outTime" />
+                <span class="form-check-label col-6 mb-3" for="checkOut">Check Out</span>
+
+                <div *ngIf="submitted && form.timingType.errors" class="invalid-feedback">
+                    <div *ngIf="form.timingType.errors.required">Timing Type is required</div>
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="width-20">From</label>
+                <input id="requestdate" type="date" class="form-control width-45" formControlName="durationFromDate" />
+                <input id="requestdate" type="time" class="form-control width-35" formControlName="durationFromTime" />
+            </div>
+
+            <div class="row mb-1">
+                <label class="width-20">To</label>
+                <input id="requestdate" type="date" class="form-control width-45" formControlName="durationToDate" />
+                <input id="requestdate" type="time" class="form-control width-35" formControlName="durationToTime" />
+            </div> <br />
+
+            <div class="row">
+                <label class="width-40"> Proof Type</label>
+                <select formControlName="proofType" class="form-control width-60">
+                    <option value='' disabled selected hidden>Please select the type of Proof </option>
+                    <option *ngFor="let proof of refdata.proofTypes" value="{{ proof }}">{{ proof }} </option>
+                </select>
+            </div> <br />
+
+            <div class="row mb-3">
+                <label class="width-40"> Point of Contact</label>
+
+                <app-employee-typehead></app-employee-typehead>
+                <input type="text" formControlName="employeeId" class="form-control width-60"
+                    placeholder="Enter Point of contact to search here..." />
+            </div> <br />
+
+            <div class="text-center">
+                <button class="btn btn-outline-primary width-35" type="reset" #reset
+                    (click)="closeCustomModal()">Close</button> &nbsp; &nbsp;
+                <button class="btn btn-primary me-2 width-35">Filter</button>
+            </div>
+        </form>
+    </div>
 </div>
+<!-- Custom Model  -->
 
 
 
-
-
-
-
-<div class="row p-3 test-blur">
-    <div class="col-8 mb-3">
+<!-- Admin Search and filter button -->
+<div class="row p-3 test-blur padding-bottom-0">
+    <div class="col-9 mb-3 font-large padding-top-1">
         Admin Dashboard
     </div>
-    <div class="col-4 mb-3">
-        <input type="text" placeholder="Please Search here.." />
-        <button (click)="openCustomModal()">Open Model</button>
+    <div class="col-3 mb-3 text-align-right">
 
+        
+
+        <div class="input-group">
+            <div class="text-align-right inline-div" (click)="openCustomModal()">
+                <img src="assets/images/filter.png" class="filter_icon_resolution" /> &nbsp;&nbsp;
+            </div>
+
+            <input type="text" class="form-control" placeholder="Please Search here.." [(ngModel)]="gridSearch">
+            <div class="input-group-append">
+              <button class="btn btn-secondary" type="button">
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+          </div>
+        
     </div>
 </div>
+<!-- Admin Search and filter button -->
 
-<div class="row p-3">
-    <div class="col-3 mb-3" (click)="filterGridResults('Meeting')">
-        <div class="card">
-            <div class="card-body">
-                <div class="inline-div width-25">
-                    <img src="assets/images/meeting.png" class="image_resolution" />
-                </div>
-                <div class="inline-div card-title-custom">Meeting</div>
-                <div class="inline-div data-count">
-                    <span class="count-value">20</span><br />
-                    <span class="count-text">Active Count</span>
-                </div>
-            </div>
-            <div *ngIf="selectedTab == 'Meeting'" class="selection-heightlight"></div>
-        </div>
-    </div>
-    <div class="col-3 mb-3" (click)="filterGridResults('Interview')">
-        <div class="card">
-            <div class="card-body">
-                <div class="inline-div width-25">
-                    <img src="assets/images/interview.png" class="image_resolution" />
-                </div>
-                <div class="inline-div card-title-custom">Interview</div>
-                <div class="inline-div data-count">
-                    <span class="count-value">05</span><br />
-                    <span class="count-text">Active Count</span>
-                </div>
-            </div>
-            <div *ngIf="selectedTab == 'Interview'" class="selection-heightlight"></div>
-        </div>
-    </div>
-    <div class="col-3 mb-3" (click)="filterGridResults('Vendor')">
-        <div class="card">
-            <div class="card-body">
-                <div class="inline-div width-25">
-                    <img src="assets/images/vendor.png" class="image_resolution" />
-                </div>
-                <div class="inline-div card-title-custom">Vendor</div>
-                <div class="inline-div data-count">
-                    <span class="count-value">05</span><br />
-                    <span class="count-text">Active Count</span>
-                </div>
-            </div>
-            <div *ngIf="selectedTab == 'Vendor'" class="selection-heightlight"></div>
-        </div>
-    </div>
-    <div class="col-3 mb-3" (click)="filterGridResults('Others')">
+<!-- Grid Top button to navigate visitor types -->
 
-        <div class="card">
+<div class="row p-3 padding-top-0">
+    <div class="width-24 col-3 mb-3 shadow-lg bg-white rounded" (click)="filterGridResults('Meeting')"
+        [ngStyle]="{'border-bottom': selectedTab == 'Meeting'? '10px solid #192d57' : '10px solid white'}">
+        <div class="card-body">
+            <div class="inline-div width-25">
+                <img src="assets/images/meeting.png" class="image_resolution" />
+            </div>
+            <div class="inline-div card-title-custom">Meeting</div>
+            <div class="inline-div data-count">
+                <span class="count-value"> {{activeMeetingCount}} </span><br />
+                <span class="count-text">Active Count</span>
+            </div>
+        </div>
+    </div>
+    <div class="width-24 col-3 mb-3 shadow-lg bg-white rounded" (click)="filterGridResults('Interview')"
+        [ngStyle]="{'border-bottom': selectedTab == 'Interview'? '10px solid #192d57' : '10px solid white'}">
+        <div class="card-body">
+            <div class="inline-div width-25">
+                <img src="assets/images/interview.png" class="image_resolution" />
+            </div>
+            <div class="inline-div card-title-custom">Interview</div>
+            <div class="inline-div data-count">
+                <span class="count-value"> {{activeInterviewCount}} </span><br />
+                <span class="count-text">Active Count</span>
+            </div>
+        </div>
+    </div>
+    <div class="width-24 col-3 mb-3 shadow-lg bg-white rounded" (click)="filterGridResults('Vendor')"
+        [ngStyle]="{'border-bottom': selectedTab == 'Vendor'? '10px solid #192d57' : '10px solid white'}">
+        <div class="card-body">
+            <div class="inline-div width-25">
+                <img src="assets/images/vendor.png" class="image_resolution" />
+            </div>
+            <div class="inline-div card-title-custom">Vendor</div>
+            <div class="inline-div data-count">
+                <span class="count-value"> {{activeVendorCount}} </span><br />
+                <span class="count-text">Active Count</span>
+            </div>
+        </div>
+    </div>
+    <div class="width-24 col-3 mb-3 shadow-lg bg-white rounded" (click)="filterGridResults('Others')"
+        [ngStyle]="{'border-bottom': selectedTab == 'Others'? '10px solid #192d57' : '10px solid white'}">
+        <div>
             <div class="card-body">
                 <div class="inline-div width-25">
                     <img src="assets/images/others.png" class="image_resolution" />
                 </div>
                 <div class="inline-div card-title-custom">Others</div>
                 <div class="inline-div data-count">
-                    <span class="count-value">05</span><br />
+                    <span class="count-value"> {{activeVendorCount}} </span><br />
                     <span class="count-text">Active Count</span>
                 </div>
             </div>
-            <div *ngIf="selectedTab == 'Others'" class="selection-heightlight"></div>
         </div>
     </div>
 </div>
+<!-- Grid Top button to navigate visitor types -->
+
+<!-- to render the grid -->
+<app-grid [agGridData]='agGridResults' [searchText]="gridSearch"></app-grid>
+<!-- to render the grid -->
+
+
 <!-- to render the grid -->
 <!-- {{mychildMsg}}
 <app-grid [myinputMsg]="myInputMessage" (myOutput)="GetChildData($event)"></app-grid> -->
-<app-grid [agGridData]='agGridResults'></app-grid>
 
 
 
 
-<!-- Model -->
+<!-- Model for checkout confirm -->
 
-
-<!-- Modal -->
-<button type="button" class="btn btn-info btn-lg" (click)="openModal()">click to open</button>
+<!-- Bootstrap Modal -->
 <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':display}">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Model Title</h4>
-                <button type="button" class="close" aria-label="Close" (click)="onCloseHandled()"><span
-                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Info</h4>
             </div>
             <div class="modal-body">
-                <p>Model body text</p>
+                <p>Are you sure want to check out?</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" (click)="onCloseHandled()">Close</button>
+                <!-- <button type="button"  (click)="onCloseHandled()">Close</button> -->
+                <!-- <button type="button" class="close" aria-label="Close" (click)="onCloseHandled(true)"><span
+                    aria-hidden="true">Confirm</span></button> -->
+                    <button class="btn btn-outline-primary width-35" (click)="onCloseHandled(false)">Clear All</button>
+                    <button class="btn btn-primary me-2 width-35" (click)="onCloseHandled(true)">Confirm</button>
+
             </div>
         </div>
     </div>
 </div>
+
+<!-- Model for checkout confirm -->

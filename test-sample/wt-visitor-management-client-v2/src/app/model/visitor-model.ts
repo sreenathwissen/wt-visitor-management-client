@@ -16,7 +16,17 @@ export class VisitorEntity {
     timingId?: number;
     inTime?: Date;
     outTime?: Date;
-    employeeId?: string;
     visitorType: string = '';
+    
+    //employee Information
+    pocId?: string;
+    pocFirstName?: string;
+    pocLastName?: string;
+    pocEmail?: string;
+    pocGender?:string;
+    pocManager?:string;
+
+    //employee unique column to disploay in grid
+    pocInfo?:string;
 
 }

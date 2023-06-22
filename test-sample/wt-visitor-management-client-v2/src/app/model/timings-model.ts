@@ -1,3 +1,4 @@
+import { EmployeeDto } from "./employee-dto";
 import { VisitorEntity } from "./visitor-model";
 
 export class TimingEntity {
@@ -6,6 +7,7 @@ export class TimingEntity {
     visitor?: VisitorEntity;
     inTime?: Date;
     outTime?: Date;
-    employeeId?: string;
+    employee?: EmployeeDto;
     visitorType: string = '';
+
 }

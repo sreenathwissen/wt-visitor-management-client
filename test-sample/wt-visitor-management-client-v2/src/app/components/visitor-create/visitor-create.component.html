@@ -1,7 +1,11 @@
 <!-- main app container -->
 <div class="w-50 card m-5 justify-content-center mx-auto">
-    <h5 class="card-header">Wissen</h5>
+    <h5 class="card-header">
+        <span class="title-create">Wissen</span>
+        <!-- <span><img src="assets/images/logo-W.jpeg" class="w-50" /></span> -->
+    </h5>
     <div class="card-body">
+
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
 
 
@@ -64,7 +68,11 @@
 
             <div class="row">
                 <div class="col-12 mb-3">
-                    <input type="text" formControlName="employeeId" class="form-control"
+                    <div class="ng-autocomplete">
+                        <app-employee-typehead [inputPlaceholder]='employeePlaceholder' (outputEmployeeEmit)="updateEmployeeDetials($event)"></app-employee-typehead>
+                    </div>
+
+                    <input type="hidden" formControlName="employeeId" class="form-control"
                         placeholder="*Enter employeeId here..."
                         [ngClass]="{ 'is-invalid': submitted && form.employeeId.errors }" />
                     <div *ngIf="submitted && form.employeeId.errors" class="invalid-feedback">
@@ -109,7 +117,7 @@
                 <input #file id="profileFile" type="file" formControlName="profileImage" class="form-control"
                     accept="image/" (change)="previewImage(file.files)"
                     [ngClass]="{ 'is-invalid': submitted && form.profileImage.errors }"
-                    [ngStyle]="{'background': 'url(' + imagePreview + ') center center no-repeat #e4e4e4' }" />
+                    [ngStyle]="{'background': 'url(' + imagePreview + ') center center no-repeat #fff' }" />
                 <div *ngIf="submitted && form.profileImage.errors" class="invalid-feedback">
                     <div *ngIf="form.profileImage.errors.required">Iamge is required</div>
                 </div>
@@ -127,8 +135,8 @@
 
 
             <div class="text-center">
-                <button class="btn btn-primary me-2">Register</button>
-                <button class="btn btn-secondary" type="reset" #reset (click)="onReset()">Cancel</button>
+                <div> <button class="btn btn-primary me-2 w-100">Done</button> </div> <br />
+                <div> <button class="btn btn-light w-100" type="reset" #reset (click)="onReset()">Reset</button> </div>
             </div>
         </form>
     </div>

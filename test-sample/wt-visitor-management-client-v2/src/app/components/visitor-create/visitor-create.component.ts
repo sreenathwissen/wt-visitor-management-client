@@ -5,6 +5,8 @@ import { RefdataDto } from 'src/app/model/refdata-dto';
 import { RefDataService } from 'src/app/service/refdata.service';
 import { VisitorService } from 'src/app/service/visitor.service';
 import { AppConstants } from '../constants/app.constants';
+import { Router }          from '@angular/router';
+import { EmployeeDto } from 'src/app/model/employee-dto';
 
 
 @Component({
@@ -21,8 +23,12 @@ export class VisitorCreateComponent implements OnInit {
   imagePreview: any = AppConstants.defaultProfileImageUrl;
   refdata: RefdataDto = new RefdataDto();
 
+  employeePlaceholder:string = 'Please select Point of Contact';
 
-  constructor(private formBuilder: FormBuilder, private visitorService: VisitorService, private refdataService: RefDataService, private imageCompress: NgxImageCompressService) { }
+
+  constructor(private formBuilder: FormBuilder, private visitorService: VisitorService, 
+    private refdataService: RefDataService, private imageCompress: NgxImageCompressService,
+    private router: Router) { }
 
   ngOnInit() {
     this.fetchRefdata();
@@ -72,6 +78,13 @@ export class VisitorCreateComponent implements OnInit {
       this.imagePreview = reader.result;
       this.compressFile(reader.result, imageType);
     }
+  }
+
+  /** Update Employee details to the form */
+  updateEmployeeDetials(emp:EmployeeDto){
+    console.log(emp);
+    this.registerForm.controls['employeeId'].setValue(emp.wissenId);//testing for please select
+
   }
 
   /** Compress image and assigne the value to the form with base 64 conversion */
@@ -132,6 +145,8 @@ export class VisitorCreateComponent implements OnInit {
           //success toaster
           console.log('Successfully Saved!!');
           this.onReset();
+          //redirect to succes page
+          this.router.navigate(['/thankyou']);
         } else {
           //failure toaster
           console.log('Failed to Saved!!');

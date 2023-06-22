@@ -1,0 +1,27 @@
+<div class="w-50 card m-5 justify-content-center mx-auto">
+    <div class="text-center">
+        <img src="assets/images/Wissen-logo.png" class="w-50" /><br />
+    </div>
+    <div class="text-center">
+        <h1> Welcome to our Space!!</h1>
+    </div> <br/> <br/>
+    <div class="text-center width-80-center">
+
+        <form [formGroup]="otpForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <input type="text" formControlName="phEmail" class="form-control"
+                        placeholder="Please enter Phone number or Email registerd..."
+                        [ngClass]="{ 'is-invalid': submitted && form.phEmail.errors }" />
+                    <div *ngIf="submitted && form.phEmail.errors" class="invalid-feedback">
+                        <div *ngIf="form.phEmail.errors.required">Email or Phone Number is required</div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <div> <button class="btn btn-primary me-2 w-100">Get OTP</button> </div> <br/>
+                <div> <button class="btn btn-light w-100" routerLink="/">Back to home?</button> </div>
+            </div>
+        </form>
+    </div><br />
+</div>

@@ -9,11 +9,15 @@ import { AdminModule } from './module/admin.module';
 import { VisitorModule } from './module/visitor.module';
 import { RefDataService } from './service/refdata.service';
 import { VisitorService } from './service/visitor.service';
+import { EmployeeService } from './service/employee.service';
+import { EmployeeTypeheadComponent } from './components/shared/employee-typehead/employee-typehead.component';
+import { SharedModule } from './module/shared.module';
 
 
 @NgModule({
   declarations: [
     AppComponent
+    
   ],
   imports: [
     BrowserModule,
@@ -22,9 +26,10 @@ import { VisitorService } from './service/visitor.service';
     ReactiveFormsModule,
     HttpClientModule,
     VisitorModule,
-    AdminModule
+    AdminModule,
+    SharedModule
   ],
-  providers: [AppConstants, RefDataService, VisitorService],
+  providers: [AppConstants, RefDataService, VisitorService, EmployeeService],
   exports: [],
   bootstrap: [AppComponent]
 })

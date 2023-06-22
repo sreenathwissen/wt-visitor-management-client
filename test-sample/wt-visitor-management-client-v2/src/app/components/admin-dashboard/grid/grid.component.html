@@ -4,7 +4,7 @@
 
 <ag-grid-angular style="height: 75vh; margin: 0 auto" class="ag-theme-material" [rowData]="agGridData"
     [columnDefs]="columnDefs" [defaultColDef]="defaultColDef" [pagination]="true" [paginationAutoPageSize]="true"
-    [headerHeight]="40" [rowHeight]="60">
+    [headerHeight]="60" [rowHeight]="50" (gridReady)="onGridReady($event)" [gridOptions]="gridOptions" >
 </ag-grid-angular>
 
 <!-- <ag-grid-angular class="ag-theme-material" style="width: 100%; height: calc(100vh - 200px);" rowSelection="single"
